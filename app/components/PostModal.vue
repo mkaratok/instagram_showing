@@ -60,6 +60,7 @@
           </p>
 
           <!-- Stats (Replacing fake comments) -->
+          <div class="flex gap-4 mt-4 text-earth-600 dark:text-gray-300 text-sm">
              <span class="flex items-center gap-1"><span class="material-symbols-outlined text-lg">favorite</span> {{ post.like_count || 0 }} Beğeni</span>
              <span class="flex items-center gap-1"><span class="material-symbols-outlined text-lg">chat_bubble</span> {{ post.comments_count || 0 }} Yorum</span>
           </div>
