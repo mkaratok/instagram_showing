@@ -1,33 +1,28 @@
 export default defineEventHandler(async (event) => {
-    const token = await getInstagramToken()
+    const config = useRuntimeConfig()
+    const accessToken = config.instagramAccessToken
+    const businessId = config.instagramBusinessId
 
-    if (!token) {
-        return {
-            data: [],
-            error: 'No Instagram token available'
-        }
+    // If no token or business ID, return empty
+    if (!accessToken || !businessId) {
+        return { data: [], error: 'Credentials missing' }
     }
 
     try {
-        // Fetch Instagram stories (media with media_product_type = STORY)
-        const response = await $fetch(
-            `https://graph.instagram.com/me/media?fields=id,media_type,media_url,thumbnail_url,permalink,caption,timestamp,media_product_type&access_token=${token}`
-        )
+        // Fetch Instagram stories from the business account
+        // /{businessId}/stories returns active stories
+        const fields = 'id,media_type,media_url,thumbnail_url,permalink,caption,timestamp'
+        const url = `https://graph.facebook.com/v18.0/${businessId}/stories?fields=${fields}&access_token=${accessToken}`
 
-        // Filter stories from last 24 hours
-        const now = new Date().getTime()
-        const twentyFourHoursAgo = now - (24 * 60 * 60 * 1000)
+        const response: any = await $fetch(url)
 
-        const recentStories = response.data?.filter((media: any) => {
-            const isStory = media.media_product_type === 'STORY'
-            const timestamp = new Date(media.timestamp).getTime()
-            const isRecent = timestamp >= twentyFourHoursAgo
-            return isStory && isRecent
-        }) || []
+        // Graph API /stories endpoint only returns active stories (last 24h)
+        // So we can just return the data.
+        const activeStories = response.data || []
 
         return {
-            data: recentStories,
-            count: recentStories.length
+            data: activeStories,
+            count: activeStories.length
         }
     } catch (error: any) {
         console.error('Instagram stories fetch error:', error)

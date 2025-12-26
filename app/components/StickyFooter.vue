@@ -1,7 +1,7 @@
 <template>
   <div class="fixed bottom-0 left-0 right-0 z-40 bg-earth-900/90 backdrop-blur-md border-t border-earth-800 md:hidden pb-safe">
     <div class="flex justify-around items-center h-16 px-4">
-      <a href="https://wa.me/905555555555" target="_blank" class="flex flex-col items-center gap-1 text-earth-400 hover:text-sage-500 transition-colors">
+      <a :href="profile?.website || 'https://wa.me/905555555555'" target="_blank" class="flex flex-col items-center gap-1 text-earth-400 hover:text-sage-500 transition-colors">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
         <span class="text-[10px] font-medium tracking-wide">İletişim</span>
       </a>
@@ -11,13 +11,17 @@
         <span class="text-[10px] font-medium tracking-wide">Konum</span>
       </a>
 
-      <a href="mailto:info@arzuozen.com" class="flex flex-col items-center gap-1 text-earth-400 hover:text-sage-500 transition-colors">
+      <a :href="`mailto:${profile?.business_email || 'arzuozen.yoga@gmail.com'}`" class="flex flex-col items-center gap-1 text-earth-400 hover:text-sage-500 transition-colors">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
         <span class="text-[10px] font-medium tracking-wide">Mail</span>
       </a>
     </div>
   </div>
 </template>
+
+<script setup>
+const { data: profile } = await useFetch('/api/instagram/profile')
+</script>
 
 <style scoped>
 .pb-safe {

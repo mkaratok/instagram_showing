@@ -20,8 +20,8 @@
       <div class="w-full md:w-1/2 flex flex-col p-6 bg-background-light dark:bg-background-dark overflow-y-auto">
         <!-- Profile Info -->
         <div class="flex items-center gap-4 border-b border-stone-200 dark:border-stone-700 pb-4 mb-4 min-h-[60px]">
-           <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full h-10 w-10 border border-stone-200 dark:border-stone-700" style="background-image: url('/default-avatar.png')"></div>
-           <div class="text-text-light-primary dark:text-text-dark-primary text-base font-bold leading-normal flex-1 truncate">Arzu Özen Yoga</div>
+           <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full h-10 w-10 border border-stone-200 dark:border-stone-700" :style="{ backgroundImage: `url('${profile?.profile_picture_url || '/default-avatar.png' }')` }"></div>
+           <div class="text-text-light-primary dark:text-text-dark-primary text-base font-bold leading-normal flex-1 truncate">{{ post?.username || profile?.username || 'Instagram User' }}</div>
         </div>
 
         <!-- Caption -->
@@ -66,6 +66,7 @@
 const route = useRoute()
 const router = useRouter()
 const { data: post, error } = await useFetch(`/api/instagram/post/${route.params.id}`)
+const { data: profile } = await useFetch('/api/instagram/profile')
 
 const goHome = () => {
   router.push('/')
@@ -73,8 +74,8 @@ const goHome = () => {
 
 // SEO Meta Tags
 useSeoMeta({
-  title: () => post.value ? (post.value.caption?.slice(0, 60) + '... - Arzu Özen Yoga') : 'Gönderi - Arzu Özen Yoga',
-  description: () => post.value?.caption || 'Arzu Özen Yoga Instagram Gönderisi',
+  title: () => post.value ? (post.value.caption?.slice(0, 60) + `... - ${post.value.username || profile.value?.username || 'Instagram'}`) : 'Gönderi',
+  description: () => post.value?.caption || `${post.value?.username || profile.value?.username || 'Instagram'} Gönderisi`,
   ogTitle: () => post.value ? (post.value.caption?.slice(0, 60) + '...') : 'Gönderi',
   ogDescription: () => post.value?.caption,
   ogImage: () => post.value?.media_url,

@@ -2,7 +2,7 @@
   <div class="relative flex w-full max-w-4xl h-auto max-h-[90vh] bg-background-light dark:bg-background-dark rounded-lg shadow-xl overflow-hidden font-display" @click.stop>
     
     <!-- Close Button -->
-    <button @click="$emit('close')" class="absolute top-4 right-4 z-10 text-text-light-primary dark:text-text-dark-primary hover:text-primary dark:hover:text-primary transition-colors">
+    <button @click="$emit('close')" class="absolute top-4 right-4 z-10 text-text-light dark:text-text-dark hover:text-primary dark:hover:text-primary transition-colors">
       <span class="material-symbols-outlined text-3xl">close</span>
     </button>
 
@@ -48,21 +48,21 @@
         <div class="flex items-center gap-4 min-h-14 justify-between border-b border-stone-200 dark:border-stone-700 pb-4 mb-4">
           <div class="flex items-center gap-4">
             <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full h-10 w-10 border border-stone-200 dark:border-stone-700" :style="{ backgroundImage: `url('${profile?.profile_picture_url || '/default-avatar.png'}')` }"></div>
-            <p class="text-text-light-primary dark:text-text-dark-primary text-base font-bold leading-normal flex-1 truncate">{{ profile?.username || 'arzuozenyoga' }}</p>
+            <p class="text-text-light dark:text-white text-base font-bold leading-normal flex-1 truncate">{{ post.username || profile?.username || 'Instagram User' }}</p>
           </div>
         </div>
 
         <!-- Post Content -->
         <div class="flex-grow overflow-y-auto pr-2 custom-scrollbar">
           <!-- Post Description -->
-          <p class="text-text-light-primary dark:text-text-dark-primary text-base font-normal leading-normal pb-4 whitespace-pre-wrap">
+          <p class="text-text-light dark:text-text-dark text-base font-normal leading-normal pb-4 whitespace-pre-wrap">
             {{ post.caption }}
           </p>
 
           <!-- Stats (Replacing fake comments) -->
-          <div class="flex gap-4 mt-4 text-text-light-secondary dark:text-text-dark-secondary text-sm">
-             <span class="flex items-center gap-1"><span class="material-symbols-outlined text-lg">favorite</span> {{ post.like_count }} Beğeni</span>
-             <span class="flex items-center gap-1"><span class="material-symbols-outlined text-lg">chat_bubble</span> {{ post.comments_count }} Yorum</span>
+          <div class="flex gap-4 mt-4 text-earth-600 dark:text-gray-300 text-sm">
+             <span class="flex items-center gap-1"><span class="material-symbols-outlined text-lg">favorite</span> {{ post.like_count || 0 }} Beğeni</span>
+             <span class="flex items-center gap-1"><span class="material-symbols-outlined text-lg">chat_bubble</span> {{ post.comments_count || 0 }} Yorum</span>
           </div>
         </div>
 

@@ -8,42 +8,46 @@
       
       <!-- Hero Section -->
       <header class="px-6 mb-12 flex flex-col md:flex-row gap-8 md:gap-12 items-center md:items-start animate-fade-in-up">
-        <StoryCircle :src="profile?.profile_picture_url || '/default-avatar.png'" />
+        <div class="cursor-pointer group relative" @click="stories?.length ? openStory(0) : null">
+           <!-- Ring only if stories exist -->
+           <div v-if="stories?.length" class="absolute -inset-[3px] rounded-full bg-gradient-to-tr from-earth-800 via-sage-500 to-sage-200 bg-size-200 animate-spin-slow opacity-80 group-hover:opacity-100 transition-opacity"></div>
+           <StoryCircle :src="profile?.profile_picture_url || '/default-avatar.png'" class="relative z-10 transition-transform duration-500 group-hover:scale-105" />
+        </div>
         
         <div class="flex-1 text-center md:text-left w-full">
           <div class="flex flex-col md:flex-row items-center gap-4 mb-6">
-            <a :href="`https://www.instagram.com/${profile?.username || 'arzuozen'}/`" target="_blank" class="hover:text-sage-400 transition-colors">
-              <h2 class="text-2xl md:text-3xl font-light tracking-wide">{{ profile?.username || 'arzuozen' }}</h2>
+            <a :href="`https://www.instagram.com/${profile?.username || 'bumudurbu'}/`" target="_blank" class="hover:text-sage-400 transition-colors">
+              <h2 class="text-2xl md:text-3xl font-light tracking-wide">{{ profile?.username || 'bumudurbu' }}</h2>
             </a>
-            <a :href="`https://www.instagram.com/${profile?.username || 'arzuozen'}/`" target="_blank" class="hover:scale-105 transition-transform">
-              <span class="bg-white dark:bg-earth-800 text-text-light dark:text-earth-300 text-xs px-3 py-1 rounded-full border border-subtle-light dark:border-earth-700 tracking-wider">YOGA STUDIO</span>
-            </a>
+
           </div>
 
           <!-- Stats -->
           <div class="flex justify-center md:justify-start gap-8 md:gap-12 mb-8 border-y border-subtle-light dark:border-earth-800/50 py-4 md:border-none md:py-0">
             <div class="text-center md:text-left">
-              <span class="font-bold block text-xl md:text-2xl text-text-light dark:text-earth-100"><CountUp :to="profile?.media_count || 42" /></span>
+              <span class="font-bold block text-xl md:text-2xl text-text-light dark:text-earth-100"><CountUp :to="profile?.media_count || 0" /></span>
               <span class="text-xs text-subtle-light dark:text-earth-500 uppercase tracking-widest">Gönderi</span>
             </div>
             <div class="text-center md:text-left">
-              <span class="font-bold block text-xl md:text-2xl text-text-light dark:text-earth-100"><CountUp :to="profile?.followers_count || 17588" /></span>
+              <span class="font-bold block text-xl md:text-2xl text-text-light dark:text-earth-100"><CountUp :to="profile?.media_count || 0" /></span>
+              <span class="text-xs text-subtle-light dark:text-earth-500 uppercase tracking-widest">Gönderi</span>
+            </div>
+            <div class="text-center md:text-left">
+              <span class="font-bold block text-xl md:text-2xl text-text-light dark:text-earth-100"><CountUp :to="profile?.followers_count || 0" /></span>
               <span class="text-xs text-subtle-light dark:text-earth-500 uppercase tracking-widest">Takipçi</span>
             </div>
             <div class="text-center md:text-left">
-              <span class="font-bold block text-xl md:text-2xl text-text-light dark:text-earth-100"><CountUp :to="profile?.follows_count || 258" /></span>
+              <span class="font-bold block text-xl md:text-2xl text-text-light dark:text-earth-100"><CountUp :to="profile?.follows_count || 0" /></span>
               <span class="text-xs text-subtle-light dark:text-earth-500 uppercase tracking-widest">Takip</span>
             </div>
           </div>
 
           <!-- Bio -->
           <div class="text-text-light dark:text-earth-300 text-sm md:text-base whitespace-pre-line leading-relaxed font-light">
-            {{ profile?.biography || 'Yoga Studio in Ordu\nZihin, Beden ve Ruh bütünlüğü.' }}
+            {{ profile?.biography || '' }}
           </div>
           
           <div class="mt-6 flex items-center justify-center md:justify-start gap-2 text-xs text-subtle-light dark:text-earth-500">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-            Şarkiye, Kazım Karabekir Cd. No:33/15, Ordu
           </div>
         </div>
       </header>
@@ -70,9 +74,7 @@
             PROFIL
           </NuxtLink>
           
-          <a href="https://wa.me/905555555555" target="_blank" class="py-4 text-subtle-light dark:text-earth-500 hover:text-primary dark:hover:text-earth-300 transition-colors duration-300 whitespace-nowrap">
-            İLETİŞİM
-          </a>
+
         </div>
       </div>
 
@@ -127,10 +129,10 @@
       </div>
       <div class="flex flex-col gap-2 p-2 rounded-3xl bg-accent-light dark:bg-accent-dark shadow-lg">
         <!-- Message Button -->
-        <button class="group flex items-center justify-center rounded-full h-12 bg-primary text-text-on-primary font-bold overflow-hidden transition-all duration-300 ease-out w-12 hover:w-[140px] hover:px-4 hover:justify-end">
+        <a :href="profile?.website || '#'" target="_blank" class="group flex items-center justify-center rounded-full h-12 bg-primary text-text-on-primary font-bold overflow-hidden transition-all duration-300 ease-out w-12 hover:w-[140px] hover:px-4 hover:justify-end">
           <span class="material-symbols-outlined !text-xl flex-shrink-0">sms</span>
-          <span class="whitespace-nowrap overflow-hidden transition-all duration-300 ease-out text-sm ml-0 w-0 opacity-0 group-hover:ml-2 group-hover:w-auto group-hover:opacity-100">Mesaj At</span>
-        </button>
+          <span class="whitespace-nowrap overflow-hidden transition-all duration-300 ease-out text-sm ml-0 w-0 opacity-0 group-hover:ml-2 group-hover:w-auto group-hover:opacity-100">İletişim</span>
+        </a>
         <!-- Instagram Button -->
         <a :href="profile?.username ? `https://instagram.com/${profile.username}` : '#'" target="_blank" rel="noopener noreferrer" class="group flex items-center justify-center rounded-full h-12 bg-gradient-to-r from-purple-400 via-pink-400 to-yellow-300 text-white font-bold overflow-hidden transition-all duration-300 ease-out w-12 hover:w-[140px] hover:px-4 hover:justify-end">
           <svg class="w-5 h-5 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -149,6 +151,18 @@
         </div>
       </Transition>
     </Teleport>
+
+    <!-- Story Viewer -->
+    <Teleport to="body">
+      <Transition name="modal">
+        <StoryViewer 
+          v-if="showStoryViewer" 
+          :stories="stories" 
+          :initial-index="initialStoryIndex" 
+          @close="showStoryViewer = false" 
+        />
+      </Transition>
+    </Teleport>
   </div>
 </template>
 
@@ -156,6 +170,9 @@
 // Data Fetching
 const { data: profile, pending: profileLoading } = await useFetch('/api/instagram/profile')
 const { data: posts, pending: postsLoading } = await useFetch('/api/instagram/posts')
+const { data: storiesData } = await useFetch('/api/instagram/stories')
+
+const stories = computed(() => storiesData.value?.data || [])
 
 const pending = computed(() => profileLoading.value || postsLoading.value)
 
@@ -194,6 +211,15 @@ onMounted(() => {
 const selectedPost = ref(null)
 const openModal = (post) => {
   selectedPost.value = post
+}
+
+// Story Viewer Logic
+const showStoryViewer = ref(false)
+const initialStoryIndex = ref(0)
+
+const openStory = (index) => {
+  initialStoryIndex.value = index
+  showStoryViewer.value = true
 }
 </script>
 

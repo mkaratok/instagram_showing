@@ -1,6 +1,6 @@
 <template>
   <Head>
-    <Title>Arzu Özen Yoga Studio</Title>
+    <Title>{{ profile?.name || profile?.username || 'Arzu Özen Yoga' }}</Title>
     <Link rel="preconnect" href="https://fonts.googleapis.com" />
     <Link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
     <Link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet" />
@@ -8,3 +8,7 @@
   </Head>
   <NuxtPage />
 </template>
+
+<script setup>
+const { data: profile } = await useFetch('/api/instagram/profile')
+</script>

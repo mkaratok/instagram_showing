@@ -16,9 +16,8 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     // Private keys (Server-side only)
-    instagramAccessToken: process.env.INSTAGRAM_ACCESS_TOKEN,
-    instagramAppId: process.env.INSTAGRAM_APP_ID,
-    instagramAppSecret: process.env.INSTAGRAM_APP_SECRET,
+    instagramAccessToken: process.env.ACCESS_TOKEN,
+    instagramBusinessId: process.env.INSTAGRAM_BUSINESS_ID,
     // Public keys (Client-side)
     public: {
       siteUrl: 'https://arzuozen.com'
