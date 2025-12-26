@@ -11,10 +11,10 @@
       </button>
 
       <!-- Image Container -->
-      <div class="w-full md:w-1/2 flex items-center justify-center bg-stone-200 dark:bg-stone-800 relative">
-         <img v-if="post.media_type !== 'VIDEO'" :src="post.media_url" :alt="post.caption" class="w-full h-full object-cover" />
-         <video v-else :src="post.media_url" controls autoplay class="w-full h-full object-cover"></video>
-      </div>
+         <div class="w-full md:w-1/2 flex items-center justify-center bg-stone-200 dark:bg-stone-800 relative">
+          <img v-if="post.media_type !== 'VIDEO'" :src="post.media_url" :alt="post.caption" class="w-full h-full object-cover" />
+          <video v-else :src="post.media_url" :poster="post.thumbnail_url" controls autoplay class="w-full h-full object-cover"></video>
+       </div>
 
       <!-- Content Container -->
       <div class="w-full md:w-1/2 flex flex-col p-6 bg-background-light dark:bg-background-dark overflow-y-auto">

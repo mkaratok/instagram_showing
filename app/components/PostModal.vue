@@ -12,7 +12,7 @@
       <!-- Image Container (Left Side) -->
       <div class="w-full md:w-1/2 flex items-center justify-center bg-stone-200 dark:bg-stone-800 relative group">
          <img v-if="currentMedia.media_type !== 'VIDEO'" :src="currentMedia.media_url" class="w-full h-full object-cover" />
-         <video v-else :src="currentMedia.media_url" controls autoplay class="w-full h-full object-cover"></video>
+         <video v-else :src="currentMedia.media_url" :poster="currentMedia.thumbnail_url" controls autoplay class="w-full h-full object-cover"></video>
 
          <!-- Navigation Arrows -->
          <button 
