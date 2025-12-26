@@ -1,11 +1,10 @@
 <template>
   <div class="grid grid-cols-2 md:grid-cols-3 gap-4 px-4">
-    <NuxtLink 
+    <div 
       v-for="post in posts" 
       :key="post.id" 
-      :to="`/posts/${post.id}`"
       class="block relative aspect-square overflow-hidden rounded-xl cursor-pointer bg-earth-800 shadow-lg hover:shadow-xl transition-all duration-300 group"
-      @click.prevent="$emit('open', post)"
+      @click="$emit('open', post)"
       @mouseenter="handleMouseEnter(post, $event)"
       @mouseleave="handleMouseLeave(post, $event)"
     >
@@ -44,7 +43,7 @@
           <div class="flex items-center"><span class="mr-1.5 text-sage-400">💬</span> {{ post.comments_count || 0 }}</div>
         </div>
       </div>
-      </NuxtLink>
+      </div>
   </div>
 </template>
 

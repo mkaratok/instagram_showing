@@ -7,7 +7,7 @@ export default defineEventHandler(async (event) => {
     // Initial request URL
     // Fetch 100 items per page to minimize requests
     const limit = 100
-    const fields = 'id,caption,media_type,media_url,thumbnail_url,permalink,timestamp,like_count,comments_count,children{media_url,thumbnail_url,media_type}'
+    const fields = 'id,caption,media_type,media_product_type,media_url,thumbnail_url,permalink,timestamp,like_count,comments_count,children{media_url,thumbnail_url,media_type}'
 
     let url = `https://graph.facebook.com/v18.0/${businessId}/media?fields=${fields}&limit=${limit}&access_token=${accessToken}`
 

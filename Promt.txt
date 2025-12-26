@@ -458,3 +458,39 @@ Provide the full project structure and code for the following files. Do not skip
 **Language:** The Code logic must be in English, but **All UI Texts (Buttons, Labels, Errors) must be in TURKISH.**
 
 Start coding now.
+
+biography: Biyografi metni.
+
+    id: Instagram Business ID.
+
+    username: Kullanıcı adı.
+
+    website: Profildeki link.
+
+    profile_picture_url: Profil resmi linki.
+
+    media_count: Toplam gönderi sayısı.
+
+    followers_count: Takipçi sayısı.
+
+    follows_count: Takip edilen sayısı.
+
+2. Medya (Media) Düğümü (/{media-id}):
+
+    caption: Gönderi açıklaması ve hashtagler.
+
+    comments_count: Yorum sayısı.
+
+    like_count: Beğeni sayısı.
+
+    media_type: IMAGE, VIDEO veya CAROUSEL_ALBUM.
+
+    media_url: Resim veya video dosyasının direkt linki.
+
+    permalink: Gönderinin instagram.com linki.
+
+    thumbnail_url: (Sadece videolar için) Kapak resmi.
+
+    timestamp: Paylaşım tarihi.
+
+    children: (Albüm ise) Albümün içindeki diğer fotoğrafların listesi.

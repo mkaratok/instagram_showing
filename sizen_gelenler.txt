@@ -1,0 +1,86 @@
+Bu projeye "Sizden Gelenler" (User Generated Content) sayfası eklemek istiyoruz. Amacımız: Instagram'da işletme hesabımızı (@mention) etiketleyen BAŞKA kullanıcıların gönderilerini çekip sitemizde sergilemek.
+
+Bunun için Nuxt 3 projesinde şu geliştirmeleri yap:
+
+1. SERVER API (Backend):
+   - 'server/api/mentions.get.ts' dosyasını oluştur.
+   - Endpoint: GET https://graph.facebook.com/v18.0/{IG_BUSINESS_ID}/tags
+   - Gerekli Fields: 'id,caption,media_type,media_url,thumbnail_url,permalink,timestamp,username,like_count,comments_count'
+   - NOT: 'username' alanı çok önemli, çünkü gönderiyi kimin attığını göstermemiz lazım.
+   - Pagination (Sayfalama) yapısını destekle (limit=24 olarak ayarla).
+   - Token ve ID'yi runtimeConfig üzerinden al.
+
+2. UI / FRONTEND (Pages):
+   - 'pages/mentions.vue' (veya 'sizden-gelenler') adında yeni bir sayfa oluştur.
+   - Tasarım: "Masonry Layout" (Pinterest tarzı, farklı yükseklikteki kutular) kullan.
+   - Her kartta şunlar olmalı:
+     - Gönderi görseli/videosu.
+     - Üstte veya altta küçük bir bar ile gönderi sahibinin adı: "@kullaniciadi".
+     - "Instagram'da Gör" butonu (permalink'e giden).
+   - Eğer hiç veri yoksa "Henüz kimse bizi etiketlemedi, ilk sen ol!" mesajı göster.
+
+3. NAVİGASYON:
+   - Ana menüye (Header veya Sidebar) "Sizden Gelenler" linkini ekle.
+
+4. DİKKAT EDİLMESİ GEREKENLER:
+   - Video (MEDIA_TYPE=VIDEO) gelirse 'thumbnail_url' kullan, üzerine "Play" ikonu koy.
+   - Carousel (ALBUM) gelirse sadece ilk görseli ('media_url') göster.
+
+Lütfen bu yapıyı kur ve çalışır hale getir.
+
+BÖLÜM 2: Kurulum ve Kullanım Kılavuzu
+
+Bu özellik, kendi gönderilerini çekmekten biraz daha farklıdır çünkü başkalarının verisine erişiyorsun.
+ADIM 1: İzin Kontrolü (Token Gücü)
+
+Etiketlenen gönderileri çekmek için elindeki mevcut instagram_basic ve pages_show_list izinleri teknik olarak yeterlidir. Ancak bazen "başkalarının verisi" olduğu için Meta ek izinler isteyebilir.
+
+Garantiye almak için Token'ını şu izinlerle yenilemeni öneririm:
+
+    Graph API Explorer'a git.
+
+    Şu izinlerin seçili olduğundan emin ol:
+
+        instagram_basic (Olmazsa olmaz)
+
+        pages_show_list
+
+        instagram_manage_insights (Bazen işletme verisi detayı için gerekir)
+
+    Token'ı güncelle ve .env dosyasına yapıştır.
+
+ADIM 2: Test Etme (Explorer)
+
+Kodları yazmadan önce verinin gelip gelmediğini gözünle gör.
+
+    Explorer'da adres satırına şunu yaz: {BUSINESS_ID}/tags?fields=id,username,permalink,media_url
+
+    Submit de.
+
+    Sonuç: Eğer seni etiketleyenler varsa, liste dolacak.
+
+        Not: Eğer liste boş (data: []) geliyorsa, seni etiketleyen hesaplar "Gizli Hesap" olabilir. API sadece Herkese Açık (Public) profillerin etiketlerini çeker.
+
+ADIM 3: Kullanım Senaryosu (Moderasyon)
+
+Müşterin şunu sorabilir: "Ya biri bizi kötü bir fotoğrafta etiketlerse? Sitede mi görünecek?"
+
+API varsayılan olarak hepsini çeker. Bunu yönetmek için müşterine şu 2 yöntemden birini sunabilirsin (Bunu v3 olarak not alabilirsin):
+
+    Instagram Üzerinden Yönetim (Kolay Yol):
+
+        Müşterin Instagram uygulamasında "Etiketlendiğim Fotoğraflar" sekmesine gider.
+
+        İstemediği fotoğrafı açar -> Seçenekler -> "Profilimde Gizle" der.
+
+        API bunu algılar ve o fotoğraf siteden de kalkar.
+
+    Admin Paneli Filtresi (Zor Yol):
+
+        Sitede admin paneline bir "Onaylama" mekanizması kurarsın. API'den gelenler önce "Bekleyenler" havuzuna düşer, admin "Yayınla" derse sitede görünür.
+
+ADIM 4: Yasal Uyarı (GDPR / KVKK)
+
+Başkalarının kullanıcı adını ve fotoğrafını sitende gösteriyorsun. Instagram'ın kullanım koşullarına göre, "Embed" (Gömme) veya API ile göstermek serbesttir ancak altına mutlaka "Instagram'da Görüntüle" linki koymalısın. Fotoğrafı indirip kendi sunucuna kaydetme, her zaman CDN linkini (API'den gelen linki) kullan.
+
+Hazır mısın? Prompt'u ver ve sitenin "Güvenilirlik" seviyesini yukarı taşı!

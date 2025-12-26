@@ -72,7 +72,7 @@
              <div v-if="commentsLoading" class="text-xs text-stone-500">Yükleniyor...</div>
              
              <div v-else-if="comments.length > 0" class="flex flex-col gap-3">
-               <div v-for="comment in comments" :key="comment.id" class="flex gap-2">
+               <div v-for="comment in comments" :key="comment.id" class="flex gap-2" :class="{ 'pl-6 border-l-2 border-stone-200 dark:border-stone-700': comment.isReply }">
                  <div class="text-xs">
                    <span class="font-bold text-earth-900 dark:text-earth-100 mr-2">{{ comment.username }}</span>
                    <span class="text-text-light dark:text-gray-300 font-light">{{ comment.text }}</span>
@@ -133,9 +133,23 @@ const fetchComments = async () => {
   commentsLoading.value = true
   try {
     const response = await $fetch(`/api/instagram/comments?id=${props.post.id}`)
-    comments.value = response.data || []
+    // Flatten comments and replies for simple display, or keep structure
+    // Here we just take root comments. If you want replies, you'd process response.data[i].replies
+    const rootComments = response.data || []
+    
+    // Optional: Flatten replies into the list for visibility
+    const allComments = []
+    for (const comment of rootComments) {
+        allComments.push(comment)
+        if (comment.replies?.data) {
+            allComments.push(...comment.replies.data.map(r => ({ ...r, isReply: true })))
+        }
+    }
+    
+    comments.value = allComments
   } catch (error) {
-    console.error('Failed to fetch comments', error)
+    console.error('Failed to fetch comments:', error)
+    // You could set an error state here to show in UI
   } finally {
     commentsLoading.value = false
   }
