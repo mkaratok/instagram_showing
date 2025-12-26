@@ -60,10 +60,30 @@
           </p>
 
           <!-- Stats (Replacing fake comments) -->
-          <div class="flex gap-4 mt-4 text-earth-600 dark:text-gray-300 text-sm">
              <span class="flex items-center gap-1"><span class="material-symbols-outlined text-lg">favorite</span> {{ post.like_count || 0 }} Beğeni</span>
              <span class="flex items-center gap-1"><span class="material-symbols-outlined text-lg">chat_bubble</span> {{ post.comments_count || 0 }} Yorum</span>
           </div>
+
+          <!-- Real Comments List -->
+           <div class="mt-6 border-t border-stone-200 dark:border-stone-700 pt-4">
+             <h4 class="text-sm font-bold text-earth-800 dark:text-earth-200 mb-2">Yorumlar</h4>
+             
+             <div v-if="commentsLoading" class="text-xs text-stone-500">Yükleniyor...</div>
+             
+             <div v-else-if="comments.length > 0" class="flex flex-col gap-3">
+               <div v-for="comment in comments" :key="comment.id" class="flex gap-2">
+                 <div class="text-xs">
+                   <span class="font-bold text-earth-900 dark:text-earth-100 mr-2">{{ comment.username }}</span>
+                   <span class="text-text-light dark:text-gray-300 font-light">{{ comment.text }}</span>
+                   <div class="text-[10px] text-stone-400 mt-0.5">{{ new Date(comment.timestamp).toLocaleDateString('tr-TR') }}</div>
+                 </div>
+               </div>
+             </div>
+             
+             <div v-else class="text-xs text-stone-500 italic">
+               Henüz yorum yok.
+             </div>
+           </div>
         </div>
 
         <!-- CTA Button -->
@@ -83,6 +103,8 @@ const props = defineProps(['post', 'profile'])
 defineEmits(['close'])
 
 const currentImageIndex = ref(0)
+const comments = ref([])
+const commentsLoading = ref(false)
 
 const currentMedia = computed(() => {
   if (props.post.media_type === 'CAROUSEL_ALBUM' && props.post.children?.data) {
@@ -102,6 +124,25 @@ const prevImage = () => {
     currentImageIndex.value = (currentImageIndex.value - 1 + props.post.children.data.length) % props.post.children.data.length
   }
 }
+
+// Fetch comments specifically for this post when mounted
+const fetchComments = async () => {
+  if (!props.post?.id) return
+  
+  commentsLoading.value = true
+  try {
+    const response = await $fetch(`/api/instagram/comments?id=${props.post.id}`)
+    comments.value = response.data || []
+  } catch (error) {
+    console.error('Failed to fetch comments', error)
+  } finally {
+    commentsLoading.value = false
+  }
+}
+
+onMounted(() => {
+  fetchComments()
+})
 </script>
 
 <style scoped>
