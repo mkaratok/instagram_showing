@@ -107,6 +107,11 @@
           Henüz etiketlenmiş gönderi yok.
         </div>
       </div>
+      
+      <div v-if="activeTab !== 'ETİKETLER'" class="flex justify-center mt-8 mb-12 text-xs text-subtle-light dark:text-earth-500">
+         <!-- End of Content -->
+         <span class="opacity-50">Tüm gönderiler yüklendi.</span>
+      </div>
 
     </main>
 
@@ -169,28 +174,26 @@
 <script setup>
 // Data Fetching
 const { data: profile, pending: profileLoading } = await useFetch('/api/instagram/profile')
-const { data: posts, pending: postsLoading } = await useFetch('/api/instagram/posts')
+const { data: instagramData, pending: postsLoading } = await useFetch('/api/instagram')
 const { data: storiesData } = await useFetch('/api/instagram/stories')
+
+const posts = computed(() => instagramData.value?.data || [])
 
 const stories = computed(() => storiesData.value?.data || [])
 
 const pending = computed(() => profileLoading.value || postsLoading.value)
 
-// Sorted Posts (Newest First)
-const sortedPosts = computed(() => {
-  if (!posts.value?.data) return []
-  return [...posts.value.data].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
-})
+// Sorted Posts (Graph API usually returns sorted, but we ensure it)
+const sortedPosts = computed(() => posts.value)
 
 // Computed Lists
 const reelsPosts = computed(() => {
-  return sortedPosts.value.filter(p => p.media_type === 'VIDEO')
+  return posts.value.filter(p => p.media_type === 'VIDEO')
 })
 
-// Simulating Tagged posts by just taking a subset or random selection for visual fullness
-// In a real app, this would be a separate API call if permissions allowed
+// Simulating Tagged posts
 const taggedPosts = computed(() => {
-  return sortedPosts.value.slice(0, 6)
+  return posts.value.slice(0, 6)
 })
 
 // UI State

@@ -1,7 +1,8 @@
 // server/api/instagram/post/[id].get.ts
 export default defineCachedEventHandler(async (event) => {
     const id = getRouterParam(event, 'id')
-    const accessToken = await getActiveToken()
+    const config = useRuntimeConfig()
+    const accessToken = config.instagramAccessToken
 
     if (!id) {
         throw createError({
@@ -10,15 +11,16 @@ export default defineCachedEventHandler(async (event) => {
         })
     }
 
-    const baseUrl = `https://graph.instagram.com/${id}`
+    const fields = 'id,caption,media_type,media_url,thumbnail_url,permalink,timestamp,like_count,comments_count,children{media_url,thumbnail_url,media_type}'
+    const url = `https://graph.facebook.com/v18.0/${id}?fields=${fields}&access_token=${accessToken}`
 
     try {
-        const response = await $fetch(`${baseUrl}?fields=id,caption,media_type,media_url,thumbnail_url,permalink,timestamp,like_count,comments_count,children{media_url,thumbnail_url,media_type,id}&access_token=${accessToken}`)
+        const response: any = await $fetch(url)
         return response
-    } catch (error) {
+    } catch (error: any) {
         console.error('Instagram API Error (Single Post):', error)
         throw createError({
-            statusCode: 404,
+            statusCode: 404, // Default to 404 but try to be descriptive
             statusMessage: 'Post not found or API error'
         })
     }
