@@ -29,10 +29,6 @@
               <span class="text-xs text-subtle-light dark:text-earth-500 uppercase tracking-widest">Gönderi</span>
             </div>
             <div class="text-center md:text-left">
-              <span class="font-bold block text-xl md:text-2xl text-text-light dark:text-earth-100"><CountUp :to="profile?.media_count || 0" /></span>
-              <span class="text-xs text-subtle-light dark:text-earth-500 uppercase tracking-widest">Gönderi</span>
-            </div>
-            <div class="text-center md:text-left">
               <span class="font-bold block text-xl md:text-2xl text-text-light dark:text-earth-100"><CountUp :to="profile?.followers_count || 0" /></span>
               <span class="text-xs text-subtle-light dark:text-earth-500 uppercase tracking-widest">Takipçi</span>
             </div>
