@@ -1,4 +1,6 @@
-API'nin saatlik sınırını tamamen kaldırmak teknik olarak mümkün değildir. Meta (Facebook), sunucularını korumak için herkese belirli bir kota koyar. Ancak, şu an muhtemelen "Development" (Geliştirme) modunda olduğun için çok düşük bir sınıra takılıyorsun.
+API'nin saatlik sınırını tamamen kaldırmak teknik olarak mümkün değildir.
+ Meta (Facebook), sunucularını korumak için herkese belirli bir kota koyar.
+  Ancak, şu an muhtemelen "Development" (Geliştirme) modunda olduğun için çok düşük bir sınıra takılıyorsun.
 
 Bu sınırı 200 işlemden -> 100.000+ işleme çıkarmanın ve "sınırsızmış gibi" kullanmanın yolu şudur:
 1. Adım: Uygulamayı "Canlı" (Live) Moda Almak
@@ -14,7 +16,7 @@ Bu sınırı 200 işlemden -> 100.000+ işleme çıkarmanın ve "sınırsızmı�
     Onu "Live" (Canlı) konumuna getir.
 
         Not: Senden "Gizlilik Politikası URL'si" (Privacy Policy URL) isteyecektir. Sitenin bir sayfasına (boş bile olsa) bir gizlilik metni koy ve linkini "Settings -> Basic" kısmına yapıştır.
-
+https://siteniz.com/privacy-policy
 Bu işlem, kotanı standart seviyeye yükseltir.
 2. Adım: "Advanced Access" (İleri Düzey Erişim) Almak
 
@@ -26,7 +28,8 @@ Varsayılan olarak izinler "Standard Access" ile gelir. Bunu "Advanced" yapmalı
 
     Sağ taraflarında "Get Advanced Access" butonu varsa tıkla.
 
-        Önemli: Eğer uygulama sadece senin işletme hesabına bağlıysa (yani halka açık bir SaaS değilse), Meta senden video kanıtı istemez. Direkt Advanced Access verir.
+        Önemli: Eğer uygulama sadece senin işletme hesabına bağlıysa (yani halka açık bir SaaS değilse), 
+        Meta senden video kanıtı istemez. Direkt Advanced Access verir.
 
 3. Adım: Kota Formülünü Anlamak (Hile Burada)
 
@@ -36,7 +39,8 @@ Instagram Graph API'nin kotası sabit bir sayı değildir, şu formülle çalı�
 
 Eğer uygulamayı sadece sen kullanıyorsan (1 Kullanıcı), saati 200 çağrı ile sınırlıdır. Eğer sitene "Instagram ile Giriş Yap" butonu koyarsan ve 100 kişi giriş yaparsa; Kota = 200 x 100 = 20.000 Çağrı / Saat olur.
 
-Senin Durumun (Tek Kullanıcı) İçin Çözüm: Sen tek başına kullanacağın için 200 çağrı yetmeyebilir. Burada devreye Yazılım Mühendisliği girer:
+Senin Durumun (Tek Kullanıcı) İçin Çözüm: Sen tek başına kullanacağın için 200 çağrı yetmeyebilir. 
+Burada devreye Yazılım Mühendisliği girer:
 🚀 Altın Kural: "Caching" (Önbellekleme)
 
 Sitenin anasayfası her yenilendiğinde API'ye istek atarsan, kota 10 dakikada biter.
@@ -59,7 +63,8 @@ Doğru Yöntem (Cache):
 
     Ziyaretçi siteye girer ->
 
-    Senin sunucun kaydettiği dosyadan okuyup gösterir. (1 Milyon ziyaretçi de gelse, Instagram'a giden istek sayısı sabittir: Saatte sadece 4 istek.)
+    Senin sunucun kaydettiği dosyadan okuyup gösterir. 
+    (1 Milyon ziyaretçi de gelse, Instagram'a giden istek sayısı sabittir: Saatte sadece 4 istek.)
 
 Sınırsız kullanımın sırrı budur. API ile veriyi arka planda çek, ziyaretçiye kendi veritabanından sun.
 Özet: Ne Yapmalısın?

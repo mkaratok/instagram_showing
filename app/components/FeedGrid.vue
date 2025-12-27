@@ -9,11 +9,14 @@
       @mouseleave="handleMouseLeave(post, $event)"
     >
       <!-- Image / Carousel / Thumbnail -->
-      <img 
+      <NuxtImg 
         v-show="!post.isPlaying"
         :src="getPostImage(post)" 
-        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-90 group-hover:opacity-100"
+        :alt="getAltText(post)"
+        format="webp"
+        quality="80"
         loading="lazy"
+        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-90 group-hover:opacity-100"
       />
 
       <!-- Carousel Indicator -->
@@ -60,6 +63,14 @@ const getPostImage = (post) => {
     return post.children.data[index].media_url
   }
   return post.media_url
+}
+
+// Generate SEO-friendly alt text
+const getAltText = (post) => {
+  if (!post.caption) return 'Instagram gönderi görseli'
+  const clean = post.caption.replace(/#[\wğüşıöçĞÜŞİÖÇ]+/g, '').trim()
+  const words = clean.split(/\s+/).slice(0, 5).join(' ')
+  return `${words} görseli`
 }
 
 const handleMouseEnter = async (post, event) => {
