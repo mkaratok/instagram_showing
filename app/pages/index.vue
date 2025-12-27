@@ -227,17 +227,16 @@
 </template>
 
 <script setup>
-// Data Fetching
-const { data: profile, pending: profileLoading } = await useFetch('/api/instagram/profile')
-const { data: instagramData, pending: postsLoading } = await useFetch('/api/instagram')
-const { data: storiesData } = await useFetch('/api/instagram/stories')
+// Data Fetching - Use unified feed endpoint for profile + posts + stories
+const { data: feedData, pending: feedLoading } = await useFetch('/api/instagram/feed')
 const { data: mentionsData } = await useFetch('/api/instagram/mentions')
 
-const posts = computed(() => instagramData.value?.data || [])
+// Extract from unified feed
+const profile = computed(() => feedData.value?.profile || null)
+const posts = computed(() => feedData.value?.posts || [])
+const stories = computed(() => feedData.value?.stories || [])
 
-const stories = computed(() => storiesData.value?.data || [])
-
-const pending = computed(() => profileLoading.value || postsLoading.value)
+const pending = computed(() => feedLoading.value)
 
 // Sorted Posts (Graph API usually returns sorted, but we ensure it)
 const sortedPosts = computed(() => posts.value)
