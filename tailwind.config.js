@@ -34,6 +34,15 @@ module.exports = {
                     900: '#1C1917',
                     950: '#0F0E0D',
                 },
+                navy: {
+                    800: '#1a222d',
+                    900: '#151b24',
+                    950: '#0f141a',
+                },
+                instagram: {
+                    DEFAULT: '#8134af',
+                    light: '#a855f7',
+                },
                 sage: {
                     200: '#D9E3CC',
                     300: '#B4C5A0',
