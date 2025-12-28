@@ -6,6 +6,15 @@ const CACHE_TTL = 30 * 60 // 30 minutes
 
 export default defineEventHandler(async (event) => {
     const storage = useStorage('data')
+    const config = useRuntimeConfig()
+    const accessToken = config.instagramAccessToken
+    const businessId = config.instagramBusinessId
+
+    // Validate credentials exist
+    if (!accessToken || !businessId) {
+        console.error('[Profile] Missing credentials - Token:', !!accessToken, 'ID:', !!businessId)
+        return null
+    }
 
     // Check cache first
     const cached = await storage.getItem(CACHE_KEY)
@@ -13,36 +22,42 @@ export default defineEventHandler(async (event) => {
         const { data, timestamp } = cached as { data: any; timestamp: number }
         const age = (Date.now() - timestamp) / 1000
 
-        if (age < CACHE_TTL) {
+        // Only use cache if data is valid (has followers_count)
+        if (age < CACHE_TTL && data && typeof data.followers_count === 'number') {
             console.log(`[Cache HIT] Profile from cache (age: ${Math.round(age)}s)`)
             return data
         }
     }
 
-    const config = useRuntimeConfig()
-    const accessToken = config.instagramAccessToken
-    const businessId = config.instagramBusinessId
-
     const fields = 'username,name,biography,profile_picture_url,followers_count,follows_count,media_count,website'
 
     try {
-        const response = await $fetch(`https://graph.facebook.com/v18.0/${businessId}?fields=${fields}&access_token=${accessToken}`)
+        console.log(`[Profile] Fetching fresh data for ID: ${businessId}`)
+        const response: any = await $fetch(`https://graph.facebook.com/v18.0/${businessId}?fields=${fields}&access_token=${accessToken}`)
 
-        // Cache the response
-        await storage.setItem(CACHE_KEY, {
-            data: response,
-            timestamp: Date.now()
-        })
-        console.log('[Cache SET] Profile cached for 30 min')
+        // Validate response has required fields
+        if (response && typeof response.followers_count === 'number') {
+            // Cache the valid response
+            await storage.setItem(CACHE_KEY, {
+                data: response,
+                timestamp: Date.now()
+            })
+            console.log(`[Cache SET] Profile cached - Followers: ${response.followers_count}, Posts: ${response.media_count}`)
+            return response
+        } else {
+            console.error('[Profile] Invalid response - missing followers_count:', response)
+            return cached ? (cached as any).data : null
+        }
+    } catch (error: any) {
+        console.error('[Profile API Error]', error.message || error)
 
-        return response
-    } catch (error) {
-        console.error('Instagram Profile API Error:', error)
-
-        // Return stale cache as fallback
+        // Return stale cache as fallback (only if it was valid)
         if (cached) {
             const { data } = cached as { data: any }
-            return data
+            if (data && typeof data.followers_count === 'number') {
+                console.log('[Cache FALLBACK] Using stale profile data')
+                return data
+            }
         }
         return null
     }
