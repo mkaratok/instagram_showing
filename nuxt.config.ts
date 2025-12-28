@@ -89,9 +89,16 @@ export default defineNuxtConfig({
         { name: 'robots', content: 'index, follow' },
         { property: 'og:locale', content: 'tr_TR' },
         { property: 'og:type', content: 'website' },
-        { property: 'og:site_name', content: 'Bumudurbu' }
+        { property: 'og:site_name', content: 'Bumudurbu' },
+        { name: 'apple-mobile-web-app-title', content: 'Arzu Özen' }
       ],
-      link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
+      link: [
+        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+        { rel: 'icon', type: 'image/svg+xml', href: '/icon.svg' },
+        { rel: 'icon', type: 'image/png', href: '/icon.png' },
+        { rel: 'apple-touch-icon', href: '/apple-icon.png' },
+        { rel: 'manifest', href: '/manifest.json' }
+      ]
     }
   }
 })
