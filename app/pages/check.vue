@@ -67,10 +67,10 @@
         <div class="space-y-3">
           <div class="flex items-center justify-between p-3 bg-yellow-50 rounded border border-yellow-200">
             <div>
-              <code class="text-sm text-yellow-700">/api/debug/find-accounts</code>
+              <code class="text-sm text-yellow-700">/api/check/find-accounts</code>
               <p class="text-xs text-gray-600">Facebook Sayfaları ve Instagram bağlantılarını keşfet</p>
             </div>
-            <a href="/api/debug/find-accounts" target="_blank" class="text-yellow-600 text-sm hover:underline font-medium">Çalıştır →</a>
+            <a href="/api/check/find-accounts" target="_blank" class="text-yellow-600 text-sm hover:underline font-medium">Çalıştır →</a>
           </div>
         </div>
       </div>
@@ -156,7 +156,7 @@ async function findAccounts() {
   findSuggestion.value = null
   
   try {
-    const response = await $fetch('/api/debug/find-accounts')
+    const response = await $fetch('/api/check/find-accounts')
     
     if (response.error) {
       findError.value = response.error
