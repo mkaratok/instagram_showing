@@ -184,32 +184,36 @@
         <!-- Görünüm -->
         <section class="p-6 rounded-xl bg-[#080707] border border-earth-700">
           <h2 class="text-lg font-semibold mb-4 text-earth-100">Görünüm Ayarları</h2>
-          <div class="grid md:grid-cols-2 gap-4">
+          <p class="text-sm text-earth-500 mb-4">Sadece temel renkleri seçin, sistem geri kalan tüm tonları otomatik oluşturur.</p>
+          <div class="grid md:grid-cols-3 gap-6">
             <div>
-              <label class="block text-sm text-earth-400 mb-2">Ana Renk</label>
+              <label class="block text-sm text-earth-400 mb-2">🌙 Koyu Tema - Ana Renk</label>
+              <p class="text-xs text-earth-600 mb-2">Body arka planı. Header/footer otomatik daha koyu.</p>
+              <div class="flex gap-3">
+                <input v-model="formData.appearance.darkBaseColor" type="color" class="w-14 h-12 rounded-lg cursor-pointer border-0" />
+                <input v-model="formData.appearance.darkBaseColor" type="text" class="flex-1 px-4 py-3 rounded-lg bg-earth-800 border border-earth-600 text-white font-mono focus:border-instagram focus:outline-none" />
+              </div>
+            </div>
+            <div>
+              <label class="block text-sm text-earth-400 mb-2">☀️ Açık Tema - Ana Renk</label>
+              <p class="text-xs text-earth-600 mb-2">Body arka planı. Diğer tonlar otomatik.</p>
+              <div class="flex gap-3">
+                <input v-model="formData.appearance.lightBaseColor" type="color" class="w-14 h-12 rounded-lg cursor-pointer border-0" />
+                <input v-model="formData.appearance.lightBaseColor" type="text" class="flex-1 px-4 py-3 rounded-lg bg-earth-800 border border-earth-600 text-white font-mono focus:border-instagram focus:outline-none" />
+              </div>
+            </div>
+            <div>
+              <label class="block text-sm text-earth-400 mb-2">🎨 Vurgu Rengi</label>
+              <p class="text-xs text-earth-600 mb-2">Butonlar, linkler için accent rengi.</p>
               <div class="flex gap-3">
                 <input v-model="formData.appearance.primaryColor" type="color" class="w-14 h-12 rounded-lg cursor-pointer border-0" />
                 <input v-model="formData.appearance.primaryColor" type="text" class="flex-1 px-4 py-3 rounded-lg bg-earth-800 border border-earth-600 text-white font-mono focus:border-instagram focus:outline-none" />
               </div>
             </div>
-            <div>
-              <label class="block text-sm text-earth-400 mb-2">Logo URL</label>
-              <input v-model="formData.appearance.logoUrl" type="text" class="w-full px-4 py-3 rounded-lg bg-earth-800 border border-earth-600 text-white focus:border-instagram focus:outline-none" />
-            </div>
-            <div>
-              <label class="block text-sm text-earth-400 mb-2">Header Arka Plan (Koyu Mod)</label>
-              <div class="flex gap-3">
-                <input v-model="formData.appearance.darkMode.headerBg" type="color" class="w-14 h-12 rounded-lg cursor-pointer border-0" />
-                <input v-model="formData.appearance.darkMode.headerBg" type="text" class="flex-1 px-4 py-3 rounded-lg bg-earth-800 border border-earth-600 text-white font-mono focus:border-instagram focus:outline-none" />
-              </div>
-            </div>
-            <div>
-              <label class="block text-sm text-earth-400 mb-2">Body Arka Plan (Koyu Mod)</label>
-              <div class="flex gap-3">
-                <input v-model="formData.appearance.darkMode.bodyBg" type="color" class="w-14 h-12 rounded-lg cursor-pointer border-0" />
-                <input v-model="formData.appearance.darkMode.bodyBg" type="text" class="flex-1 px-4 py-3 rounded-lg bg-earth-800 border border-earth-600 text-white font-mono focus:border-instagram focus:outline-none" />
-              </div>
-            </div>
+          </div>
+          <div class="mt-6">
+            <label class="block text-sm text-earth-400 mb-2">Logo URL</label>
+            <input v-model="formData.appearance.logoUrl" type="text" class="w-full px-4 py-3 rounded-lg bg-earth-800 border border-earth-600 text-white focus:border-instagram focus:outline-none" />
           </div>
         </section>
 
@@ -278,7 +282,7 @@ const formData = ref<SiteSettings>({
     instagram: '', facebook: '', youtube: '', tiktok: '', twitter: '', linkedin: '', pinterest: '',
     trendyol: '', hepsiburada: '', n11: '', amazonTr: '', ciceksepeti: '', sahibinden: '', etsy: ''
   },
-  appearance: { primaryColor: '#8134af', logoUrl: '/logo.png', darkMode: { headerBg: '#080707', bodyBg: '#1a222d' } },
+  appearance: { darkBaseColor: '#1a222d', lightBaseColor: '#f6f3ef', logoUrl: '/logo.png', primaryColor: '#8134af' },
   business: { type: 'PRODUCT', profession: '' }
 })
 

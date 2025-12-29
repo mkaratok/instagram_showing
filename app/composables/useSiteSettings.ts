@@ -34,12 +34,11 @@ export interface SiteSettings {
     }
     social: SocialLinks
     appearance: {
-        primaryColor: string
+        // Simplified: Just pick 2 base colors, system generates rest
+        darkBaseColor: string   // Body color for dark mode (e.g., #1a222d)
+        lightBaseColor: string  // Body color for light mode (e.g., #f6f3ef)
         logoUrl: string
-        darkMode: {
-            headerBg: string
-            bodyBg: string
-        }
+        primaryColor: string    // Accent/brand color (e.g., #8134af)
     }
     business: {
         type: string
@@ -76,12 +75,10 @@ const defaultSettings: SiteSettings = {
         etsy: ""
     },
     appearance: {
-        primaryColor: "#8134af",
+        darkBaseColor: "#1a222d",
+        lightBaseColor: "#f6f3ef",
         logoUrl: "/logo.png",
-        darkMode: {
-            headerBg: "#080707",
-            bodyBg: "#1a222d"
-        }
+        primaryColor: "#8134af"
     },
     business: {
         type: "PRODUCT",
@@ -106,11 +103,7 @@ export const useSiteSettings = () => {
                     ...data,
                     contact: { ...defaultSettings.contact, ...data.contact },
                     social: { ...defaultSettings.social, ...data.social },
-                    appearance: {
-                        ...defaultSettings.appearance,
-                        ...data.appearance,
-                        darkMode: { ...defaultSettings.appearance.darkMode, ...data.appearance?.darkMode }
-                    },
+                    appearance: { ...defaultSettings.appearance, ...data.appearance },
                     business: { ...defaultSettings.business, ...data.business }
                 }
             }
