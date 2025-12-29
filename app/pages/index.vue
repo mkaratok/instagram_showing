@@ -70,7 +70,7 @@
     <nav class="sticky top-0 z-30 backdrop-blur-sm border-b transition-colors" :class="isDark ? 'bg-earth-900/95 border-earth-800' : 'bg-white/95 border-gray-200'">
       <div class="max-w-4xl mx-auto flex justify-center gap-2 md:gap-8">
         <button 
-          v-for="tab in ['GÖNDERİLER', 'REELS', 'ETİKETLER', 'HİZMETLER', 'PROFİL']" 
+          v-for="tab in ['GÖNDERİLER', 'REELS', 'ETİKETLER', 'PROFİL']" 
           :key="tab"
           @click="handleTabClick(tab)"
           class="px-3 md:px-4 py-3 text-xs md:text-sm font-medium tracking-wider transition-colors relative"
