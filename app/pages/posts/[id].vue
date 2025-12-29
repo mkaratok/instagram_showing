@@ -53,7 +53,7 @@
               itemprop="datePublished"
               class="text-xs text-earth-500"
             >
-              {{ formatDate(post.timestamp) }}
+              {{ post.timestamp ? formatDate(post.timestamp) : '' }}
             </time>
           </div>
         </header>
@@ -279,7 +279,7 @@ useSeoMeta({
   ogType: 'article',
   twitterCard: 'summary_large_image',
   articlePublishedTime: () => post.value?.timestamp,
-  articleAuthor: () => profile.value?.username || 'Bumudurbu'
+  articleAuthor: [profile.value?.username || 'Bumudurbu']
 })
 
 // Add JSON-LD Schema
