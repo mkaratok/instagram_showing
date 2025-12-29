@@ -1,17 +1,17 @@
 <template>
-  <div class="min-h-screen font-sans transition-colors duration-300" :class="isDark ? 'bg-earth-900 text-earth-100' : 'bg-background-light text-text-light'">
+  <div class="min-h-screen font-sans transition-colors duration-300" :class="isDark ? 'bg-[#1a222d] text-earth-100' : 'bg-background-light text-text-light'">
     <Preloader :loading="pending" />
 
     <!-- Compact Header -->
-    <header class="border-b transition-colors" :class="isDark ? 'bg-earth-950 border-earth-800' : 'bg-white border-gray-200'">
+    <header class="border-b transition-colors" :class="isDark ? 'bg-[#080707] border-earth-800' : 'bg-white border-gray-200'">
       <div class="max-w-4xl mx-auto px-4 py-6">
-        <div class="flex items-center gap-6">
+        <div class="flex items-center gap-3">
           <!-- Profile Picture with Story Ring -->
           <div class="cursor-pointer relative shrink-0" @click="stories?.length ? openStory(0) : null">
-            <!-- Instagram Gradient Ring - Only when stories exist -->
+            <!-- Instagram Gradient Ring - Always show for visual, click works when stories exist -->
             <div 
-              v-if="stories?.length" 
               class="absolute -inset-1 rounded-full bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-600"
+              :class="stories?.length ? 'opacity-100 animate-pulse' : 'opacity-30'"
             ></div>
             <img 
               :src="profile?.profile_picture_url || '/default-avatar.png'" 
@@ -21,12 +21,15 @@
             />
           </div>
 
-          <!-- Username (centered next to PP) -->
-          <div class="flex-1 flex items-center justify-center">
+          <!-- Username (immediately after PP, centered together) -->
+          <div class="flex items-center">
             <a :href="`https://www.instagram.com/${profile?.username || 'bumudurbu'}/`" target="_blank" class="hover:text-instagram transition-colors">
               <h1 class="text-2xl md:text-3xl font-semibold">{{ profile?.username || 'bumudurbu' }}</h1>
             </a>
           </div>
+
+          <!-- Spacer to push stats right -->
+          <div class="flex-1"></div>
 
           <!-- Stats (right aligned) -->
           <div class="hidden sm:flex items-center gap-6 shrink-0">
@@ -88,12 +91,12 @@
     <main class="max-w-4xl mx-auto pb-24">
       
       <!-- Posts Grid (Original) -->
-      <div v-if="activeTab === 'GÖNDERİLER'" class="animate-fade-in">
+      <div v-if="activeTab === 'GÖNDERİLER'" class="animate-fade-in mt-6 py-4">
         <FeedGrid :posts="sortedPosts" @open="openModal" />
       </div>
 
       <!-- Reels Grid -->
-      <div v-else-if="activeTab === 'REELS'" class="animate-fade-in">
+      <div v-else-if="activeTab === 'REELS'" class="animate-fade-in mt-6 py-4">
         <FeedGrid :posts="reelsPosts" @open="openModal" />
         <div v-if="reelsPosts.length === 0" class="py-20 text-center" :class="isDark ? 'text-earth-600' : 'text-gray-400'">
           Henüz Reels videosu bulunmuyor.
@@ -106,7 +109,7 @@
         <div class="text-center mb-12">
           <span class="inline-block px-4 py-1 rounded-full text-sm font-medium mb-4"
                 :class="isDark ? 'bg-instagram/20 text-instagram' : 'bg-purple-100 text-purple-600'">
-            ✨ Profesyonel Yoga Eğitimi
+            Profesyonel Yoga Eğitimi
           </span>
           <h2 class="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-purple-500 via-pink-500 to-orange-400 bg-clip-text text-transparent">
             Hizmetlerimiz
@@ -129,7 +132,7 @@
               <!-- Icon -->
               <div class="w-14 h-14 rounded-2xl flex items-center justify-center mb-4 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3"
                    :class="isDark ? 'bg-gradient-to-br from-purple-500/30 to-pink-500/30' : 'bg-gradient-to-br from-purple-100 to-pink-100'">
-                <span class="text-3xl">{{ service.icon }}</span>
+                <component :is="service.icon" class="w-7 h-7" :class="isDark ? 'text-purple-300' : 'text-purple-600'" />
               </div>
               
               <!-- Content -->
@@ -206,6 +209,30 @@
           </div>
         </div>
 
+        <!-- Hizmetlerimiz Section (inside Profile) -->
+        <section class="pt-8 border-t" :class="isDark ? 'border-earth-800' : 'border-gray-200'">
+          <h2 class="text-2xl font-bold mb-6 bg-gradient-to-r from-purple-500 via-pink-500 to-orange-400 bg-clip-text text-transparent">Hizmetlerimiz</h2>
+          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div v-for="(service, index) in services" :key="index" 
+                 class="group relative p-5 rounded-xl transition-all duration-300 hover:scale-[1.02] hover:shadow-lg overflow-hidden"
+                 :class="isDark ? 'bg-gradient-to-br from-earth-800 to-earth-900 border border-earth-700' : 'bg-white shadow-md border border-gray-100'">
+              <div class="relative z-10 flex items-start gap-4">
+                <!-- Icon -->
+                <div class="w-12 h-12 shrink-0 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
+                     :class="isDark ? 'bg-gradient-to-br from-purple-500/30 to-pink-500/30' : 'bg-gradient-to-br from-purple-100 to-pink-100'">
+                  <component :is="service.icon" class="w-6 h-6" :class="isDark ? 'text-purple-300' : 'text-purple-600'" />
+                </div>
+                <!-- Content -->
+                <div class="flex-1 min-w-0">
+                  <h3 class="font-bold text-sm mb-1 group-hover:text-instagram transition-colors">{{ service.title }}</h3>
+                  <p class="text-xs leading-relaxed line-clamp-2" :class="isDark ? 'text-earth-400' : 'text-gray-600'">{{ service.description }}</p>
+                  <span class="inline-block mt-2 font-bold text-sm bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">{{ service.price }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <!-- Contact Section -->
         <section class="pt-8 border-t" :class="isDark ? 'border-earth-800' : 'border-gray-200'">
           <h2 class="text-2xl font-bold mb-6">İletişim</h2>
@@ -250,7 +277,9 @@
           target="_blank"
           class="flex items-center justify-center gap-2 w-32 py-2.5 bg-gradient-to-r from-yellow-400 via-pink-500 to-purple-600 text-white text-sm font-medium rounded-lg transition-all hover:opacity-90"
         >
-          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0z"/></svg>
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+          </svg>
           <span>Instagram</span>
         </a>
 
@@ -295,7 +324,9 @@
           target="_blank"
           class="flex items-center justify-center gap-2 w-32 py-2.5 bg-green-600 hover:bg-green-500 text-white text-sm font-medium rounded-lg transition-colors"
         >
-          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg>
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+          </svg>
           <span>WhatsApp</span>
         </a>
       </div>
@@ -340,44 +371,64 @@ const reelsPosts = computed(() => posts.value.filter(p => p.media_product_type =
 const taggedPosts = computed(() => mentionsData.value?.data || [])
 
 // Services Data (Hardcoded)
+// SVG Icon Components for Services
+const IconYoga = {
+  template: `<svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313-12.454z"/><circle cx="12" cy="8" r="2"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v4m-3 6l3-4l3 4"/></svg>`
+}
+const IconGroup = {
+  template: `<svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z"/></svg>`
+}
+const IconSunrise = {
+  template: `<svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"/></svg>`
+}
+const IconHome = {
+  template: `<svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"/></svg>`
+}
+const IconTarget = {
+  template: `<svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z"/></svg>`
+}
+const IconBook = {
+  template: `<svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5"/></svg>`
+}
+
 const services = ref([
   {
-    icon: '🧘',
+    icon: IconYoga,
     title: 'Bireysel Yoga Dersi',
     description: 'Kişiye özel hazırlanmış yoga programı ile beden ve zihin dengenizi bulun. Seviyenize uygun asanalar ve nefes teknikleri.',
     price: '₺500 / Seans',
     duration: '60 dakika'
   },
   {
-    icon: '👥',
+    icon: IconGroup,
     title: 'Grup Yoga Dersi',
     description: 'Haftada 3 gün düzenlenen grup derslerimizde birlikte pratik yapın. Maksimum 10 kişilik gruplar.',
     price: '₺1.200 / Aylık',
     duration: 'Hafta 3 gün'
   },
   {
-    icon: '🌅',
+    icon: IconSunrise,
     title: 'Sabah Meditasyonu',
     description: 'Güne pozitif enerji ile başlayın. 30 dakikalık rehberli meditasyon seansları.',
     price: '₺200 / Seans',
     duration: '30 dakika'
   },
   {
-    icon: '🏠',
+    icon: IconHome,
     title: 'Online Yoga',
     description: 'Evinizin konforunda canlı yoga dersleri. Zoom üzerinden interaktif seanslar.',
     price: '₺800 / Aylık',
     duration: 'Sınırsız erişim'
   },
   {
-    icon: '🎯',
+    icon: IconTarget,
     title: 'Kurumsal Yoga',
     description: 'Şirketiniz için özel yoga programları. Çalışan motivasyonu ve stres yönetimi.',
     price: 'Teklif Alın',
     duration: 'Özel planlama'
   },
   {
-    icon: '📚',
+    icon: IconBook,
     title: 'Yoga Eğitmenlik Kursu',
     description: '200 saatlik sertifikalı yoga eğitmenlik programı. Uluslararası geçerli YA sertifikası.',
     price: '₺15.000',
