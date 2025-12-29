@@ -67,7 +67,7 @@
     <nav class="sticky top-0 z-30 backdrop-blur-sm border-b transition-colors" :class="isDark ? 'bg-earth-900/95 border-earth-800' : 'bg-white/95 border-gray-200'">
       <div class="max-w-4xl mx-auto flex justify-center gap-2 md:gap-8">
         <button 
-          v-for="tab in ['GÖNDERİLER', 'REELS', 'HİZMETLER', 'ETİKETLER', 'PROFİL']" 
+          v-for="tab in ['GÖNDERİLER', 'REELS', 'ETİKETLER', 'HİZMETLER', 'PROFİL']" 
           :key="tab"
           @click="handleTabClick(tab)"
           class="px-3 md:px-4 py-3 text-xs md:text-sm font-medium tracking-wider transition-colors relative"
@@ -101,26 +101,65 @@
       </div>
 
       <!-- Hizmetler Tab -->
-      <div v-else-if="activeTab === 'HİZMETLER'" class="px-4 py-8 animate-fade-in">
-        <h2 class="text-2xl font-bold mb-8 text-center">Hizmetlerimiz</h2>
-        <div class="grid md:grid-cols-2 gap-6">
+      <div v-else-if="activeTab === 'HİZMETLER'" class="px-4 py-12 animate-fade-in">
+        <!-- Hero Section -->
+        <div class="text-center mb-12">
+          <span class="inline-block px-4 py-1 rounded-full text-sm font-medium mb-4"
+                :class="isDark ? 'bg-instagram/20 text-instagram' : 'bg-purple-100 text-purple-600'">
+            ✨ Profesyonel Yoga Eğitimi
+          </span>
+          <h2 class="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-purple-500 via-pink-500 to-orange-400 bg-clip-text text-transparent">
+            Hizmetlerimiz
+          </h2>
+          <p class="max-w-xl mx-auto" :class="isDark ? 'text-earth-400' : 'text-gray-500'">
+            Beden ve zihin dengenizi bulmanız için size özel hazırlanmış yoga programları
+          </p>
+        </div>
+
+        <!-- Services Grid -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           <div v-for="(service, index) in services" :key="index" 
-               class="p-6 rounded-xl transition-colors"
-               :class="isDark ? 'bg-earth-800' : 'bg-white shadow-sm border border-gray-100'">
-            <div class="flex items-start gap-4">
-              <div class="w-12 h-12 rounded-full flex items-center justify-center shrink-0"
-                   :class="isDark ? 'bg-instagram/20 text-instagram' : 'bg-purple-100 text-purple-600'">
-                <span class="text-2xl">{{ service.icon }}</span>
+               class="group relative p-6 rounded-2xl transition-all duration-300 hover:scale-[1.02] hover:shadow-xl overflow-hidden"
+               :class="isDark ? 'bg-gradient-to-br from-earth-800 to-earth-900 border border-earth-700' : 'bg-white shadow-lg border border-gray-100'">
+            
+            <!-- Gradient Overlay on Hover -->
+            <div class="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-pink-500/10 to-orange-400/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            
+            <div class="relative z-10">
+              <!-- Icon -->
+              <div class="w-14 h-14 rounded-2xl flex items-center justify-center mb-4 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3"
+                   :class="isDark ? 'bg-gradient-to-br from-purple-500/30 to-pink-500/30' : 'bg-gradient-to-br from-purple-100 to-pink-100'">
+                <span class="text-3xl">{{ service.icon }}</span>
               </div>
-              <div>
-                <h3 class="font-bold text-lg mb-2">{{ service.title }}</h3>
-                <p class="text-sm leading-relaxed" :class="isDark ? 'text-earth-400' : 'text-gray-600'">
-                  {{ service.description }}
-                </p>
-                <p class="mt-3 font-semibold text-instagram">{{ service.price }}</p>
+              
+              <!-- Content -->
+              <h3 class="font-bold text-lg mb-2 group-hover:text-instagram transition-colors">{{ service.title }}</h3>
+              <p class="text-sm leading-relaxed mb-4" :class="isDark ? 'text-earth-400' : 'text-gray-600'">
+                {{ service.description }}
+              </p>
+              
+              <!-- Price Tag -->
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-lg bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
+                  {{ service.price }}
+                </span>
+                <span class="text-xs px-3 py-1 rounded-full transition-colors"
+                      :class="isDark ? 'bg-earth-700 text-earth-300' : 'bg-gray-100 text-gray-500'">
+                  {{ service.duration || 'Detay için iletişime geçin' }}
+                </span>
               </div>
             </div>
           </div>
+        </div>
+
+        <!-- CTA Section -->
+        <div class="mt-12 text-center">
+          <p class="mb-4" :class="isDark ? 'text-earth-400' : 'text-gray-500'">Hizmetlerimiz hakkında detaylı bilgi almak için</p>
+          <a href="https://wa.me/905354326668" target="_blank"
+             class="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white font-medium rounded-xl hover:shadow-lg hover:scale-105 transition-all duration-300">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg>
+            WhatsApp ile İletişime Geç
+          </a>
         </div>
       </div>
 
@@ -306,37 +345,43 @@ const services = ref([
     icon: '🧘',
     title: 'Bireysel Yoga Dersi',
     description: 'Kişiye özel hazırlanmış yoga programı ile beden ve zihin dengenizi bulun. Seviyenize uygun asanalar ve nefes teknikleri.',
-    price: '₺500 / Seans'
+    price: '₺500 / Seans',
+    duration: '60 dakika'
   },
   {
     icon: '👥',
     title: 'Grup Yoga Dersi',
     description: 'Haftada 3 gün düzenlenen grup derslerimizde birlikte pratik yapın. Maksimum 10 kişilik gruplar.',
-    price: '₺1.200 / Aylık'
+    price: '₺1.200 / Aylık',
+    duration: 'Hafta 3 gün'
   },
   {
     icon: '🌅',
     title: 'Sabah Meditasyonu',
     description: 'Güne pozitif enerji ile başlayın. 30 dakikalık rehberli meditasyon seansları.',
-    price: '₺200 / Seans'
+    price: '₺200 / Seans',
+    duration: '30 dakika'
   },
   {
     icon: '🏠',
     title: 'Online Yoga',
     description: 'Evinizin konforunda canlı yoga dersleri. Zoom üzerinden interaktif seanslar.',
-    price: '₺800 / Aylık'
+    price: '₺800 / Aylık',
+    duration: 'Sınırsız erişim'
   },
   {
     icon: '🎯',
     title: 'Kurumsal Yoga',
     description: 'Şirketiniz için özel yoga programları. Çalışan motivasyonu ve stres yönetimi.',
-    price: 'Teklif Alın'
+    price: 'Teklif Alın',
+    duration: 'Özel planlama'
   },
   {
     icon: '📚',
     title: 'Yoga Eğitmenlik Kursu',
     description: '200 saatlik sertifikalı yoga eğitmenlik programı. Uluslararası geçerli YA sertifikası.',
-    price: '₺15.000 / Program'
+    price: '₺15.000',
+    duration: '200 saat'
   }
 ])
 
