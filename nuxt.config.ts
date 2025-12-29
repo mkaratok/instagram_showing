@@ -81,6 +81,7 @@ export default defineNuxtConfig({
     // Vercel uses NUXT_ prefix automatically, but we also check direct env vars for local dev
     instagramAccessToken: process.env.NUXT_INSTAGRAM_ACCESS_TOKEN || process.env.ACCESS_TOKEN,
     instagramBusinessId: process.env.NUXT_INSTAGRAM_BUSINESS_ID || process.env.INSTAGRAM_BUSINESS_ID,
+    adminPassword: process.env.ADMIN_PASSWORD || 'admin123',
     // Public keys (Client-side)
     public: {
       siteUrl: process.env.SITE_URL || 'https://bumudurbu.com',
