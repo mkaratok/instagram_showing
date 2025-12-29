@@ -112,14 +112,71 @@
         <!-- Sosyal Medya -->
         <section class="p-6 rounded-xl bg-[#080707] border border-earth-700">
           <h2 class="text-lg font-semibold mb-4 text-earth-100">Sosyal Medya</h2>
-          <div class="grid md:grid-cols-2 gap-4">
+          <p class="text-sm text-earth-500 mb-4">Boş bırakılan alanlar ön yüzde gösterilmez.</p>
+          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
             <div>
-              <label class="block text-sm text-earth-400 mb-2">Instagram Linki</label>
-              <input v-model="formData.social.instagram" type="url" class="w-full px-4 py-3 rounded-lg bg-earth-800 border border-earth-600 text-white focus:border-instagram focus:outline-none" />
+              <label class="block text-sm text-earth-400 mb-2">📸 Instagram</label>
+              <input v-model="formData.social.instagram" type="url" placeholder="https://instagram.com/..." class="w-full px-4 py-3 rounded-lg bg-earth-800 border border-earth-600 text-white placeholder-earth-600 focus:border-instagram focus:outline-none" />
             </div>
             <div>
-              <label class="block text-sm text-earth-400 mb-2">Facebook Linki</label>
-              <input v-model="formData.social.facebook" type="url" class="w-full px-4 py-3 rounded-lg bg-earth-800 border border-earth-600 text-white focus:border-instagram focus:outline-none" />
+              <label class="block text-sm text-earth-400 mb-2">📘 Facebook</label>
+              <input v-model="formData.social.facebook" type="url" placeholder="https://facebook.com/..." class="w-full px-4 py-3 rounded-lg bg-earth-800 border border-earth-600 text-white placeholder-earth-600 focus:border-instagram focus:outline-none" />
+            </div>
+            <div>
+              <label class="block text-sm text-earth-400 mb-2">▶️ YouTube</label>
+              <input v-model="formData.social.youtube" type="url" placeholder="https://youtube.com/..." class="w-full px-4 py-3 rounded-lg bg-earth-800 border border-earth-600 text-white placeholder-earth-600 focus:border-instagram focus:outline-none" />
+            </div>
+            <div>
+              <label class="block text-sm text-earth-400 mb-2">🎵 TikTok</label>
+              <input v-model="formData.social.tiktok" type="url" placeholder="https://tiktok.com/@..." class="w-full px-4 py-3 rounded-lg bg-earth-800 border border-earth-600 text-white placeholder-earth-600 focus:border-instagram focus:outline-none" />
+            </div>
+            <div>
+              <label class="block text-sm text-earth-400 mb-2">🐦 Twitter / X</label>
+              <input v-model="formData.social.twitter" type="url" placeholder="https://twitter.com/..." class="w-full px-4 py-3 rounded-lg bg-earth-800 border border-earth-600 text-white placeholder-earth-600 focus:border-instagram focus:outline-none" />
+            </div>
+            <div>
+              <label class="block text-sm text-earth-400 mb-2">💼 LinkedIn</label>
+              <input v-model="formData.social.linkedin" type="url" placeholder="https://linkedin.com/..." class="w-full px-4 py-3 rounded-lg bg-earth-800 border border-earth-600 text-white placeholder-earth-600 focus:border-instagram focus:outline-none" />
+            </div>
+            <div>
+              <label class="block text-sm text-earth-400 mb-2">📌 Pinterest</label>
+              <input v-model="formData.social.pinterest" type="url" placeholder="https://pinterest.com/..." class="w-full px-4 py-3 rounded-lg bg-earth-800 border border-earth-600 text-white placeholder-earth-600 focus:border-instagram focus:outline-none" />
+            </div>
+          </div>
+        </section>
+
+        <!-- Pazaryerleri -->
+        <section class="p-6 rounded-xl bg-[#080707] border border-earth-700">
+          <h2 class="text-lg font-semibold mb-4 text-earth-100">Pazaryerleri</h2>
+          <p class="text-sm text-earth-500 mb-4">E-ticaret mağaza linklerinizi ekleyin. Boş bırakılan alanlar ön yüzde gösterilmez.</p>
+          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div>
+              <label class="block text-sm text-earth-400 mb-2">🛒 Trendyol</label>
+              <input v-model="formData.social.trendyol" type="url" placeholder="https://trendyol.com/magaza/..." class="w-full px-4 py-3 rounded-lg bg-earth-800 border border-earth-600 text-white placeholder-earth-600 focus:border-instagram focus:outline-none" />
+            </div>
+            <div>
+              <label class="block text-sm text-earth-400 mb-2">🏪 Hepsiburada</label>
+              <input v-model="formData.social.hepsiburada" type="url" placeholder="https://hepsiburada.com/magaza/..." class="w-full px-4 py-3 rounded-lg bg-earth-800 border border-earth-600 text-white placeholder-earth-600 focus:border-instagram focus:outline-none" />
+            </div>
+            <div>
+              <label class="block text-sm text-earth-400 mb-2">🔢 N11</label>
+              <input v-model="formData.social.n11" type="url" placeholder="https://n11.com/magaza/..." class="w-full px-4 py-3 rounded-lg bg-earth-800 border border-earth-600 text-white placeholder-earth-600 focus:border-instagram focus:outline-none" />
+            </div>
+            <div>
+              <label class="block text-sm text-earth-400 mb-2">📦 Amazon Türkiye</label>
+              <input v-model="formData.social.amazonTr" type="url" placeholder="https://amazon.com.tr/..." class="w-full px-4 py-3 rounded-lg bg-earth-800 border border-earth-600 text-white placeholder-earth-600 focus:border-instagram focus:outline-none" />
+            </div>
+            <div>
+              <label class="block text-sm text-earth-400 mb-2">🌸 Çiçeksepeti</label>
+              <input v-model="formData.social.ciceksepeti" type="url" placeholder="https://ciceksepeti.com/..." class="w-full px-4 py-3 rounded-lg bg-earth-800 border border-earth-600 text-white placeholder-earth-600 focus:border-instagram focus:outline-none" />
+            </div>
+            <div>
+              <label class="block text-sm text-earth-400 mb-2">📋 Sahibinden</label>
+              <input v-model="formData.social.sahibinden" type="url" placeholder="https://sahibinden.com/..." class="w-full px-4 py-3 rounded-lg bg-earth-800 border border-earth-600 text-white placeholder-earth-600 focus:border-instagram focus:outline-none" />
+            </div>
+            <div>
+              <label class="block text-sm text-earth-400 mb-2">🎨 Etsy</label>
+              <input v-model="formData.social.etsy" type="url" placeholder="https://etsy.com/shop/..." class="w-full px-4 py-3 rounded-lg bg-earth-800 border border-earth-600 text-white placeholder-earth-600 focus:border-instagram focus:outline-none" />
             </div>
           </div>
         </section>
@@ -216,8 +273,11 @@ const formData = ref<SiteSettings>({
   siteName: '',
   slogan: '',
   seoDescription: '',
-  contact: { phone: '', whatsapp: '', address: '', city: '', googleMapsEmbed: '' },
-  social: { instagram: '', facebook: '' },
+  contact: { phone: '', whatsapp: '', address: '', city: '', googleMapsEmbed: '', email: '' },
+  social: { 
+    instagram: '', facebook: '', youtube: '', tiktok: '', twitter: '', linkedin: '', pinterest: '',
+    trendyol: '', hepsiburada: '', n11: '', amazonTr: '', ciceksepeti: '', sahibinden: '', etsy: ''
+  },
   appearance: { primaryColor: '#8134af', logoUrl: '/logo.png', darkMode: { headerBg: '#080707', bodyBg: '#1a222d' } },
   business: { type: 'PRODUCT', profession: '' }
 })

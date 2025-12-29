@@ -1,6 +1,25 @@
 // app/composables/useSiteSettings.ts
 // Global composable for accessing site settings
 
+export interface SocialLinks {
+    // Sosyal Medya
+    instagram: string
+    facebook: string
+    youtube: string
+    tiktok: string
+    twitter: string
+    linkedin: string
+    pinterest: string
+    // Pazaryerleri
+    trendyol: string
+    hepsiburada: string
+    n11: string
+    amazonTr: string
+    ciceksepeti: string
+    sahibinden: string
+    etsy: string
+}
+
 export interface SiteSettings {
     siteName: string
     slogan: string
@@ -11,11 +30,9 @@ export interface SiteSettings {
         address: string
         city: string
         googleMapsEmbed: string
+        email: string
     }
-    social: {
-        instagram: string
-        facebook: string
-    }
+    social: SocialLinks
     appearance: {
         primaryColor: string
         logoUrl: string
@@ -39,11 +56,24 @@ const defaultSettings: SiteSettings = {
         whatsapp: "905354326668",
         address: "Şarkiye Mah. Kazım Karabekir Cad. NO: 33/401 Altınordu / Ordu",
         city: "Ordu",
-        googleMapsEmbed: ""
+        googleMapsEmbed: "",
+        email: ""
     },
     social: {
         instagram: "https://instagram.com/bumudurbu",
-        facebook: "https://facebook.com/bumudurbu"
+        facebook: "",
+        youtube: "",
+        tiktok: "",
+        twitter: "",
+        linkedin: "",
+        pinterest: "",
+        trendyol: "",
+        hepsiburada: "",
+        n11: "",
+        amazonTr: "",
+        ciceksepeti: "",
+        sahibinden: "",
+        etsy: ""
     },
     appearance: {
         primaryColor: "#8134af",
@@ -70,7 +100,19 @@ export const useSiteSettings = () => {
         try {
             const data = await $fetch<SiteSettings>('/api/settings')
             if (data) {
-                settings.value = { ...defaultSettings, ...data }
+                // Deep merge to preserve new fields
+                settings.value = {
+                    ...defaultSettings,
+                    ...data,
+                    contact: { ...defaultSettings.contact, ...data.contact },
+                    social: { ...defaultSettings.social, ...data.social },
+                    appearance: {
+                        ...defaultSettings.appearance,
+                        ...data.appearance,
+                        darkMode: { ...defaultSettings.appearance.darkMode, ...data.appearance?.darkMode }
+                    },
+                    business: { ...defaultSettings.business, ...data.business }
+                }
             }
         } catch (e) {
             console.error('[useSiteSettings] Error fetching settings:', e)
@@ -102,11 +144,27 @@ export const useSiteSettings = () => {
         }
     }
 
+    // Get active social links (non-empty) for frontend display
+    const getActiveSocialLinks = () => {
+        const social = settings.value.social
+        return Object.entries(social)
+            .filter(([_, url]) => url && url.trim().length > 0)
+            .map(([key, url]) => ({ key, url }))
+    }
+
+    // Get all social URLs for GEO sameAs schema
+    const getSameAsUrls = () => {
+        const social = settings.value.social
+        return Object.values(social).filter(url => url && url.trim().length > 0)
+    }
+
     return {
         settings,
         loading,
         error,
         fetchSettings,
-        saveSettings
+        saveSettings,
+        getActiveSocialLinks,
+        getSameAsUrls
     }
 }
