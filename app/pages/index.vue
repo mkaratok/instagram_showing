@@ -67,7 +67,7 @@
     </header>
 
     <!-- Tab Navigation -->
-    <nav class="sticky top-0 z-30 backdrop-blur-sm border-b transition-colors" :class="isDark ? 'bg-earth-900/95 border-earth-800' : 'bg-white/95 border-gray-200'">
+    <nav class="sticky top-0 z-30 backdrop-blur-sm border-b transition-colors" :class="isDark ? 'bg-[#1a222d]/95 border-earth-600/30 shadow-[0_4px_20px_rgba(0,0,0,0.3)]' : 'bg-white/95 border-gray-200'">
       <div class="max-w-4xl mx-auto flex justify-center gap-2 md:gap-8">
         <button 
           v-for="tab in ['GÖNDERİLER', 'REELS', 'ETİKETLER', 'PROFİL']" 
