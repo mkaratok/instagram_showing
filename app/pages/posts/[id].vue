@@ -191,30 +191,68 @@
 </template>
 
 <script setup lang="ts">
-import { enhanceContentForGeo, type GeoEnhancedContent } from '../../server/utils/geoContentEnhancer'
+// Type definitions
+interface InstagramPost {
+  id: string
+  caption?: string
+  media_url?: string
+  media_type?: string
+  thumbnail_url?: string
+  timestamp?: string
+  permalink?: string
+  like_count?: number
+  comments_count?: number
+  username?: string
+}
+
+interface InstagramProfile {
+  username?: string
+  followers_count?: number
+  media_count?: number
+  profile_picture_url?: string
+  biography?: string
+}
 
 const route = useRoute()
 const router = useRouter()
 const { isDark } = useTheme()
 
-const { data: post, error } = await useFetch(`/api/instagram/post/${route.params.id}`)
-const { data: profile } = await useFetch('/api/instagram/profile')
+const { data: post, error } = await useFetch<InstagramPost>(`/api/instagram/post/${route.params.id}`)
+const { data: profile } = await useFetch<InstagramProfile>('/api/instagram/profile')
 
-// Enhance content for GEO
-const enhancedContent = computed<GeoEnhancedContent | null>(() => {
+// Simple content enhancement (inline to avoid import issues)
+const enhancedContent = computed(() => {
   if (!post.value?.caption) return null
-  return enhanceContentForGeo(post.value.caption)
+  
+  const caption = post.value.caption
+  const aiTitle = caption.split(/[.!?\n]/)[0]?.trim()?.slice(0, 100) || caption.slice(0, 60)
+  
+  // Extract entities
+  const hashtags = caption.match(/#[\wğüşıöçĞÜŞİÖÇ]+/g) || []
+  const prices = caption.match(/(?:₺|TL|tl)\s*[\d.,]+|[\d.,]+\s*(?:₺|TL|tl)/gi) || []
+  
+  // Simple FAQ generation
+  const faq: { question: string; answer: string }[] = []
+  if (/kargo\s*(?:bedava|ücretsiz)/i.test(caption)) {
+    faq.push({ question: 'Kargo ücretli mi?', answer: 'Hayır, kargo ücretsizdir.' })
+  }
+  if (/randevu|rezervasyon/i.test(caption)) {
+    faq.push({ question: 'Randevu nasıl alabilirim?', answer: 'Instagram DM veya WhatsApp üzerinden randevu alabilirsiniz.' })
+  }
+  
+  // Split into paragraphs
+  const paragraphs = caption.split(/\n+/).filter((l: string) => l.trim()).map((text: string) => ({
+    text: text.trim(),
+    importance: (prices.some(p => text.includes(p)) ? 'high' : 'medium') as 'high' | 'medium' | 'low',
+    type: (prices.some(p => text.includes(p)) ? 'price' : 'description') as 'price' | 'contact' | 'description'
+  }))
+  
+  return { aiTitle, hashtags, faq, paragraphs, entities: { hashtags, prices } }
 })
 
 // Determine schema type
 const schemaType = computed(() => {
-  const type = enhancedContent.value?.recommendedSchema || 'Article'
-  const schemaMap: Record<string, string> = {
-    'Product': 'https://schema.org/Product',
-    'Service': 'https://schema.org/Service',
-    'Article': 'https://schema.org/Article'
-  }
-  return schemaMap[type] || 'https://schema.org/Article'
+  return 'https://schema.org/Article'
 })
 
 const goHome = () => {
@@ -229,11 +267,11 @@ function formatDate(timestamp: string): string {
   })
 }
 
-// SEO Meta Tags with enhanced content
+// SEO Meta Tags
 useSeoMeta({
   title: () => enhancedContent.value?.aiTitle 
     ? `${enhancedContent.value.aiTitle} - ${profile.value?.username || 'Bumudurbu'}`
-    : post.value?.caption?.slice(0, 60) + '... - Bumudurbu',
+    : (post.value?.caption?.slice(0, 60) || 'Gönderi') + ' - Bumudurbu',
   description: () => post.value?.caption?.slice(0, 160) || 'Instagram Gönderisi',
   ogTitle: () => enhancedContent.value?.aiTitle || post.value?.caption?.slice(0, 60),
   ogDescription: () => post.value?.caption?.slice(0, 200),
@@ -244,33 +282,50 @@ useSeoMeta({
   articleAuthor: () => profile.value?.username || 'Bumudurbu'
 })
 
-// Add JSON-LD Schema using useHead
-const { getPostSchema, getOrganizationSchema, getFaqSchema } = useGeoSchema()
-
+// Add JSON-LD Schema
 useHead(() => {
   if (!post.value) return {}
   
-  const schemas = [
-    getOrganizationSchema(),
-    getPostSchema({
-      post: post.value,
-      enhanced: enhancedContent.value || undefined,
-      profile: profile.value
-    })
-  ]
+  const config = useRuntimeConfig()
+  const siteUrl = config.public.siteUrl || 'https://bumudurbu.com'
+  const businessName = config.public.businessName || 'Bumudurbu'
+  
+  const articleSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: enhancedContent.value?.aiTitle || post.value.caption?.slice(0, 110) || 'Gönderi',
+    description: post.value.caption?.slice(0, 200),
+    image: post.value.media_url,
+    url: `${siteUrl}/posts/${post.value.id}`,
+    datePublished: post.value.timestamp,
+    author: {
+      '@type': 'Person',
+      name: profile.value?.username || businessName
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: businessName,
+      logo: { '@type': 'ImageObject', url: `${siteUrl}/logo.png` }
+    }
+  }
+  
+  const scripts = [{ type: 'application/ld+json', innerHTML: JSON.stringify(articleSchema) }]
   
   // Add FAQ schema if available
   if (enhancedContent.value?.faq?.length) {
-    const faqSchema = getFaqSchema(enhancedContent.value)
-    if (faqSchema) schemas.push(faqSchema)
+    const faqSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: enhancedContent.value.faq.map(item => ({
+        '@type': 'Question',
+        name: item.question,
+        acceptedAnswer: { '@type': 'Answer', text: item.answer }
+      }))
+    }
+    scripts.push({ type: 'application/ld+json', innerHTML: JSON.stringify(faqSchema) })
   }
   
-  return {
-    script: schemas.map(schema => ({
-      type: 'application/ld+json',
-      innerHTML: JSON.stringify(schema)
-    }))
-  }
+  return { script: scripts }
 })
 </script>
 
