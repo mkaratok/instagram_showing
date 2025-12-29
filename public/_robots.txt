@@ -8,6 +8,9 @@ Disallow: /_nuxt/
 # Sitemap
 Sitemap: https://bumudurbu.com/sitemap.xml
 
+# LLMs.txt - AI Bot Communication Protocol
+# See: https://bumudurbu.com/llms.txt
+
 # AI Crawlers - Explicitly Allow
 User-agent: GPTBot
 Allow: /
@@ -36,5 +39,11 @@ Allow: /
 User-agent: ClaudeBot
 Allow: /
 
-# crawl-delay for politeness
-Crawl-delay: 1
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Omgilibot
+Allow: /
+
+User-agent: Bytespider
+Allow: /

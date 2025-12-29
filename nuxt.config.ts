@@ -33,12 +33,31 @@ export default defineNuxtConfig({
     sources: ['/api/__sitemap__/urls']
   },
 
-  // Schema.org configuration
+  // Schema.org configuration for GEO (Generative Engine Optimization)
   schemaOrg: {
     identity: {
       type: 'LocalBusiness',
       name: 'Bumudurbu',
-      logo: '/logo.png'
+      logo: '/logo.png',
+      image: '/logo.png',
+      url: process.env.SITE_URL || 'https://bumudurbu.com',
+      telephone: '+90 535 432 66 68',
+      address: {
+        streetAddress: 'Şarkiye Mah. Kazım Karabekir Cad. NO: 33/401',
+        addressLocality: 'Altınordu',
+        addressRegion: 'Ordu',
+        postalCode: '52100',
+        addressCountry: 'TR'
+      },
+      geo: {
+        latitude: 40.9857,
+        longitude: 37.8783
+      },
+      sameAs: [
+        'https://instagram.com/bumudurbu',
+        'https://facebook.com/bumudurbu'
+      ],
+      priceRange: '₺₺'
     }
   },
 
