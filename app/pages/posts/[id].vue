@@ -10,7 +10,7 @@
     <div v-if="post" class="relative flex flex-col md:flex-row w-full max-w-5xl h-auto max-h-[90vh] bg-background-light dark:bg-[#080707] rounded-xl shadow-2xl overflow-hidden font-display" @click.stop>
       
       <!-- Close Button -->
-      <button @click="goHome" class="absolute top-4 right-4 z-10 text-text-light-primary dark:text-text-dark-primary hover:text-primary dark:hover:text-primary transition-colors bg-white/20 backdrop-blur-sm rounded-full p-2">
+      <button @click="goHome" class="absolute top-4 right-4 z-10 text-white hover:text-primary transition-colors bg-black/40 backdrop-blur-sm rounded-full p-2 border border-earth-700">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
         </svg>
