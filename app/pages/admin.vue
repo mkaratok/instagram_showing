@@ -248,6 +248,93 @@
           </div>
         </section>
 
+        <!-- Profil İçerikleri - Hakkımda -->
+        <section class="p-6 rounded-xl bg-[#080707] border border-earth-700">
+          <h2 class="text-lg font-semibold mb-4 text-earth-100">Profil - Hakkımda</h2>
+          <div class="space-y-4">
+            <div>
+              <label class="block text-sm text-earth-400 mb-2">Başlık</label>
+              <input v-model="formData.profile.aboutTitle" type="text" class="w-full px-4 py-3 rounded-lg bg-earth-800 border border-earth-600 text-white focus:border-instagram focus:outline-none" />
+            </div>
+            <div>
+              <label class="block text-sm text-earth-400 mb-2">Açıklama Metni</label>
+              <textarea v-model="formData.profile.aboutText" rows="4" class="w-full px-4 py-3 rounded-lg bg-earth-800 border border-earth-600 text-white focus:border-instagram focus:outline-none resize-none"></textarea>
+            </div>
+          </div>
+        </section>
+
+        <!-- Profil İçerikleri - Sertifikalar -->
+        <section class="p-6 rounded-xl bg-[#080707] border border-earth-700">
+          <div class="flex justify-between items-center mb-4">
+            <h2 class="text-lg font-semibold text-earth-100">Profil - Sertifikalar</h2>
+            <button type="button" @click="addCertificate" class="px-3 py-1 text-sm bg-earth-700 text-earth-200 rounded-lg hover:bg-earth-600 transition-colors">+ Ekle</button>
+          </div>
+          <div>
+            <label class="block text-sm text-earth-400 mb-2">Bölüm Başlığı</label>
+            <input v-model="formData.profile.certificatesTitle" type="text" class="w-full px-4 py-3 rounded-lg bg-earth-800 border border-earth-600 text-white focus:border-instagram focus:outline-none mb-4" />
+          </div>
+          <div class="space-y-4">
+            <div v-for="(cert, index) in formData.profile.certificates" :key="index" class="p-4 rounded-lg bg-earth-800 border border-earth-700">
+              <div class="flex justify-between items-center mb-3">
+                <span class="text-sm text-earth-300 font-medium">Sertifika {{ index + 1 }}</span>
+                <button type="button" @click="removeCertificate(index)" class="text-red-400 hover:text-red-300 text-sm">Sil</button>
+              </div>
+              <div class="space-y-3">
+                <input v-model="cert.title" type="text" placeholder="Başlık" class="w-full px-3 py-2 rounded-lg bg-earth-900 border border-earth-600 text-white text-sm focus:border-instagram focus:outline-none" />
+                <textarea v-model="cert.description" rows="2" placeholder="Açıklama" class="w-full px-3 py-2 rounded-lg bg-earth-900 border border-earth-600 text-white text-sm focus:border-instagram focus:outline-none resize-none"></textarea>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Profil İçerikleri - Hizmetler -->
+        <section class="p-6 rounded-xl bg-[#080707] border border-earth-700">
+          <div class="flex justify-between items-center mb-4">
+            <h2 class="text-lg font-semibold text-earth-100">Profil - Hizmetler</h2>
+            <button type="button" @click="addService" class="px-3 py-1 text-sm bg-earth-700 text-earth-200 rounded-lg hover:bg-earth-600 transition-colors">+ Ekle</button>
+          </div>
+          <div>
+            <label class="block text-sm text-earth-400 mb-2">Bölüm Başlığı</label>
+            <input v-model="formData.profile.servicesTitle" type="text" class="w-full px-4 py-3 rounded-lg bg-earth-800 border border-earth-600 text-white focus:border-instagram focus:outline-none mb-4" />
+          </div>
+          <div class="space-y-4">
+            <div v-for="(service, index) in formData.profile.services" :key="index" class="p-4 rounded-lg bg-earth-800 border border-earth-700">
+              <div class="flex justify-between items-center mb-3">
+                <span class="text-sm text-earth-300 font-medium">Hizmet {{ index + 1 }}</span>
+                <button type="button" @click="removeService(index)" class="text-red-400 hover:text-red-300 text-sm">Sil</button>
+              </div>
+              <div class="grid md:grid-cols-2 gap-3">
+                <input v-model="service.title" type="text" placeholder="Başlık" class="w-full px-3 py-2 rounded-lg bg-earth-900 border border-earth-600 text-white text-sm focus:border-instagram focus:outline-none" />
+                <input v-model="service.price" type="text" placeholder="Fiyat (örn: 500₺)" class="w-full px-3 py-2 rounded-lg bg-earth-900 border border-earth-600 text-white text-sm focus:border-instagram focus:outline-none" />
+                <textarea v-model="service.description" rows="2" placeholder="Açıklama" class="md:col-span-2 w-full px-3 py-2 rounded-lg bg-earth-900 border border-earth-600 text-white text-sm focus:border-instagram focus:outline-none resize-none"></textarea>
+                <select v-model="service.icon" class="w-full px-3 py-2 rounded-lg bg-earth-900 border border-earth-600 text-white text-sm focus:border-instagram focus:outline-none">
+                  <option value="yoga">Yoga</option>
+                  <option value="group">Grup</option>
+                  <option value="sunrise">Gündoğumu</option>
+                  <option value="meditation">Meditasyon</option>
+                  <option value="private">Özel Ders</option>
+                  <option value="retreat">Retreat</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Profil İçerikleri - CTA -->
+        <section class="p-6 rounded-xl bg-[#080707] border border-earth-700">
+          <h2 class="text-lg font-semibold mb-4 text-earth-100">Profil - İletişim Butonu (CTA)</h2>
+          <div class="grid md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm text-earth-400 mb-2">Buton Üstü Açıklama</label>
+              <input v-model="formData.profile.ctaDescription" type="text" class="w-full px-4 py-3 rounded-lg bg-earth-800 border border-earth-600 text-white focus:border-instagram focus:outline-none" />
+            </div>
+            <div>
+              <label class="block text-sm text-earth-400 mb-2">Buton Metni</label>
+              <input v-model="formData.profile.ctaText" type="text" class="w-full px-4 py-3 rounded-lg bg-earth-800 border border-earth-600 text-white focus:border-instagram focus:outline-none" />
+            </div>
+          </div>
+        </section>
+
         <!-- Save Button -->
         <div class="flex justify-end">
           <button 
@@ -294,7 +381,17 @@ const formData = ref<SiteSettings>({
     trendyol: '', hepsiburada: '', n11: '', pttavm: '', amazonTr: '', ciceksepeti: '', sahibinden: '', etsy: ''
   },
   appearance: { darkBaseColor: '#1a222d', lightBaseColor: '#f6f3ef', logoUrl: '/logo.png', primaryColor: '#8134af' },
-  business: { type: 'PRODUCT', profession: '' }
+  business: { type: 'PRODUCT', profession: '' },
+  profile: {
+    aboutTitle: 'Hakkımda',
+    aboutText: '',
+    certificatesTitle: 'Sertifikalar',
+    certificates: [],
+    servicesTitle: 'Hizmetlerimiz',
+    services: [],
+    ctaDescription: '',
+    ctaText: 'WhatsApp ile İletişime Geç'
+  }
 })
 
 // Check localStorage for session on mount
@@ -377,5 +474,23 @@ function handleMapsPaste(event: ClipboardEvent) {
       formData.value.contact.googleMapsEmbed = srcMatch[1]
     }
   }
+}
+
+// Certificate management
+function addCertificate() {
+  formData.value.profile.certificates.push({ title: '', description: '' })
+}
+
+function removeCertificate(index: number) {
+  formData.value.profile.certificates.splice(index, 1)
+}
+
+// Service management
+function addService() {
+  formData.value.profile.services.push({ title: '', description: '', price: '', icon: 'yoga' })
+}
+
+function removeService(index: number) {
+  formData.value.profile.services.splice(index, 1)
 }
 </script>

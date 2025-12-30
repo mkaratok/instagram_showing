@@ -45,6 +45,16 @@ export interface SiteSettings {
         type: string
         profession: string
     }
+    profile: {
+        aboutTitle: string
+        aboutText: string
+        certificatesTitle: string
+        certificates: Array<{ title: string; description: string }>
+        servicesTitle: string
+        services: Array<{ title: string; description: string; price: string; icon: string }>
+        ctaDescription: string
+        ctaText: string
+    }
 }
 
 const defaultSettings: SiteSettings = {
@@ -85,6 +95,24 @@ const defaultSettings: SiteSettings = {
     business: {
         type: "PRODUCT",
         profession: "Moda & Giyim"
+    },
+    profile: {
+        aboutTitle: "Hakkımda",
+        aboutText: "Yaygın inanışın aksine, Lorem Ipsum rastgele bir metin değildir. Kökleri MÖ 45 yılına ait klasik bir Latin edebiyatı eserine dayanmaktadır.",
+        certificatesTitle: "Sertifikalar",
+        certificates: [
+            { title: "1. SERTİFİKA", description: "Sertifika açıklaması buraya gelecek." },
+            { title: "2. SERTİFİKA", description: "Sertifika açıklaması buraya gelecek." },
+            { title: "3. SERTİFİKA", description: "Sertifika açıklaması buraya gelecek." }
+        ],
+        servicesTitle: "Hizmetlerimiz",
+        services: [
+            { title: "Hizmet 1", description: "Hizmet açıklaması", price: "İletişime Geçin", icon: "yoga" },
+            { title: "Hizmet 2", description: "Hizmet açıklaması", price: "İletişime Geçin", icon: "group" },
+            { title: "Hizmet 3", description: "Hizmet açıklaması", price: "İletişime Geçin", icon: "sunrise" }
+        ],
+        ctaDescription: "Hizmetlerimiz hakkında detaylı bilgi almak için",
+        ctaText: "WhatsApp ile İletişime Geç"
     }
 }
 

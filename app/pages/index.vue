@@ -157,11 +157,11 @@
 
         <!-- CTA Section -->
         <div class="mt-12 text-center">
-          <p class="mb-4" :class="isDark ? 'text-earth-400' : 'text-gray-500'">Hizmetlerimiz hakkında detaylı bilgi almak için</p>
-          <a href="https://wa.me/905354326668" target="_blank"
+          <p class="mb-4" :class="isDark ? 'text-earth-400' : 'text-gray-500'">{{ settings.profile?.ctaDescription || 'Hizmetlerimiz hakkında detaylı bilgi almak için' }}</p>
+          <a :href="'https://wa.me/' + (settings.contact?.whatsapp || '905354326668')" target="_blank"
              class="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white font-medium rounded-xl hover:shadow-lg hover:scale-105 transition-all duration-300">
             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg>
-            WhatsApp ile İletişime Geç
+            {{ settings.profile?.ctaText || 'WhatsApp ile İletişime Geç' }}
           </a>
         </div>
       </div>
@@ -190,20 +190,19 @@
         <!-- Hakkimda -->
         <div class="grid md:grid-cols-2 gap-12">
           <div>
-            <h2 class="text-xl font-bold mb-4 uppercase tracking-widest">Hakkımda</h2>
+            <h2 class="text-xl font-bold mb-4 uppercase tracking-widest">{{ settings.profile?.aboutTitle || 'Hakkımda' }}</h2>
             <div class="text-sm leading-relaxed space-y-4" :class="isDark ? 'text-earth-300' : 'text-gray-600'">
-              <p>Yaygın inanışın aksine, Lorem Ipsum rastgele bir metin değildir. Kökleri MÖ 45 yılına ait klasik bir Latin edebiyatı eserine dayanmaktadır.</p>
-              <p>1500'lerden beri kullanılan standart Lorem Ipsum metni, ilgilenenler için aşağıda yeniden üretilmiştir.</p>
+              <p>{{ settings.profile?.aboutText || 'Profil açıklaması henüz eklenmemiş.' }}</p>
             </div>
           </div>
           
           <!-- Sertifikalar -->
-          <div>
-            <h2 class="text-xl font-bold mb-4 uppercase tracking-widest">Sertifikalar</h2>
+          <div v-if="settings.profile?.certificates?.length > 0">
+            <h2 class="text-xl font-bold mb-4 uppercase tracking-widest">{{ settings.profile?.certificatesTitle || 'Sertifikalar' }}</h2>
             <div class="space-y-6">
-              <div v-for="i in 3" :key="i">
-                <h3 class="font-bold text-sm mb-1">{{ i }}. SERTİFİKA:</h3>
-                <p class="text-xs" :class="isDark ? 'text-earth-400' : 'text-gray-500'">Yaygın inanışın aksine, Lorem Ipsum rastgele bir metin değildir. Kökleri MÖ 45.</p>
+              <div v-for="(cert, index) in settings.profile.certificates" :key="index">
+                <h3 class="font-bold text-sm mb-1">{{ cert.title }}</h3>
+                <p class="text-xs" :class="isDark ? 'text-earth-400' : 'text-gray-500'">{{ cert.description }}</p>
               </div>
             </div>
           </div>
@@ -211,9 +210,9 @@
 
         <!-- Hizmetlerimiz Section (inside Profile) -->
         <section class="pt-8 border-t" :class="isDark ? 'border-earth-800' : 'border-gray-200'">
-          <h2 class="text-2xl font-bold mb-6 bg-gradient-to-r from-purple-500 via-pink-500 to-orange-400 bg-clip-text text-transparent">Hizmetlerimiz</h2>
+          <h2 class="text-2xl font-bold mb-6 bg-gradient-to-r from-purple-500 via-pink-500 to-orange-400 bg-clip-text text-transparent">{{ settings.profile?.servicesTitle || 'Hizmetlerimiz' }}</h2>
           <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <div v-for="(service, index) in services" :key="index" 
+            <div v-for="(service, index) in profileServices" :key="index" 
                  class="group relative p-5 rounded-xl transition-all duration-300 hover:scale-[1.02] hover:shadow-lg overflow-hidden"
                  :class="isDark ? 'bg-gradient-to-br from-earth-800 to-earth-900 border border-earth-700' : 'bg-white shadow-md border border-gray-100'">
               <div class="relative z-10 flex items-start gap-4">
@@ -374,7 +373,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { useSiteSettings } from '~/composables/useSiteSettings'
 
 // Site Settings
@@ -427,6 +426,15 @@ const IconTarget = {
 const IconBook = {
   template: `<svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5"/></svg>`
 }
+const IconMeditation = {
+  template: `<svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="6" r="2"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v2m0 0c-2 0-4 2-4 4v2m4-6c2 0 4 2 4 4v2m-8 0h8m-6 0v2m4-2v2"/></svg>`
+}
+const IconPrivate = {
+  template: `<svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/></svg>`
+}
+const IconRetreat = {
+  template: `<svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12.75 3.03v.568c0 .334.148.65.405.864l1.068.89c.442.369.535 1.01.216 1.49l-.51.766a2.25 2.25 0 0 1-1.161.886l-.143.048a1.107 1.107 0 0 0-.57 1.664c.369.555.169 1.307-.427 1.605L9 13.125l.423 1.059a.956.956 0 0 1-1.652.928l-.679-.906a1.125 1.125 0 0 0-1.906.172L4.5 15.75l-.612.153M12.75 3.031a9 9 0 1 0 6.712 14.496m0 0-.177-.529A2.25 2.25 0 0 0 17.128 15H16.5l-.324-.324a1.453 1.453 0 0 0-2.328.377l-.036.073a1.586 1.586 0 0 1-.982.816l-.99.282c-.55.157-.894.702-.8 1.267l.073.438c.08.474.49.821.97.821.846 0 1.598.542 1.865 1.345l.215.643m5.276-3.67a9.012 9.012 0 0 1-5.276 3.67m0 0a9 9 0 0 1-10.275-4.835M15.75 9c0 .896-.393 1.7-1.016 2.25"/></svg>`
+}
 
 const services = ref([
   {
@@ -472,6 +480,35 @@ const services = ref([
     duration: '200 saat'
   }
 ])
+
+// Icon mapping for dynamic service icons from settings
+const iconMap: Record<string, any> = {
+  yoga: IconYoga,
+  group: IconGroup,
+  sunrise: IconSunrise,
+  meditation: IconMeditation,
+  private: IconPrivate,
+  retreat: IconRetreat,
+  home: IconHome,
+  target: IconTarget,
+  book: IconBook
+}
+
+// Get icon component from string name
+function getServiceIcon(iconName: string) {
+  return iconMap[iconName] || IconYoga
+}
+
+// Dynamic services from settings (fallback to hardcoded)
+const profileServices = computed(() => {
+  if (settings.value.profile?.services?.length > 0) {
+    return settings.value.profile.services.map(s => ({
+      ...s,
+      icon: getServiceIcon(s.icon)
+    }))
+  }
+  return services.value
+})
 
 // UI State
 const activeTab = ref('GÖNDERİLER')
