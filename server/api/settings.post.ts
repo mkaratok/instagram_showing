@@ -1,17 +1,29 @@
 // server/api/settings.post.ts
-// Save site settings to JSON file (password protected)
-
-import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'fs'
-import { resolve, dirname } from 'path'
+// Save site settings - handles both local and Vercel environments
 
 export default defineEventHandler(async (event) => {
     const config = useRuntimeConfig()
-    const adminPassword = config.adminPassword || process.env.ADMIN_PASSWORD
+
+    // Check multiple env var patterns for compatibility
+    const adminPassword = config.adminPassword
+        || process.env.NUXT_ADMIN_PASSWORD
+        || process.env.ADMIN_PASSWORD
+
+    // Debug log for troubleshooting (will appear in Vercel logs)
+    console.log('[Settings] Admin password configured:', !!adminPassword)
+
+    if (!adminPassword) {
+        throw createError({
+            statusCode: 500,
+            message: 'ADMIN_PASSWORD environment variable is not configured on server.'
+        })
+    }
 
     // Get password from header
     const providedPassword = getHeader(event, 'x-admin-password')
 
     if (!providedPassword || providedPassword !== adminPassword) {
+        console.log('[Settings] Auth failed. Provided:', !!providedPassword, 'Matches:', providedPassword === adminPassword)
         throw createError({
             statusCode: 401,
             message: 'Yetkisiz erişim. Şifre hatalı.'
@@ -27,15 +39,11 @@ export default defineEventHandler(async (event) => {
         })
     }
 
-    const settingsPath = resolve(process.cwd(), '.data', 'site-settings.json')
+    // On Vercel, we can't write to filesystem - use Nitro storage instead
+    const storage = useStorage('data')
 
     try {
-        const dir = dirname(settingsPath)
-        if (!existsSync(dir)) {
-            mkdirSync(dir, { recursive: true })
-        }
-
-        writeFileSync(settingsPath, JSON.stringify(body, null, 2), 'utf-8')
+        await storage.setItem('site-settings.json', body)
 
         return {
             success: true,
@@ -45,7 +53,7 @@ export default defineEventHandler(async (event) => {
         console.error('[Settings] Error saving settings:', error)
         throw createError({
             statusCode: 500,
-            message: 'Ayarlar kaydedilemedi.'
+            message: 'Ayarlar kaydedilemedi. Vercel storage hatası olabilir.'
         })
     }
 })

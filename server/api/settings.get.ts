@@ -1,8 +1,5 @@
 // server/api/settings.get.ts
-// Read site settings from JSON file
-
-import { readFileSync, existsSync, writeFileSync, mkdirSync } from 'fs'
-import { resolve, dirname } from 'path'
+// Read site settings - handles both local and Vercel environments
 
 const defaultSettings = {
     siteName: "Bumudurbu",
@@ -13,19 +10,30 @@ const defaultSettings = {
         whatsapp: "905354326668",
         address: "Şarkiye Mah. Kazım Karabekir Cad. NO: 33/401 Altınordu / Ordu",
         city: "Ordu",
-        googleMapsEmbed: ""
+        googleMapsEmbed: "",
+        email: ""
     },
     social: {
         instagram: "https://instagram.com/bumudurbu",
-        facebook: "https://facebook.com/bumudurbu"
+        facebook: "",
+        youtube: "",
+        tiktok: "",
+        twitter: "",
+        linkedin: "",
+        pinterest: "",
+        trendyol: "",
+        hepsiburada: "",
+        n11: "",
+        amazonTr: "",
+        ciceksepeti: "",
+        sahibinden: "",
+        etsy: ""
     },
     appearance: {
-        primaryColor: "#8134af",
+        darkBaseColor: "#1a222d",
+        lightBaseColor: "#f6f3ef",
         logoUrl: "/logo.png",
-        darkMode: {
-            headerBg: "#080707",
-            bodyBg: "#1a222d"
-        }
+        primaryColor: "#8134af"
     },
     business: {
         type: "PRODUCT",
@@ -34,20 +42,18 @@ const defaultSettings = {
 }
 
 export default defineEventHandler(async (event) => {
-    // Use .data directory for persistent storage (same as token storage)
-    const settingsPath = resolve(process.cwd(), '.data', 'site-settings.json')
+    // Use Nitro storage - works on both local and Vercel
+    const storage = useStorage('data')
 
     try {
-        if (existsSync(settingsPath)) {
-            const content = readFileSync(settingsPath, 'utf-8')
-            return JSON.parse(content)
+        const settings = await storage.getItem('site-settings.json')
+
+        if (settings) {
+            // Merge with defaults to ensure new fields exist
+            return { ...defaultSettings, ...settings }
         } else {
-            // Create default settings file
-            const dir = dirname(settingsPath)
-            if (!existsSync(dir)) {
-                mkdirSync(dir, { recursive: true })
-            }
-            writeFileSync(settingsPath, JSON.stringify(defaultSettings, null, 2))
+            // Initialize with defaults
+            await storage.setItem('site-settings.json', defaultSettings)
             return defaultSettings
         }
     } catch (error) {
