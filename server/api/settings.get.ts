@@ -1,5 +1,5 @@
 // server/api/settings.get.ts
-// Read site settings - handles both local and Vercel environments
+// Read site settings - with Vercel serverless fallback
 
 const defaultSettings = {
     siteName: "Bumudurbu",
@@ -42,22 +42,28 @@ const defaultSettings = {
 }
 
 export default defineEventHandler(async (event) => {
-    // Use Nitro storage - works on both local and Vercel
+    // Try globalThis memory first (from POST fallback)
+    const memorySettings = (globalThis as any).__siteSettings
+    if (memorySettings) {
+        console.log('[Settings] Returning from memory')
+        return { ...defaultSettings, ...memorySettings }
+    }
+
+    // Try Nitro storage
     const storage = useStorage('data')
 
     try {
         const settings = await storage.getItem('site-settings.json')
 
         if (settings) {
-            // Merge with defaults to ensure new fields exist
+            console.log('[Settings] Returning from Nitro storage')
             return { ...defaultSettings, ...settings }
-        } else {
-            // Initialize with defaults
-            await storage.setItem('site-settings.json', defaultSettings)
-            return defaultSettings
         }
     } catch (error) {
-        console.error('[Settings] Error reading settings:', error)
-        return defaultSettings
+        console.warn('[Settings] Nitro storage read failed:', error)
     }
+
+    // Return defaults
+    console.log('[Settings] Returning defaults')
+    return defaultSettings
 })

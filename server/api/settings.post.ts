@@ -1,5 +1,5 @@
 // server/api/settings.post.ts
-// Save site settings - handles both local and Vercel environments
+// Save site settings - with Vercel serverless fallback
 
 export default defineEventHandler(async (event) => {
     const config = useRuntimeConfig()
@@ -9,7 +9,6 @@ export default defineEventHandler(async (event) => {
         || process.env.NUXT_ADMIN_PASSWORD
         || process.env.ADMIN_PASSWORD
 
-    // Debug log for troubleshooting (will appear in Vercel logs)
     console.log('[Settings] Admin password configured:', !!adminPassword)
 
     if (!adminPassword) {
@@ -23,7 +22,7 @@ export default defineEventHandler(async (event) => {
     const providedPassword = getHeader(event, 'x-admin-password')
 
     if (!providedPassword || providedPassword !== adminPassword) {
-        console.log('[Settings] Auth failed. Provided:', !!providedPassword, 'Matches:', providedPassword === adminPassword)
+        console.log('[Settings] Auth failed')
         throw createError({
             statusCode: 401,
             message: 'Yetkisiz erişim. Şifre hatalı.'
@@ -39,21 +38,27 @@ export default defineEventHandler(async (event) => {
         })
     }
 
-    // On Vercel, we can't write to filesystem - use Nitro storage instead
+    // Try Nitro storage first (works locally, may fail on Vercel free tier)
     const storage = useStorage('data')
 
     try {
         await storage.setItem('site-settings.json', body)
+        console.log('[Settings] Saved to Nitro storage')
 
         return {
             success: true,
             message: 'Ayarlar başarıyla kaydedildi.'
         }
-    } catch (error) {
-        console.error('[Settings] Error saving settings:', error)
-        throw createError({
-            statusCode: 500,
-            message: 'Ayarlar kaydedilemedi. Vercel storage hatası olabilir.'
-        })
+    } catch (storageError) {
+        console.warn('[Settings] Nitro storage failed, using in-memory fallback:', storageError)
+
+            // Fallback: Store in global memory (will reset on cold start)
+            // This is acceptable for MVP - proper solution is Vercel KV or database
+            ; (globalThis as any).__siteSettings = body
+
+        return {
+            success: true,
+            message: 'Ayarlar oturum için kaydedildi. (Kalıcı depolama için Vercel KV gerekli)'
+        }
     }
 })
