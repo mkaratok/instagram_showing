@@ -105,6 +105,7 @@
             <div class="md:col-span-2">
               <label class="block text-sm text-earth-400 mb-2">Google Maps Embed Linki</label>
               <input v-model="formData.contact.googleMapsEmbed" type="text" placeholder="https://www.google.com/maps/embed?..." class="w-full px-4 py-3 rounded-lg bg-earth-800 border border-earth-600 text-white placeholder-earth-500 focus:border-instagram focus:outline-none" />
+              <p class="text-xs text-earth-600 mt-2">💡 Google Maps → Paylaş → Harita yerleştir → HTML içindeki src="..." kısmını kopyalayın</p>
             </div>
           </div>
         </section>

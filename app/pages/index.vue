@@ -274,7 +274,8 @@
                 class="w-full h-full border-0 grayscale opacity-80 hover:grayscale-0 hover:opacity-100 transition-all duration-500" 
                 :src="settings.contact.googleMapsEmbed" 
                 allowfullscreen 
-                loading="lazy">
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade">
               </iframe>
             </div>
           </div>
