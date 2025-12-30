@@ -14,6 +14,7 @@ export interface SocialLinks {
     trendyol: string
     hepsiburada: string
     n11: string
+    pttavm: string
     amazonTr: string
     ciceksepeti: string
     sahibinden: string
@@ -69,6 +70,7 @@ const defaultSettings: SiteSettings = {
         trendyol: "",
         hepsiburada: "",
         n11: "",
+        pttavm: "",
         amazonTr: "",
         ciceksepeti: "",
         sahibinden: "",

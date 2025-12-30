@@ -163,6 +163,10 @@
               <input v-model="formData.social.n11" type="url" placeholder="https://n11.com/magaza/..." class="w-full px-4 py-3 rounded-lg bg-earth-800 border border-earth-600 text-white placeholder-earth-600 focus:border-instagram focus:outline-none" />
             </div>
             <div>
+              <label class="block text-sm text-earth-400 mb-2">📮 PTT AVM</label>
+              <input v-model="formData.social.pttavm" type="url" placeholder="https://pttavm.com/..." class="w-full px-4 py-3 rounded-lg bg-earth-800 border border-earth-600 text-white placeholder-earth-600 focus:border-instagram focus:outline-none" />
+            </div>
+            <div>
               <label class="block text-sm text-earth-400 mb-2">📦 Amazon Türkiye</label>
               <input v-model="formData.social.amazonTr" type="url" placeholder="https://amazon.com.tr/..." class="w-full px-4 py-3 rounded-lg bg-earth-800 border border-earth-600 text-white placeholder-earth-600 focus:border-instagram focus:outline-none" />
             </div>
@@ -280,7 +284,7 @@ const formData = ref<SiteSettings>({
   contact: { phone: '', whatsapp: '', address: '', city: '', googleMapsEmbed: '', email: '' },
   social: { 
     instagram: '', facebook: '', youtube: '', tiktok: '', twitter: '', linkedin: '', pinterest: '',
-    trendyol: '', hepsiburada: '', n11: '', amazonTr: '', ciceksepeti: '', sahibinden: '', etsy: ''
+    trendyol: '', hepsiburada: '', n11: '', pttavm: '', amazonTr: '', ciceksepeti: '', sahibinden: '', etsy: ''
   },
   appearance: { darkBaseColor: '#1a222d', lightBaseColor: '#f6f3ef', logoUrl: '/logo.png', primaryColor: '#8134af' },
   business: { type: 'PRODUCT', profession: '' }
