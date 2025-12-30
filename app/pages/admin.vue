@@ -103,9 +103,15 @@
               <textarea v-model="formData.contact.address" rows="2" class="w-full px-4 py-3 rounded-lg bg-earth-800 border border-earth-600 text-white focus:border-instagram focus:outline-none resize-none"></textarea>
             </div>
             <div class="md:col-span-2">
-              <label class="block text-sm text-earth-400 mb-2">Google Maps Embed Linki</label>
-              <input v-model="formData.contact.googleMapsEmbed" type="text" placeholder="https://www.google.com/maps/embed?..." class="w-full px-4 py-3 rounded-lg bg-earth-800 border border-earth-600 text-white placeholder-earth-500 focus:border-instagram focus:outline-none" />
-              <p class="text-xs text-earth-600 mt-2 flex items-center gap-1"><svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></svg>Google Maps → Paylaş → Harita yerleştir → HTML içindeki src="..." kısmını kopyalayın</p>
+              <label class="block text-sm text-earth-400 mb-2">Google Maps Embed Kodu</label>
+              <textarea 
+                v-model="formData.contact.googleMapsEmbed" 
+                rows="3" 
+                placeholder='Google Maps\'tan kopyaladığınız <iframe src="..."></iframe> kodunun tamamını yapıştırın'
+                class="w-full px-4 py-3 rounded-lg bg-earth-800 border border-earth-600 text-white placeholder-earth-500 focus:border-instagram focus:outline-none text-xs font-mono resize-none"
+                @paste="handleMapsPaste"
+              ></textarea>
+              <p class="text-xs text-earth-600 mt-2 flex items-center gap-1"><svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></svg>Google Maps → Paylaş → Harita yerleştir → HTML kodunu kopyalayıp yapıştırın</p>
             </div>
           </div>
         </section>
@@ -357,5 +363,19 @@ async function handleSave() {
   setTimeout(() => {
     saveMessage.value = ''
   }, 3000)
+}
+
+// Handle Google Maps paste - extract src from iframe code
+function handleMapsPaste(event: ClipboardEvent) {
+  const pastedText = event.clipboardData?.getData('text') || ''
+  
+  // If it contains iframe, extract the src
+  if (pastedText.includes('<iframe') && pastedText.includes('src="')) {
+    event.preventDefault()
+    const srcMatch = pastedText.match(/src="([^"]+)"/)
+    if (srcMatch && srcMatch[1]) {
+      formData.value.contact.googleMapsEmbed = srcMatch[1]
+    }
+  }
 }
 </script>

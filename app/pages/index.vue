@@ -269,10 +269,10 @@
             </div>
             
             <!-- Right Column: Map -->
-            <div v-if="settings.contact?.googleMapsEmbed" class="h-72 rounded-xl overflow-hidden shadow-lg" :class="isDark ? 'bg-earth-800' : 'bg-gray-200'">
+            <div v-if="mapEmbedUrl" class="h-72 rounded-xl overflow-hidden shadow-lg" :class="isDark ? 'bg-earth-800' : 'bg-gray-200'">
               <iframe 
                 class="w-full h-full border-0 grayscale opacity-80 hover:grayscale-0 hover:opacity-100 transition-all duration-500" 
-                :src="settings.contact.googleMapsEmbed" 
+                :src="mapEmbedUrl" 
                 allowfullscreen 
                 loading="lazy"
                 referrerpolicy="no-referrer-when-downgrade">
@@ -393,6 +393,19 @@ const pending = computed(() => profileLoading.value || postsLoading.value)
 const sortedPosts = computed(() => posts.value)
 const reelsPosts = computed(() => posts.value.filter(p => p.media_product_type === 'REELS'))
 const taggedPosts = computed(() => mentionsData.value?.data || [])
+
+// Extract Google Maps embed URL from settings (handles both full iframe and just URL)
+const mapEmbedUrl = computed(() => {
+  const stored = settings.value.contact?.googleMapsEmbed || ''
+  if (!stored) return ''
+  // If it contains iframe, extract src
+  if (stored.includes('<iframe') && stored.includes('src="')) {
+    const match = stored.match(/src="([^"]+)"/)
+    return match ? match[1] : ''
+  }
+  // Otherwise return as is (direct URL)
+  return stored
+})
 
 // Services Data (Hardcoded)
 // SVG Icon Components for Services
