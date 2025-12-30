@@ -228,6 +228,7 @@
                   <p class="text-xs leading-relaxed line-clamp-2" :class="isDark ? 'text-earth-400' : 'text-gray-600'">{{ service.description }}</p>
                   <span class="inline-block mt-2 font-bold text-sm bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">{{ service.price }}</span>
                 </div>
+              </div>
             </div>
           </div>
         </section>
