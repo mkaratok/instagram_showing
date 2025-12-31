@@ -167,19 +167,8 @@
       </div>
 
       <!-- Tagged Grid -->
-      <div v-else-if="activeTab === 'ETİKETLER'" class="animate-fade-in">
-        <div class="grid grid-cols-3 gap-1 md:gap-4 px-4">
-          <div 
-            v-for="post in taggedPosts" 
-            :key="post.id" 
-            class="aspect-square relative group cursor-pointer overflow-hidden"
-            :class="isDark ? 'bg-earth-800' : 'bg-gray-200'"
-            @click="openModal(post)"
-          >
-            <img :src="post.thumbnail_url || post.media_url" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
-            <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors"></div>
-          </div>
-        </div>
+      <div v-else-if="activeTab === 'ETİKETLER'" class="animate-fade-in mt-6 py-4">
+        <FeedGrid :posts="taggedPosts" @open="openModal" />
         <div v-if="taggedPosts.length === 0" class="py-20 text-center" :class="isDark ? 'text-earth-600' : 'text-gray-400'">
           Henüz etiketlenmiş gönderi yok.
         </div>
