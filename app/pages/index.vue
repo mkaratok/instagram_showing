@@ -200,24 +200,28 @@
         <!-- Hizmetlerimiz Section (inside Profile) -->
         <section class="pt-8 border-t" :class="isDark ? 'border-earth-800' : 'border-gray-200'">
           <h2 class="text-2xl font-bold mb-6 bg-gradient-to-r from-purple-500 via-pink-500 to-orange-400 bg-clip-text text-transparent">{{ settings.profile?.servicesTitle || 'Hizmetlerimiz' }}</h2>
-          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <div v-for="(service, index) in profileServices" :key="index" 
-                 class="group relative p-5 rounded-xl transition-all duration-300 hover:scale-[1.02] hover:shadow-lg overflow-hidden"
-                 :class="isDark ? 'bg-gradient-to-br from-earth-800 to-earth-900 border border-earth-700' : 'bg-white shadow-md border border-gray-100'">
-              <div class="relative z-10 flex items-start gap-4">
-                <!-- Icon -->
-                <div class="w-12 h-12 shrink-0 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
-                     :class="isDark ? 'bg-gradient-to-br from-purple-500/30 to-pink-500/30' : 'bg-gradient-to-br from-purple-100 to-pink-100'">
-                  <component :is="service.icon" class="w-6 h-6" :class="isDark ? 'text-purple-300' : 'text-purple-600'" />
-                </div>
-                <!-- Content -->
-                <div class="flex-1 min-w-0">
-                  <h3 class="font-bold text-sm mb-1 group-hover:text-instagram transition-colors">{{ service.title }}</h3>
-                  <p class="text-xs leading-relaxed line-clamp-2" :class="isDark ? 'text-earth-400' : 'text-gray-600'">{{ service.description }}</p>
-                  <span class="inline-block mt-2 font-bold text-sm bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">{{ service.price }}</span>
-                </div>
+          <div class="grid grid-cols-3 gap-4">
+            <a v-for="(service, index) in profileServices" :key="index" 
+               :href="'https://wa.me/' + (settings.contact?.whatsapp || '905354326668') + '?text=' + encodeURIComponent(service.title + ' hakkında bilgi almak istiyorum')"
+               target="_blank"
+               class="group relative aspect-square p-6 rounded-xl transition-all duration-300 hover:scale-[1.02] hover:shadow-xl overflow-hidden cursor-pointer flex flex-col justify-between"
+               :class="isDark ? 'bg-gradient-to-br from-earth-800 to-earth-900 border border-earth-700 hover:border-purple-500/50' : 'bg-white shadow-md border border-gray-100 hover:border-purple-300'">
+              <!-- Gradient Overlay -->
+              <div class="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-pink-500/10 to-orange-400/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              
+              <div class="relative z-10 flex-1 flex flex-col">
+                <!-- Title -->
+                <h3 class="font-bold text-base mb-2 group-hover:text-instagram transition-colors">{{ service.title }}</h3>
+                <!-- Description -->
+                <p class="text-xs leading-relaxed flex-1" :class="isDark ? 'text-earth-400' : 'text-gray-600'">{{ service.description }}</p>
               </div>
-            </div>
+              
+              <!-- Price at bottom -->
+              <div class="relative z-10 mt-4 pt-3 border-t" :class="isDark ? 'border-earth-700' : 'border-gray-200'">
+                <span class="font-bold text-sm bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">{{ service.price }}</span>
+                <span class="block text-[10px] mt-1 opacity-60">Bilgi almak için tıklayın</span>
+              </div>
+            </a>
           </div>
         </section>
 
@@ -491,10 +495,7 @@ function getServiceIcon(iconName: string) {
 // Dynamic services from settings (fallback to hardcoded)
 const profileServices = computed(() => {
   if (settings.value.profile?.services?.length > 0) {
-    return settings.value.profile.services.map(s => ({
-      ...s,
-      icon: getServiceIcon(s.icon)
-    }))
+    return settings.value.profile.services
   }
   return services.value
 })

@@ -51,7 +51,7 @@ export interface SiteSettings {
         certificatesTitle: string
         certificates: Array<{ title: string; description: string }>
         servicesTitle: string
-        services: Array<{ title: string; description: string; price: string; icon: string }>
+        services: Array<{ title: string; description: string; price: string }>
         ctaDescription: string
         ctaText: string
     }
@@ -107,9 +107,9 @@ const defaultSettings: SiteSettings = {
         ],
         servicesTitle: "Hizmetlerimiz",
         services: [
-            { title: "Hizmet 1", description: "Hizmet açıklaması", price: "İletişime Geçin", icon: "yoga" },
-            { title: "Hizmet 2", description: "Hizmet açıklaması", price: "İletişime Geçin", icon: "group" },
-            { title: "Hizmet 3", description: "Hizmet açıklaması", price: "İletişime Geçin", icon: "sunrise" }
+            { title: "Hizmet 1", description: "Hizmet açıklaması", price: "İletişime Geçin" },
+            { title: "Hizmet 2", description: "Hizmet açıklaması", price: "İletişime Geçin" },
+            { title: "Hizmet 3", description: "Hizmet açıklaması", price: "İletişime Geçin" }
         ],
         ctaDescription: "Hizmetlerimiz hakkında detaylı bilgi almak için",
         ctaText: "WhatsApp ile İletişime Geç"

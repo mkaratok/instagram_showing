@@ -304,17 +304,9 @@
                 <button type="button" @click="removeService(index)" class="text-red-400 hover:text-red-300 text-sm">Sil</button>
               </div>
               <div class="grid md:grid-cols-2 gap-3">
-                <input v-model="service.title" type="text" placeholder="Başlık" class="w-full px-3 py-2 rounded-lg bg-earth-900 border border-earth-600 text-white text-sm focus:border-instagram focus:outline-none" />
-                <input v-model="service.price" type="text" placeholder="Fiyat (örn: 500₺)" class="w-full px-3 py-2 rounded-lg bg-earth-900 border border-earth-600 text-white text-sm focus:border-instagram focus:outline-none" />
-                <textarea v-model="service.description" rows="2" placeholder="Açıklama" class="md:col-span-2 w-full px-3 py-2 rounded-lg bg-earth-900 border border-earth-600 text-white text-sm focus:border-instagram focus:outline-none resize-none"></textarea>
-                <select v-model="service.icon" class="w-full px-3 py-2 rounded-lg bg-earth-900 border border-earth-600 text-white text-sm focus:border-instagram focus:outline-none">
-                  <option value="yoga">Yoga</option>
-                  <option value="group">Grup</option>
-                  <option value="sunrise">Gündoğumu</option>
-                  <option value="meditation">Meditasyon</option>
-                  <option value="private">Özel Ders</option>
-                  <option value="retreat">Retreat</option>
-                </select>
+                <input v-model="service.title" type="text" placeholder="Hizmet Adı" class="w-full px-3 py-2 rounded-lg bg-earth-900 border border-earth-600 text-white text-sm focus:border-instagram focus:outline-none" />
+                <input v-model="service.price" type="text" placeholder="Fiyat (örn: 500₺ veya Ücretsiz)" class="w-full px-3 py-2 rounded-lg bg-earth-900 border border-earth-600 text-white text-sm focus:border-instagram focus:outline-none" />
+                <textarea v-model="service.description" rows="2" placeholder="Hizmet açıklaması" class="md:col-span-2 w-full px-3 py-2 rounded-lg bg-earth-900 border border-earth-600 text-white text-sm focus:border-instagram focus:outline-none resize-none"></textarea>
               </div>
             </div>
           </div>
@@ -487,7 +479,7 @@ function removeCertificate(index: number) {
 
 // Service management
 function addService() {
-  formData.value.profile.services.push({ title: '', description: '', price: '', icon: 'yoga' })
+  formData.value.profile.services.push({ title: '', description: '', price: '' })
 }
 
 function removeService(index: number) {
