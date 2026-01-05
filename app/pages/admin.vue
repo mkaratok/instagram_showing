@@ -166,8 +166,8 @@
               <textarea 
                 v-model="formData.contact.googleMapsEmbed" 
                 rows="3" 
-                placeholder='Google Maps\'tan kopyaladığınız <iframe src="..."></iframe> kodunun tamamını yapıştırın'
-                class="w-full px-4 py-3 rounded-lg bg-earth-800 border border-earth-600 text-white placeholder-earth-500 focus:border-instagram focus:outline-none text-xs font-mono resize-none"
+                placeholder='Google Maps iframe src URL yapıştırın'
+                class="w-full px-4 py-3 rounded-lg bg-earth-900 border border-earth-600 text-white placeholder-earth-500 focus:border-instagram focus:outline-none text-sm resize-none"
                 @paste="handleMapsPaste"
               ></textarea>
               <p class="text-xs text-earth-600 mt-2 flex items-center gap-1"><svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></svg>Google Maps → Paylaş → Harita yerleştir → HTML kodunu kopyalayıp yapıştırın</p>
@@ -258,7 +258,7 @@
           <div class="grid md:grid-cols-3 gap-6">
             <div>
               <label class="flex items-center gap-2 text-sm text-earth-400 mb-2"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/></svg>Koyu Tema - Ana Renk</label>
-              <p class="text-xs text-earth-600 mb-2">Body arka planı. Header/footer otomatik daha koyu.</p>
+              <p class="text-xs text-earth-600 mb-2">Body arka planı. Header/footer otomatik.</p>
               <div class="flex gap-3">
                 <input v-model="formData.appearance.darkBaseColor" type="color" class="w-14 h-12 rounded-lg cursor-pointer border-0" />
                 <input v-model="formData.appearance.darkBaseColor" type="text" class="flex-1 px-4 py-3 rounded-lg bg-earth-800 border border-earth-600 text-white font-mono focus:border-instagram focus:outline-none" />
