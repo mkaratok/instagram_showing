@@ -564,10 +564,13 @@ function removeService(index: number) {
 async function loadInstagramConfig() {
   try {
     const config = await $fetch('/api/config') as any
-    instagramConfig.value = {
-      accessToken: config.instagram?.hasToken ? '****' + config.instagram.accessToken.slice(-4) : '',
-      businessId: config.instagram?.businessId || '',
-      features: config.features || { showReels: true, showStories: true, showMentions: true }
+    if (config) {
+      const token = config.instagram?.accessToken || ''
+      instagramConfig.value = {
+        accessToken: config.instagram?.hasToken && token ? '****' + token.slice(-4) : '',
+        businessId: config.instagram?.businessId || '',
+        features: config.features || { showReels: true, showStories: true, showMentions: true }
+      }
     }
   } catch (error) {
     console.error('Failed to load Instagram config:', error)
