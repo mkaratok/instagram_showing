@@ -570,10 +570,13 @@ async function loadInstagramConfig() {
     const config = await $fetch('/api/config') as any
     if (config) {
       const token = config.instagram?.accessToken || ''
-      instagramConfig.value = {
-        accessToken: config.instagram?.hasToken && token ? '****' + token.slice(-4) : '',
-        businessId: config.instagram?.businessId || '',
-        features: config.features || { showReels: true, showStories: true, showMentions: true }
+      // Update properties individually to preserve reactivity
+      instagramConfig.value.accessToken = config.instagram?.hasToken && token ? '****' + token.slice(-4) : ''
+      instagramConfig.value.businessId = config.instagram?.businessId || ''
+      if (config.features) {
+        instagramConfig.value.features.showReels = config.features.showReels ?? true
+        instagramConfig.value.features.showStories = config.features.showStories ?? true
+        instagramConfig.value.features.showMentions = config.features.showMentions ?? true
       }
     }
   } catch (error) {
