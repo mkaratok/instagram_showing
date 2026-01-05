@@ -1,6 +1,8 @@
 // server/api/instagram/stories.get.ts
 // Stories API with 5-minute caching and Vercel fallback
 
+import { getInstagramCredentials } from '../../utils/storage'
+
 // In-memory fallback for Vercel (no persistent storage on free tier)
 declare global {
     var __storiesCache: { data: any[]; timestamp: number } | undefined
@@ -9,9 +11,7 @@ declare global {
 const CACHE_TTL = 5 * 60 // 5 minutes in seconds
 
 export default defineEventHandler(async (event) => {
-    const config = useRuntimeConfig()
-    const accessToken = config.instagramAccessToken
-    const businessId = config.instagramBusinessId
+    const { accessToken, businessId } = getInstagramCredentials()
 
     // Check in-memory cache first (works on Vercel)
     const memoryCache = globalThis.__storiesCache

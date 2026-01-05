@@ -1,8 +1,8 @@
 // server/api/instagram/mentions.get.ts
+import { getInstagramCredentials } from '../../utils/storage'
+
 export default defineEventHandler(async (event) => {
-    const config = useRuntimeConfig()
-    const accessToken = config.instagramAccessToken
-    const businessId = config.instagramBusinessId
+    const { accessToken, businessId } = getInstagramCredentials()
 
     // Fields for tagged/mentioned media
     const fields = 'id,caption,media_type,media_url,thumbnail_url,permalink,timestamp,like_count,comments_count,username'

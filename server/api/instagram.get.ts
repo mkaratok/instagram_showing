@@ -1,6 +1,8 @@
 // server/api/instagram.get.ts
 // Instagram API with 15-minute caching to prevent rate limiting
 
+import { getInstagramCredentials } from '../utils/storage'
+
 const CACHE_KEY = 'instagram:posts'
 const CACHE_TTL = 15 * 60 // 15 minutes in seconds
 
@@ -21,9 +23,7 @@ export default defineEventHandler(async (event) => {
     }
 
     // Cache miss or expired - fetch from Instagram API
-    const config = useRuntimeConfig()
-    const accessToken = config.instagramAccessToken
-    const businessId = config.instagramBusinessId
+    const { accessToken, businessId } = getInstagramCredentials()
 
     const limit = 100
     const fields = 'id,caption,media_type,media_product_type,media_url,thumbnail_url,permalink,timestamp,like_count,comments_count,children{media_url,thumbnail_url,media_type}'

@@ -82,6 +82,65 @@
           </div>
         </section>
 
+        <!-- Instagram Ayarları -->
+        <section class="p-6 rounded-xl bg-[#080707] border border-earth-700">
+          <h2 class="text-lg font-semibold mb-4 text-earth-100 flex items-center gap-2">
+            <svg class="w-5 h-5 text-instagram" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073z"/></svg>
+            Instagram Ayarları
+          </h2>
+          <div class="space-y-4">
+            <div class="p-4 rounded-lg bg-earth-800/50 border border-earth-600">
+              <div class="grid md:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-sm text-earth-400 mb-2">Access Token</label>
+                  <input v-model="instagramConfig.accessToken" type="password" placeholder="EAAI..." class="w-full px-4 py-3 rounded-lg bg-earth-900 border border-earth-600 text-white focus:border-instagram focus:outline-none font-mono text-sm" />
+                  <p class="text-xs text-earth-500 mt-1">Facebook Developer'dan alınan uzun ömürlü token</p>
+                </div>
+                <div>
+                  <label class="block text-sm text-earth-400 mb-2">Business Account ID</label>
+                  <input v-model="instagramConfig.businessId" type="text" placeholder="17841400000000000" class="w-full px-4 py-3 rounded-lg bg-earth-900 border border-earth-600 text-white focus:border-instagram focus:outline-none font-mono text-sm" />
+                  <p class="text-xs text-earth-500 mt-1">Instagram Business veya Creator hesap ID'si</p>
+                </div>
+              </div>
+              
+              <!-- Test Connection Button -->
+              <div class="mt-4 flex items-center gap-4">
+                <button type="button" @click="testInstagramConnection" 
+                        :disabled="instagramTesting"
+                        class="px-4 py-2 rounded-lg bg-instagram text-white text-sm font-medium hover:opacity-90 transition-opacity disabled:opacity-50">
+                  {{ instagramTesting ? 'Test Ediliyor...' : 'Bağlantıyı Test Et' }}
+                </button>
+                <span v-if="instagramTestResult" class="text-sm" :class="instagramTestResult.success ? 'text-green-400' : 'text-red-400'">
+                  {{ instagramTestResult.message }}
+                </span>
+              </div>
+            </div>
+            
+            <!-- Feature Toggles -->
+            <div class="grid md:grid-cols-3 gap-4">
+              <label class="flex items-center gap-3 p-3 rounded-lg bg-earth-800/50 border border-earth-600 cursor-pointer hover:border-earth-500 transition-colors">
+                <input type="checkbox" v-model="instagramConfig.features.showReels" class="w-4 h-4 accent-instagram" />
+                <span class="text-sm text-earth-200">Reels Göster</span>
+              </label>
+              <label class="flex items-center gap-3 p-3 rounded-lg bg-earth-800/50 border border-earth-600 cursor-pointer hover:border-earth-500 transition-colors">
+                <input type="checkbox" v-model="instagramConfig.features.showStories" class="w-4 h-4 accent-instagram" />
+                <span class="text-sm text-earth-200">Hikayeler Göster</span>
+              </label>
+              <label class="flex items-center gap-3 p-3 rounded-lg bg-earth-800/50 border border-earth-600 cursor-pointer hover:border-earth-500 transition-colors">
+                <input type="checkbox" v-model="instagramConfig.features.showMentions" class="w-4 h-4 accent-instagram" />
+                <span class="text-sm text-earth-200">Etiketlenenler Göster</span>
+              </label>
+            </div>
+            
+            <!-- Save Instagram Config Button -->
+            <button type="button" @click="saveInstagramConfig" 
+                    :disabled="instagramSaving"
+                    class="px-6 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 text-white text-sm font-medium hover:opacity-90 transition-opacity disabled:opacity-50">
+              {{ instagramSaving ? 'Kaydediliyor...' : 'Instagram Ayarlarını Kaydet' }}
+            </button>
+          </div>
+        </section>
+
         <!-- İletişim Bilgileri -->
         <section class="p-6 rounded-xl bg-[#080707] border border-earth-700">
           <h2 class="text-lg font-semibold mb-4 text-earth-100">İletişim Bilgileri</h2>
@@ -359,6 +418,20 @@ const loginError = ref('')
 
 // Form state
 const saving = ref(false)
+
+// Instagram config state
+const instagramConfig = ref({
+  accessToken: '',
+  businessId: '',
+  features: {
+    showReels: true,
+    showStories: true,
+    showMentions: true
+  }
+})
+const instagramTesting = ref(false)
+const instagramSaving = ref(false)
+const instagramTestResult = ref<{ success: boolean; message: string } | null>(null)
 const saveMessage = ref('')
 const saveSuccess = ref(false)
 
@@ -393,6 +466,7 @@ onMounted(async () => {
     password.value = savedAuth
     isAuthenticated.value = true
     await loadSettings()
+    await loadInstagramConfig()
   }
 })
 
@@ -484,5 +558,87 @@ function addService() {
 
 function removeService(index: number) {
   formData.value.profile.services.splice(index, 1)
+}
+
+// Instagram config functions
+async function loadInstagramConfig() {
+  try {
+    const config = await $fetch('/api/config') as any
+    instagramConfig.value = {
+      accessToken: config.instagram?.hasToken ? '****' + config.instagram.accessToken.slice(-4) : '',
+      businessId: config.instagram?.businessId || '',
+      features: config.features || { showReels: true, showStories: true, showMentions: true }
+    }
+  } catch (error) {
+    console.error('Failed to load Instagram config:', error)
+  }
+}
+
+async function testInstagramConnection() {
+  if (!instagramConfig.value.businessId) {
+    instagramTestResult.value = { success: false, message: 'Business Account ID gerekli' }
+    return
+  }
+  
+  // If token starts with ****, we can't test with masked token
+  if (instagramConfig.value.accessToken.startsWith('****')) {
+    instagramTestResult.value = { success: false, message: 'Yeni token girin test için' }
+    return
+  }
+  
+  if (!instagramConfig.value.accessToken) {
+    instagramTestResult.value = { success: false, message: 'Access Token gerekli' }
+    return
+  }
+  
+  instagramTesting.value = true
+  instagramTestResult.value = null
+  
+  try {
+    const response = await $fetch(`https://graph.facebook.com/v18.0/${instagramConfig.value.businessId}?fields=username&access_token=${instagramConfig.value.accessToken}`)
+    instagramTestResult.value = { 
+      success: true, 
+      message: `✓ Bağlantı başarılı: @${(response as any).username}` 
+    }
+  } catch (error: any) {
+    instagramTestResult.value = { 
+      success: false, 
+      message: `✗ Hata: ${error.message || 'Bağlantı başarısız'}` 
+    }
+  } finally {
+    instagramTesting.value = false
+  }
+}
+
+async function saveInstagramConfig() {
+  instagramSaving.value = true
+  instagramTestResult.value = null
+  
+  try {
+    await $fetch('/api/config', {
+      method: 'POST',
+      headers: {
+        'x-admin-password': password.value
+      },
+      body: {
+        instagram: {
+          accessToken: instagramConfig.value.accessToken,
+          businessId: instagramConfig.value.businessId
+        },
+        features: instagramConfig.value.features
+      }
+    })
+    instagramTestResult.value = { success: true, message: '✓ Instagram ayarları kaydedildi' }
+    
+    // Reload config to get masked token
+    await loadInstagramConfig()
+  } catch (error: any) {
+    instagramTestResult.value = { 
+      success: false, 
+      message: `✗ Kaydetme hatası: ${error.data?.message || error.message}` 
+    }
+  } finally {
+    instagramSaving.value = false
+  }
 }
 </script>

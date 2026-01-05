@@ -1,10 +1,10 @@
 // server/api/instagram/profile.get.ts
 // Profile API - Direct fetch without filesystem cache for Vercel compatibility
 
+import { getInstagramCredentials } from '../../utils/storage'
+
 export default defineEventHandler(async (event) => {
-    const config = useRuntimeConfig()
-    const accessToken = config.instagramAccessToken
-    const businessId = config.instagramBusinessId
+    const { accessToken, businessId } = getInstagramCredentials()
 
     // Validate credentials exist
     if (!accessToken || !businessId) {
