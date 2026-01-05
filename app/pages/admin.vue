@@ -82,64 +82,7 @@
           </div>
         </section>
 
-        <!-- Instagram Ayarları -->
-        <section v-if="instagramConfig" class="p-6 rounded-xl bg-[#080707] border border-earth-700">
-          <h2 class="text-lg font-semibold mb-4 text-earth-100 flex items-center gap-2">
-            <svg class="w-5 h-5 text-instagram" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2c2.717 0 3.056.01 4.122.06 1.065.05 1.79.217 2.428.465.66.254 1.216.598 1.772 1.153a4.908 4.908 0 0 1 1.153 1.772c.247.637.415 1.363.465 2.428.047 1.066.06 1.405.06 4.122 0 2.717-.01 3.056-.06 4.122-.05 1.065-.218 1.79-.465 2.428a4.883 4.883 0 0 1-1.153 1.772 4.915 4.915 0 0 1-1.772 1.153c-.637.247-1.363.415-2.428.465-1.066.047-1.405.06-4.122.06-2.717 0-3.056-.01-4.122-.06-1.065-.05-1.79-.218-2.428-.465a4.89 4.89 0 0 1-1.772-1.153 4.904 4.904 0 0 1-1.153-1.772c-.248-.637-.415-1.363-.465-2.428C2.013 15.056 2 14.717 2 12c0-2.717.01-3.056.06-4.122.05-1.066.217-1.79.465-2.428a4.88 4.88 0 0 1 1.153-1.772A4.897 4.897 0 0 1 5.45 2.525c.638-.248 1.362-.415 2.428-.465C8.944 2.013 9.283 2 12 2z"/></svg>
-            Instagram Ayarlari
-          </h2>
-          <div class="space-y-4">
-            <div class="p-4 rounded-lg bg-earth-800/50 border border-earth-600">
-              <div class="grid md:grid-cols-2 gap-4">
-                <div>
-                  <label class="block text-sm text-earth-400 mb-2">Access Token</label>
-                  <input v-model="instagramConfig.accessToken" type="password" placeholder="EAAI..." class="w-full px-4 py-3 rounded-lg bg-earth-900 border border-earth-600 text-white focus:border-instagram focus:outline-none font-mono text-sm" />
-                  <p class="text-xs text-earth-500 mt-1">Facebook Developer token</p>
-                </div>
-                <div>
-                  <label class="block text-sm text-earth-400 mb-2">Business Account ID</label>
-                  <input v-model="instagramConfig.businessId" type="text" placeholder="17841400000000000" class="w-full px-4 py-3 rounded-lg bg-earth-900 border border-earth-600 text-white focus:border-instagram focus:outline-none font-mono text-sm" />
-                  <p class="text-xs text-earth-500 mt-1">Instagram Business hesap ID</p>
-                </div>
-              </div>
-              
-              <!-- Test Connection Button -->
-              <div class="mt-4 flex items-center gap-4">
-                <button type="button" @click="testInstagramConnection" 
-                        :disabled="instagramTesting"
-                        class="px-4 py-2 rounded-lg bg-instagram text-white text-sm font-medium hover:opacity-90 transition-opacity disabled:opacity-50">
-                  {{ instagramTesting ? 'Test Ediliyor...' : 'Baglanti Test Et' }}
-                </button>
-                <span v-if="instagramTestResult" class="text-sm" :class="instagramTestResult.success ? 'text-green-400' : 'text-red-400'">
-                  {{ instagramTestResult.message }}
-                </span>
-              </div>
-            </div>
-            
-            <!-- Feature Toggles -->
-            <div v-if="instagramConfig.features" class="grid md:grid-cols-3 gap-4">
-              <label class="flex items-center gap-3 p-3 rounded-lg bg-earth-800/50 border border-earth-600 cursor-pointer hover:border-earth-500 transition-colors">
-                <input type="checkbox" v-model="instagramConfig.features.showReels" class="w-4 h-4 accent-instagram" />
-                <span class="text-sm text-earth-200">Reels Goster</span>
-              </label>
-              <label class="flex items-center gap-3 p-3 rounded-lg bg-earth-800/50 border border-earth-600 cursor-pointer hover:border-earth-500 transition-colors">
-                <input type="checkbox" v-model="instagramConfig.features.showStories" class="w-4 h-4 accent-instagram" />
-                <span class="text-sm text-earth-200">Hikayeler Goster</span>
-              </label>
-              <label class="flex items-center gap-3 p-3 rounded-lg bg-earth-800/50 border border-earth-600 cursor-pointer hover:border-earth-500 transition-colors">
-                <input type="checkbox" v-model="instagramConfig.features.showMentions" class="w-4 h-4 accent-instagram" />
-                <span class="text-sm text-earth-200">Etiketler Goster</span>
-              </label>
-            </div>
-            
-            <!-- Save Instagram Config Button -->
-            <button type="button" @click="saveInstagramConfig" 
-                    :disabled="instagramSaving"
-                    class="px-6 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 text-white text-sm font-medium hover:opacity-90 transition-opacity disabled:opacity-50">
-              {{ instagramSaving ? 'Kaydediliyor...' : 'Instagram Ayarlarini Kaydet' }}
-            </button>
-          </div>
-        </section>
+        <!-- Instagram Ayarlari - DISABLED -->
 
         <!-- İletişim Bilgileri -->
         <section class="p-6 rounded-xl bg-[#080707] border border-earth-700">
@@ -466,11 +409,11 @@ onMounted(async () => {
     password.value = savedAuth
     isAuthenticated.value = true
     await loadSettings()
-    try {
+    /* try {
       await loadInstagramConfig()
     } catch (e) {
       console.error('Failed to load Instagram config:', e)
-    }
+    } */
   }
 })
 
