@@ -595,15 +595,21 @@ async function testInstagramConnection() {
   instagramTestResult.value = null
   
   try {
-    const response = await $fetch(`https://graph.facebook.com/v18.0/${instagramConfig.value.businessId}?fields=username&access_token=${instagramConfig.value.accessToken}`)
+    const url = `https://graph.facebook.com/v18.0/${instagramConfig.value.businessId}`
+    const response = await $fetch(url, {
+      query: {
+        fields: 'username',
+        access_token: instagramConfig.value.accessToken
+      }
+    })
     instagramTestResult.value = { 
       success: true, 
-      message: `✓ Bağlantı başarılı: @${(response as any).username}` 
+      message: `Bağlantı başarılı: @${(response as any).username}` 
     }
   } catch (error: any) {
     instagramTestResult.value = { 
       success: false, 
-      message: `✗ Hata: ${error.message || 'Bağlantı başarısız'}` 
+      message: `Hata: ${error.message || 'Baglanti basarisiz'}` 
     }
   } finally {
     instagramTesting.value = false
@@ -628,14 +634,14 @@ async function saveInstagramConfig() {
         features: instagramConfig.value.features
       }
     })
-    instagramTestResult.value = { success: true, message: '✓ Instagram ayarları kaydedildi' }
+    instagramTestResult.value = { success: true, message: 'Instagram ayarlari kaydedildi' }
     
     // Reload config to get masked token
     await loadInstagramConfig()
   } catch (error: any) {
     instagramTestResult.value = { 
       success: false, 
-      message: `✗ Kaydetme hatası: ${error.data?.message || error.message}` 
+      message: `Kaydetme hatasi: ${error.data?.message || error.message}` 
     }
   } finally {
     instagramSaving.value = false
