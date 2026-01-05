@@ -1,11 +1,5 @@
 // server/utils/storage.ts
-// Persistent configuration storage utility
-
-import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'fs'
-import { join, dirname } from 'path'
-
-// Config file path - relative to server directory
-const CONFIG_PATH = join(process.cwd(), 'server', 'data', 'config.json')
+// Persistent configuration storage utility with Vercel compatibility
 
 // Default configuration structure
 export interface AppConfig {
@@ -33,28 +27,18 @@ const defaultConfig: AppConfig = {
     }
 }
 
-// In-memory cache for Vercel (where file writes may not persist)
-let memoryConfig: AppConfig | null = null
+// In-memory storage (works on Vercel)
+declare global {
+    var __appConfig: AppConfig | undefined
+}
 
 /**
- * Read configuration from file or memory
+ * Read configuration from memory (and env fallback)
  */
 export function readConfig(): AppConfig {
-    // Check memory cache first (for Vercel)
-    if (memoryConfig) {
-        return memoryConfig
-    }
-
-    try {
-        if (existsSync(CONFIG_PATH)) {
-            const data = readFileSync(CONFIG_PATH, 'utf-8')
-            const parsed = JSON.parse(data)
-            const config = { ...defaultConfig, ...parsed }
-            memoryConfig = config
-            return config
-        }
-    } catch (error) {
-        console.warn('[Storage] Failed to read config file:', error)
+    // Check global memory first
+    if (globalThis.__appConfig) {
+        return globalThis.__appConfig
     }
 
     // Return defaults
@@ -62,7 +46,7 @@ export function readConfig(): AppConfig {
 }
 
 /**
- * Write configuration to file and memory
+ * Write configuration to memory
  */
 export function writeConfig(config: Partial<AppConfig>): { success: boolean; error?: string } {
     try {
@@ -76,21 +60,9 @@ export function writeConfig(config: Partial<AppConfig>): { success: boolean; err
             lastUpdated: new Date().toISOString()
         }
 
-        // Update memory cache
-        memoryConfig = newConfig
-
-        // Try to write to file (may fail on Vercel)
-        try {
-            const dir = dirname(CONFIG_PATH)
-            if (!existsSync(dir)) {
-                mkdirSync(dir, { recursive: true })
-            }
-            writeFileSync(CONFIG_PATH, JSON.stringify(newConfig, null, 2), 'utf-8')
-            console.log('[Storage] Config written to file')
-        } catch (fileError) {
-            console.warn('[Storage] File write failed (expected on Vercel):', fileError)
-            // Memory cache is still updated, so this is acceptable
-        }
+        // Store in global memory
+        globalThis.__appConfig = newConfig
+        console.log('[Storage] Config saved to memory')
 
         return { success: true }
     } catch (error: any) {
@@ -100,7 +72,7 @@ export function writeConfig(config: Partial<AppConfig>): { success: boolean; err
 }
 
 /**
- * Get Instagram credentials
+ * Get Instagram credentials (with env fallback)
  */
 export function getInstagramCredentials(): { accessToken: string; businessId: string } {
     const config = readConfig()
