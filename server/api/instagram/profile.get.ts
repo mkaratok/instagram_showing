@@ -4,7 +4,15 @@
 import { getInstagramCredentials } from '../../utils/storage'
 
 export default defineEventHandler(async (event) => {
-    const { accessToken, businessId } = getInstagramCredentials()
+    // Get from config, fallback to env
+    let { accessToken, businessId } = getInstagramCredentials()
+
+    // Env fallback (must be in event handler context)
+    if (!accessToken || !businessId) {
+        const config = useRuntimeConfig()
+        accessToken = accessToken || config.instagramAccessToken || ''
+        businessId = businessId || config.instagramBusinessId || ''
+    }
 
     // Validate credentials exist
     if (!accessToken || !businessId) {
@@ -16,7 +24,9 @@ export default defineEventHandler(async (event) => {
 
     try {
         console.log(`[Profile] Fetching data for ID: ${businessId}`)
-        const response: any = await $fetch(`https://graph.facebook.com/v18.0/${businessId}?fields=${fields}&access_token=${accessToken}`)
+        const response: any = await $fetch(`https://graph.facebook.com/v18.0/${businessId}`, {
+            query: { fields, access_token: accessToken }
+        })
 
         // Validate response has required fields
         if (response && typeof response.followers_count === 'number') {

@@ -11,7 +11,14 @@ declare global {
 const CACHE_TTL = 5 * 60 // 5 minutes in seconds
 
 export default defineEventHandler(async (event) => {
-    const { accessToken, businessId } = getInstagramCredentials()
+    let { accessToken, businessId } = getInstagramCredentials()
+
+    // Env fallback (must be in event handler context)
+    if (!accessToken || !businessId) {
+        const config = useRuntimeConfig()
+        accessToken = accessToken || config.instagramAccessToken || ''
+        businessId = businessId || config.instagramBusinessId || ''
+    }
 
     // Check in-memory cache first (works on Vercel)
     const memoryCache = globalThis.__storiesCache

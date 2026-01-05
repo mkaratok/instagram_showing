@@ -33,15 +33,12 @@ declare global {
 }
 
 /**
- * Read configuration from memory (and env fallback)
+ * Read configuration from memory
  */
 export function readConfig(): AppConfig {
-    // Check global memory first
     if (globalThis.__appConfig) {
         return globalThis.__appConfig
     }
-
-    // Return defaults
     return { ...defaultConfig }
 }
 
@@ -50,7 +47,6 @@ export function readConfig(): AppConfig {
  */
 export function writeConfig(config: Partial<AppConfig>): { success: boolean; error?: string } {
     try {
-        // Merge with existing config
         const currentConfig = readConfig()
         const newConfig: AppConfig = {
             ...currentConfig,
@@ -59,11 +55,8 @@ export function writeConfig(config: Partial<AppConfig>): { success: boolean; err
             features: { ...currentConfig.features, ...config.features },
             lastUpdated: new Date().toISOString()
         }
-
-        // Store in global memory
         globalThis.__appConfig = newConfig
         console.log('[Storage] Config saved to memory')
-
         return { success: true }
     } catch (error: any) {
         console.error('[Storage] Write error:', error)
@@ -72,20 +65,11 @@ export function writeConfig(config: Partial<AppConfig>): { success: boolean; err
 }
 
 /**
- * Get Instagram credentials (with env fallback)
+ * Get Instagram credentials from config
+ * Note: Env fallback is handled in each API endpoint
  */
 export function getInstagramCredentials(): { accessToken: string; businessId: string } {
     const config = readConfig()
-
-    // Fallback to env vars if config is empty
-    if (!config.instagram.accessToken || !config.instagram.businessId) {
-        const runtimeConfig = useRuntimeConfig()
-        return {
-            accessToken: config.instagram.accessToken || runtimeConfig.instagramAccessToken || '',
-            businessId: config.instagram.businessId || runtimeConfig.instagramBusinessId || ''
-        }
-    }
-
     return config.instagram
 }
 

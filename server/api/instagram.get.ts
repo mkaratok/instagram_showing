@@ -23,12 +23,19 @@ export default defineEventHandler(async (event) => {
     }
 
     // Cache miss or expired - fetch from Instagram API
-    const { accessToken, businessId } = getInstagramCredentials()
+    let { accessToken, businessId } = getInstagramCredentials()
+
+    // Env fallback (must be in event handler context)
+    if (!accessToken || !businessId) {
+        const config = useRuntimeConfig()
+        accessToken = accessToken || config.instagramAccessToken || ''
+        businessId = businessId || config.instagramBusinessId || ''
+    }
 
     const limit = 100
     const fields = 'id,caption,media_type,media_product_type,media_url,thumbnail_url,permalink,timestamp,like_count,comments_count,children{media_url,thumbnail_url,media_type}'
 
-    let url = `https://graph.facebook.com/v18.0/${businessId}/media?fields=${fields}&limit=${limit}&access_token=${accessToken}`
+    let url = `https://graph.facebook.com/v18.0/${businessId}/media?fields=${encodeURIComponent(fields)}&limit=${limit}&access_token=${accessToken}`
     let allPosts: any[] = []
 
     try {
