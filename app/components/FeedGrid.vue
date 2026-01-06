@@ -57,17 +57,31 @@ defineEmits(['open'])
 const carouselState = reactive({})
 
 const getPostImage = (post) => {
-  // VIDEO uses thumbnail
-  if (post.media_type === 'VIDEO') {
-    return post.thumbnail_url || post.media_url
+  // Helper to check if URL is a video
+  const isVideoUrl = (url) => url && (url.includes('.mp4') || url.includes('/video/'))
+  
+  // VIDEO type always uses thumbnail
+  if (post.media_type === 'VIDEO' || post.media_type === 'REELS') {
+    return post.thumbnail_url || '/placeholder.jpg'
   }
-  // CAROUSEL uses children
+  
+  // CAROUSEL - find first IMAGE child, not video
   if (post.media_type === 'CAROUSEL_ALBUM' && post.children?.data) {
     const index = carouselState[post.id]?.index || 0
     const child = post.children.data[index]
-    return child?.media_url || child?.thumbnail_url || post.media_url || post.thumbnail_url
+    
+    // If current child is video, use its thumbnail
+    if (child?.media_type === 'VIDEO' || isVideoUrl(child?.media_url)) {
+      return child?.thumbnail_url || post.thumbnail_url || '/placeholder.jpg'
+    }
+    return child?.media_url || post.thumbnail_url || '/placeholder.jpg'
   }
-  // IMAGE, REEL, or any other type - try media_url first, then thumbnail_url as fallback
+  
+  // For IMAGE type - but check if URL is actually a video
+  if (isVideoUrl(post.media_url)) {
+    return post.thumbnail_url || '/placeholder.jpg'
+  }
+  
   return post.media_url || post.thumbnail_url || '/placeholder.jpg'
 }
 
