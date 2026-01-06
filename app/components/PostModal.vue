@@ -1,5 +1,5 @@
 <template>
-  <div class="relative flex w-full max-w-4xl h-auto max-h-[90vh] bg-background-light dark:bg-background-dark rounded-lg shadow-xl overflow-hidden font-display" @click.stop>
+  <div class="relative flex w-full max-w-4xl h-[85vh] bg-background-light dark:bg-background-dark rounded-lg shadow-xl overflow-hidden font-display" @click.stop>
     
     <!-- Close Button -->
     <button @click="$emit('close')" class="absolute top-4 right-4 z-10 text-text-light dark:text-text-dark hover:text-primary dark:hover:text-primary transition-colors">
@@ -10,9 +10,13 @@
     <div class="flex flex-col md:flex-row w-full h-full">
       
       <!-- Image Container (Left Side) -->
-      <div class="w-full md:w-1/2 flex items-center justify-center bg-stone-200 dark:bg-stone-800 relative group">
-         <img v-if="currentMedia.media_type !== 'VIDEO'" :src="currentMedia.media_url" class="w-full h-full object-cover" />
-         <video v-else :src="currentMedia.media_url" :poster="currentMedia.thumbnail_url" controls autoplay class="w-full h-full object-cover"></video>
+      <div class="w-full md:w-1/2 h-[50vh] md:h-full flex items-center justify-center bg-stone-200 dark:bg-stone-800 relative group">
+         <img 
+           v-if="currentMedia.media_type !== 'VIDEO'" 
+           :src="currentMedia.media_url" 
+           class="w-full h-full object-contain"
+         />
+         <video v-else :src="currentMedia.media_url" :poster="currentMedia.thumbnail_url" controls autoplay class="w-full h-full object-contain"></video>
 
          <!-- Navigation Arrows -->
          <button 
@@ -53,7 +57,7 @@
         </div>
 
         <!-- Scrollable Content Area (Description + Stats + Comments together) -->
-        <div class="flex-grow overflow-y-auto pr-2 custom-scrollbar" style="max-height: calc(90vh - 160px);">
+        <div class="flex-grow overflow-y-auto pr-2 custom-scrollbar">
           <!-- Post Description -->
           <p v-if="post.caption" class="text-text-light dark:text-text-dark text-sm font-normal leading-relaxed pb-3 whitespace-pre-wrap">
             {{ post.caption }}
