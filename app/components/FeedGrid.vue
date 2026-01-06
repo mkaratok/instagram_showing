@@ -57,12 +57,18 @@ defineEmits(['open'])
 const carouselState = reactive({})
 
 const getPostImage = (post) => {
-  if (post.media_type === 'VIDEO') return post.thumbnail_url
+  // VIDEO uses thumbnail
+  if (post.media_type === 'VIDEO') {
+    return post.thumbnail_url || post.media_url
+  }
+  // CAROUSEL uses children
   if (post.media_type === 'CAROUSEL_ALBUM' && post.children?.data) {
     const index = carouselState[post.id]?.index || 0
-    return post.children.data[index].media_url
+    const child = post.children.data[index]
+    return child?.media_url || child?.thumbnail_url || post.media_url || post.thumbnail_url
   }
-  return post.media_url
+  // IMAGE, REEL, or any other type - try media_url first, then thumbnail_url as fallback
+  return post.media_url || post.thumbnail_url || '/placeholder.jpg'
 }
 
 // Generate SEO-friendly alt text

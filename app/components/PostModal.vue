@@ -42,54 +42,54 @@
       </div>
 
       <!-- Content Container (Right Side) -->
-      <div class="w-full md:w-1/2 flex flex-col p-6 overflow-y-auto bg-background-light dark:bg-background-dark">
+      <div class="w-full md:w-1/2 flex flex-col p-4 bg-background-light dark:bg-background-dark">
         
-        <!-- User Profile Header -->
-        <div class="flex items-center gap-4 min-h-14 justify-between border-b border-stone-200 dark:border-stone-700 pb-4 mb-4">
-          <div class="flex items-center gap-4">
-            <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full h-10 w-10 border border-stone-200 dark:border-stone-700" :style="{ backgroundImage: `url('${profile?.profile_picture_url || '/default-avatar.png'}')` }"></div>
-            <p class="text-text-light dark:text-white text-base font-bold leading-normal flex-1 truncate">{{ post.username || profile?.username || 'Instagram User' }}</p>
+        <!-- User Profile Header (Compact) -->
+        <div class="flex items-center gap-2 min-h-10 justify-between border-b border-stone-200 dark:border-stone-700 pb-2 mb-3">
+          <div class="flex items-center gap-2">
+            <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full h-7 w-7 border border-stone-200 dark:border-stone-700" :style="{ backgroundImage: `url('${profile?.profile_picture_url || '/default-avatar.png'}')` }"></div>
+            <p class="text-text-light dark:text-white text-sm font-bold leading-normal flex-1 truncate">{{ post.username || profile?.username || 'Instagram User' }}</p>
           </div>
         </div>
 
-        <!-- Post Content -->
-        <div class="flex-grow overflow-y-auto pr-2 custom-scrollbar">
+        <!-- Scrollable Content Area (Description + Stats + Comments together) -->
+        <div class="flex-grow overflow-y-auto pr-2 custom-scrollbar" style="max-height: calc(90vh - 160px);">
           <!-- Post Description -->
-          <p class="text-text-light dark:text-text-dark text-base font-normal leading-normal pb-4 whitespace-pre-wrap">
+          <p v-if="post.caption" class="text-text-light dark:text-text-dark text-sm font-normal leading-relaxed pb-3 whitespace-pre-wrap">
             {{ post.caption }}
           </p>
 
-          <!-- Stats (Replacing fake comments) -->
-          <div class="flex gap-4 mt-4 text-earth-600 dark:text-gray-300 text-sm">
-             <span class="flex items-center gap-1"><span class="material-symbols-outlined text-lg">favorite</span> {{ post.like_count || 0 }} Beğeni</span>
-             <span class="flex items-center gap-1"><span class="material-symbols-outlined text-lg">chat_bubble</span> {{ post.comments_count || 0 }} Yorum</span>
+          <!-- Stats -->
+          <div class="flex gap-3 text-earth-600 dark:text-gray-300 text-xs py-2 border-t border-stone-200 dark:border-stone-700">
+             <span class="flex items-center gap-1"><span class="material-symbols-outlined text-base">favorite</span> {{ post.like_count || 0 }}</span>
+             <span class="flex items-center gap-1"><span class="material-symbols-outlined text-base">chat_bubble</span> {{ post.comments_count || 0 }}</span>
           </div>
 
-          <!-- Real Comments List -->
-           <div class="mt-6 border-t border-stone-200 dark:border-stone-700 pt-4">
-             <h4 class="text-sm font-bold text-earth-800 dark:text-earth-200 mb-2">Yorumlar</h4>
-             
-             <div v-if="commentsLoading" class="text-xs text-stone-500">Yükleniyor...</div>
-             
-             <div v-else-if="comments.length > 0" class="flex flex-col gap-3">
-               <div v-for="comment in comments" :key="comment.id" class="flex gap-2" :class="{ 'pl-6 border-l-2 border-stone-200 dark:border-stone-700': comment.isReply }">
-                 <div class="text-xs">
-                   <span class="font-bold text-earth-900 dark:text-earth-100 mr-2">{{ comment.username }}</span>
-                   <span class="text-text-light dark:text-gray-300 font-light">{{ comment.text }}</span>
-                   <div class="text-[10px] text-stone-400 mt-0.5">{{ new Date(comment.timestamp).toLocaleDateString('tr-TR') }}</div>
-                 </div>
-               </div>
-             </div>
-             
-             <div v-else class="text-xs text-stone-500 italic">
-               Henüz yorum yok.
-             </div>
-           </div>
+          <!-- Comments List -->
+          <div class="mt-3 border-t border-stone-200 dark:border-stone-700 pt-3">
+            <h4 class="text-xs font-bold text-earth-800 dark:text-earth-200 mb-2">Yorumlar</h4>
+            
+            <div v-if="commentsLoading" class="text-xs text-stone-500">Yükleniyor...</div>
+            
+            <div v-else-if="comments.length > 0" class="flex flex-col gap-2">
+              <div v-for="comment in comments" :key="comment.id" class="flex gap-2" :class="{ 'pl-4 border-l-2 border-stone-200 dark:border-stone-700': comment.isReply }">
+                <div class="text-xs">
+                  <span class="font-semibold text-earth-900 dark:text-earth-100 mr-1">{{ comment.username }}</span>
+                  <span class="text-text-light dark:text-gray-300 font-light">{{ comment.text }}</span>
+                  <div class="text-[10px] text-stone-400 mt-0.5">{{ new Date(comment.timestamp).toLocaleDateString('tr-TR') }}</div>
+                </div>
+              </div>
+            </div>
+            
+            <div v-else class="text-xs text-stone-500 italic">
+              Henüz yorum yok.
+            </div>
+          </div>
         </div>
 
         <!-- CTA Button -->
-        <div class="mt-auto pt-6">
-          <a :href="post.permalink" target="_blank" class="block w-full text-center bg-primary text-white font-bold py-3 px-4 rounded-lg hover:bg-opacity-90 transition-colors">
+        <div class="mt-auto pt-3">
+          <a :href="post.permalink" target="_blank" class="block w-full text-center bg-primary text-white font-semibold py-2.5 px-4 rounded-lg text-sm hover:bg-opacity-90 transition-colors">
             Instagram'da Gör
           </a>
         </div>
