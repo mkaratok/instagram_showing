@@ -1,52 +1,70 @@
 <template>
-  <div class="relative flex w-full max-w-4xl h-[85vh] bg-background-light dark:bg-background-dark rounded-lg shadow-xl overflow-hidden font-display" @click.stop>
+  <div class="relative flex w-full max-w-4xl max-h-[90vh] md:h-[85vh] bg-background-light dark:bg-background-dark rounded-xl md:rounded-lg shadow-2xl overflow-hidden font-display" @click.stop>
     
     <!-- Close Button -->
-    <button @click="$emit('close')" class="absolute top-4 right-4 z-10 text-text-light dark:text-text-dark hover:text-primary dark:hover:text-primary transition-colors">
-      <span class="material-symbols-outlined text-3xl">close</span>
+    <button @click="$emit('close')" class="absolute top-2 right-2 md:top-4 md:right-4 z-30 w-9 h-9 md:w-10 md:h-10 flex items-center justify-center text-white hover:text-primary transition-colors bg-black/40 hover:bg-black/60 rounded-full">
+      <span class="material-symbols-outlined text-xl md:text-2xl">close</span>
     </button>
 
     <!-- Main Grid Layout -->
     <div class="flex flex-col md:flex-row w-full h-full">
       
-      <!-- Image Container (Left Side) -->
-      <div class="w-full md:w-1/2 h-[50vh] md:h-full flex items-center justify-center bg-stone-200 dark:bg-stone-800 relative group">
+      <!-- Image Container (Left Side) with Blur Backdrop -->
+      <div class="w-full md:w-1/2 h-[45vh] md:h-full flex items-center justify-center relative group overflow-hidden">
+         <!-- Blurred Background Layer -->
+         <div 
+           class="absolute inset-0 bg-cover bg-center blur-2xl opacity-40 scale-110"
+           :style="{ backgroundImage: `url('${currentMedia.thumbnail_url || currentMedia.media_url}')` }"
+         ></div>
+         <!-- Dark Overlay for better contrast -->
+         <div class="absolute inset-0 bg-black/30 dark:bg-black/50"></div>
+         
+         <!-- Actual Media -->
          <img 
            v-if="currentMedia.media_type !== 'VIDEO'" 
            :src="currentMedia.media_url" 
-           class="w-full h-full object-contain"
+           class="relative z-10 max-w-full max-h-full object-contain"
          />
-         <video v-else :src="currentMedia.media_url" :poster="currentMedia.thumbnail_url" controls autoplay class="w-full h-full object-contain"></video>
+         <video 
+           v-else 
+           :src="currentMedia.media_url" 
+           :poster="currentMedia.thumbnail_url" 
+           controls 
+           autoplay 
+           playsinline
+           class="relative z-10 max-w-full max-h-full object-contain"
+         ></video>
 
-         <!-- Navigation Arrows -->
+         <!-- Navigation Arrows (always visible on mobile) -->
          <button 
            v-if="post.media_type === 'CAROUSEL_ALBUM' && post.children?.data" 
            @click.stop="prevImage" 
-           class="absolute left-4 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white rounded-full p-2 opacity-0 group-hover:opacity-100 transition-opacity"
+           class="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-20 w-9 h-9 md:w-10 md:h-10 flex items-center justify-center bg-black/40 hover:bg-black/60 text-white rounded-full transition-all md:opacity-0 md:group-hover:opacity-100"
          >
-           <span class="material-symbols-outlined">chevron_left</span>
+           <span class="material-symbols-outlined text-xl md:text-2xl">chevron_left</span>
          </button>
          <button 
            v-if="post.media_type === 'CAROUSEL_ALBUM' && post.children?.data" 
            @click.stop="nextImage" 
-           class="absolute right-4 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white rounded-full p-2 opacity-0 group-hover:opacity-100 transition-opacity"
+           class="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-20 w-9 h-9 md:w-10 md:h-10 flex items-center justify-center bg-black/40 hover:bg-black/60 text-white rounded-full transition-all md:opacity-0 md:group-hover:opacity-100"
          >
-           <span class="material-symbols-outlined">chevron_right</span>
+           <span class="material-symbols-outlined text-xl md:text-2xl">chevron_right</span>
          </button>
          
          <!-- Dots Indicator -->
-         <div v-if="post.media_type === 'CAROUSEL_ALBUM' && post.children?.data" class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-1.5">
+         <div v-if="post.media_type === 'CAROUSEL_ALBUM' && post.children?.data" class="absolute bottom-3 md:bottom-4 left-1/2 -translate-x-1/2 z-20 flex gap-1.5">
            <div 
              v-for="(_, index) in post.children.data" 
              :key="index"
-             class="w-2 h-2 rounded-full transition-colors"
+             class="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full transition-colors cursor-pointer"
              :class="index === currentImageIndex ? 'bg-white' : 'bg-white/40'"
+             @click.stop="currentImageIndex = index"
            ></div>
          </div>
       </div>
 
       <!-- Content Container (Right Side) -->
-      <div class="w-full md:w-1/2 flex flex-col p-4 bg-background-light dark:bg-background-dark">
+      <div class="w-full md:w-1/2 flex flex-col p-3 md:p-4 bg-background-light dark:bg-background-dark max-h-[45vh] md:max-h-full">
         
         <!-- User Profile Header (Compact) -->
         <div class="flex items-center gap-2 min-h-10 justify-between border-b border-stone-200 dark:border-stone-700 pb-2 mb-3">

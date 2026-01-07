@@ -346,7 +346,7 @@
     <!-- Modal -->
     <Teleport to="body">
       <Transition name="modal">
-        <div v-if="selectedPost" class="fixed inset-0 z-50 flex items-center justify-center p-4" :class="isDark ? 'bg-black/80' : 'bg-black/50'" @click="selectedPost = null">
+        <div v-if="selectedPost" class="fixed inset-0 z-50 flex items-center justify-center p-2 md:p-4 backdrop-blur-sm" :class="isDark ? 'bg-black/70' : 'bg-black/40'" @click="selectedPost = null">
           <PostModal :post="selectedPost" :profile="profile" @close="selectedPost = null" />
         </div>
       </Transition>
@@ -540,10 +540,19 @@ onMounted(() => {
 
 .modal-enter-active,
 .modal-leave-active {
-  transition: opacity 0.3s ease;
+  transition: opacity 0.25s ease, backdrop-filter 0.25s ease;
+}
+.modal-enter-active > *,
+.modal-leave-active > * {
+  transition: transform 0.25s ease, opacity 0.25s ease;
 }
 .modal-enter-from,
 .modal-leave-to {
+  opacity: 0;
+}
+.modal-enter-from > *,
+.modal-leave-to > * {
+  transform: scale(0.95);
   opacity: 0;
 }
 </style>
