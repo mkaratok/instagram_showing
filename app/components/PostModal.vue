@@ -2,7 +2,7 @@
   <div class="relative flex w-full max-w-4xl max-h-[90vh] md:h-[85vh] bg-background-light dark:bg-background-dark rounded-xl md:rounded-lg shadow-2xl overflow-hidden font-display" @click.stop>
     
     <!-- Close Button -->
-    <button @click="$emit('close')" class="absolute top-2 right-2 md:top-4 md:right-4 z-30 w-9 h-9 md:w-10 md:h-10 flex items-center justify-center text-white hover:text-primary transition-colors bg-black/40 hover:bg-black/60 rounded-full">
+    <button @click="$emit('close')" class="absolute top-1 right-1 md:top-2 md:right-2 z-30 w-9 h-9 md:w-10 md:h-10 flex items-center justify-center text-white hover:text-primary transition-colors bg-black/40 hover:bg-black/60 rounded-full">
       <span class="material-symbols-outlined text-xl md:text-2xl">close</span>
     </button>
 
