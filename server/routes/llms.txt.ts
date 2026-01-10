@@ -6,8 +6,8 @@ export default defineEventHandler(async (event) => {
     const config = useRuntimeConfig()
     const publicConfig = config.public
 
-    const siteUrl = publicConfig.siteUrl || 'https://bumudurbu.com'
-    const businessName = publicConfig.businessName || 'Bumudurbu'
+    const siteUrl = publicConfig.siteUrl || 'https://arzuozen.com'
+    const businessName = publicConfig.businessName || 'arzuozen'
     const businessType = publicConfig.businessType || 'PRODUCT'
     const businessProfession = publicConfig.businessProfession || 'Moda & Giyim'
     const businessPhone = publicConfig.businessPhone || ''

@@ -150,7 +150,7 @@ export function generateSchema(
         media_url?: string
         thumbnail_url?: string
     },
-    businessName: string = 'Bumudurbu'
+    businessName: string = 'arzuozen'
 ): SchemaData {
     const caption = post.caption || ''
     const parsed = parseCaption(caption, post.id)
@@ -187,7 +187,7 @@ export function generateSchema(
 /**
  * Generate full JSON-LD script content
  */
-export function generateJsonLd(schema: SchemaData, siteUrl: string = 'https://bumudurbu.com'): object {
+export function generateJsonLd(schema: SchemaData, siteUrl: string = 'https://arzuozen.com'): object {
     if (schema.type === 'Product' && schema.price) {
         return {
             '@context': 'https://schema.org',

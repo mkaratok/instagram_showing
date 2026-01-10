@@ -35,7 +35,7 @@ export function parseInstagramContent(
     postId: string,
     mediaType: string = 'IMAGE',
     businessType: BusinessType = 'PRODUCT',
-    businessName: string = 'Bumudurbu',
+    businessName: string = 'arzuozen',
     city: string = 'Ordu'
 ): ParsedContent {
     const cleanCaption = caption || ''

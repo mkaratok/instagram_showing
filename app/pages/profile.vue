@@ -32,7 +32,7 @@
               <!-- Username + Actions -->
               <div class="flex flex-col sm:flex-row items-center sm:items-start gap-4 mb-4">
                 <h1 class="text-xl md:text-2xl font-bold tracking-tight text-text-light dark:text-text-dark">
-                  {{ profile?.username || 'bumudurbu' }}
+                  {{ profile?.username || 'arzuozen' }}
                 </h1>
                 
                 <!-- Tag remove as requested, leaving just basic structure if needed -->
@@ -137,7 +137,7 @@
                        <span class="w-6 text-center">fb</span> <span>@arzuozen</span>
                      </div>
                      <div class="flex items-center gap-3">
-                       <span class="w-6 text-center">ig</span> <span>@{{ profile?.username || 'bumudurbu' }}</span>
+                       <span class="w-6 text-center">ig</span> <span>@{{ profile?.username || 'arzuozen' }}</span>
                      </div>
                      <div class="flex items-center gap-3">
                        <span class="w-6 text-center">yt</span> <span>@arzuozen</span>

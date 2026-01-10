@@ -270,8 +270,8 @@ function formatDate(timestamp: string): string {
 // SEO Meta Tags
 useSeoMeta({
   title: () => enhancedContent.value?.aiTitle 
-    ? `${enhancedContent.value.aiTitle} - ${profile.value?.username || 'Bumudurbu'}`
-    : (post.value?.caption?.slice(0, 60) || 'Gönderi') + ' - Bumudurbu',
+    ? `${enhancedContent.value.aiTitle} - ${profile.value?.username || 'arzuozen'}`
+    : (post.value?.caption?.slice(0, 60) || 'Gönderi') + ' - arzuozen',
   description: () => post.value?.caption?.slice(0, 160) || 'Instagram Gönderisi',
   ogTitle: () => enhancedContent.value?.aiTitle || post.value?.caption?.slice(0, 60),
   ogDescription: () => post.value?.caption?.slice(0, 200),
@@ -279,7 +279,7 @@ useSeoMeta({
   ogType: 'article',
   twitterCard: 'summary_large_image',
   articlePublishedTime: () => post.value?.timestamp,
-  articleAuthor: [profile.value?.username || 'Bumudurbu']
+  articleAuthor: [profile.value?.username || 'arzuozen']
 })
 
 // Add JSON-LD Schema
@@ -287,8 +287,8 @@ useHead(() => {
   if (!post.value) return {}
   
   const config = useRuntimeConfig()
-  const siteUrl = config.public.siteUrl || 'https://bumudurbu.com'
-  const businessName = config.public.businessName || 'Bumudurbu'
+  const siteUrl = config.public.siteUrl || 'https://arzuozen.com'
+  const businessName = config.public.businessName || 'arzuozen'
   
   const articleSchema = {
     '@context': 'https://schema.org',

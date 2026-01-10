@@ -104,7 +104,7 @@ function extractPrice(caption: string): { amount: string; currency: string } | n
 /**
  * Generate AI-friendly alt text
  */
-function generateAltText(caption: string, brandName: string = 'Bumudurbu'): string {
+function generateAltText(caption: string, brandName: string = 'arzuozen'): string {
     if (!caption) return `${brandName} Instagram gönderi görseli`
     const words = caption.replace(/#[\wğüşıöçĞÜŞİÖÇ]+/g, '').trim().split(/\s+/).slice(0, 5).join(' ')
     return `${brandName} tarafından paylaşılan ${words} konulu görsel`
@@ -181,7 +181,7 @@ export function useInstagramGeo() {
         timestamp: string
         media_url?: string
         thumbnail_url?: string
-    }, brandName: string = 'Bumudurbu'): GeoMetadata {
+    }, brandName: string = 'arzuozen'): GeoMetadata {
         const caption = post.caption || ''
         const parsed = parseCaption(caption, post.id)
         const imageUrl = post.thumbnail_url || post.media_url || ''

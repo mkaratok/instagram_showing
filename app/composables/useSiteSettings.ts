@@ -58,9 +58,9 @@ export interface SiteSettings {
 }
 
 const defaultSettings: SiteSettings = {
-    siteName: "Bumudurbu",
+    siteName: "arzuozen",
     slogan: "Instagram Vitrini",
-    seoDescription: "Bumudurbu - En yeni ürünler ve paylaşımlar.",
+    seoDescription: "arzuozen - En yeni ürünler ve paylaşımlar.",
     contact: {
         phone: "+90 535 432 66 68",
         whatsapp: "905354326668",
@@ -70,7 +70,7 @@ const defaultSettings: SiteSettings = {
         email: ""
     },
     social: {
-        instagram: "https://instagram.com/bumudurbu",
+        instagram: "https://instagram.com/arzuozen",
         facebook: "",
         youtube: "",
         tiktok: "",

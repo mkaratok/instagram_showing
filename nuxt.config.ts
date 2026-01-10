@@ -24,8 +24,8 @@ export default defineNuxtConfig({
 
   // Site URL for sitemap and schema
   site: {
-    url: process.env.SITE_URL || 'https://bumudurbu.com',
-    name: 'Bumudurbu'
+    url: process.env.SITE_URL || 'https://arzuozen.com',
+    name: 'arzuozen'
   },
 
   // Sitemap configuration
@@ -37,10 +37,10 @@ export default defineNuxtConfig({
   schemaOrg: {
     identity: {
       type: 'LocalBusiness',
-      name: 'Bumudurbu',
+      name: 'arzuozen',
       logo: '/logo.png',
       image: '/logo.png',
-      url: process.env.SITE_URL || 'https://bumudurbu.com',
+      url: process.env.SITE_URL || 'https://arzuozen.com',
       telephone: '+90 535 432 66 68',
       address: {
         streetAddress: 'Şarkiye Mah. Kazım Karabekir Cad. NO: 33/401',
@@ -54,8 +54,8 @@ export default defineNuxtConfig({
         longitude: 37.8783
       },
       sameAs: [
-        'https://instagram.com/bumudurbu',
-        'https://facebook.com/bumudurbu'
+        'https://instagram.com/arzuozen',
+        'https://facebook.com/arzuozen'
       ],
       priceRange: '₺₺'
     }
@@ -84,33 +84,33 @@ export default defineNuxtConfig({
     adminPassword: process.env.ADMIN_PASSWORD || 'admin123',
     // Public keys (Client-side)
     public: {
-      siteUrl: process.env.SITE_URL || 'https://bumudurbu.com',
+      siteUrl: process.env.SITE_URL || 'https://arzuozen.com',
       gtmId: process.env.GTM_ID || '',
       businessType: process.env.BUSINESS_TYPE || 'PRODUCT', // PRODUCT, SERVICE, RESTAURANT, LOCAL_BUSINESS
-      businessName: process.env.BUSINESS_NAME || 'Bumudurbu',
+      businessName: process.env.BUSINESS_NAME || 'arzuozen',
       businessProfession: process.env.BUSINESS_PROFESSION || 'Moda & Giyim',
       businessPhone: '+90 535 432 66 68',
       businessAddress: 'Şarkiye Mah. Kazım Karabekir Cad. NO: 33/401 Altınordu / Ordu',
       businessCity: 'Ordu',
       businessLatitude: 40.9857,
       businessLongitude: 37.8783,
-      instagramUrl: 'https://instagram.com/bumudurbu',
-      facebookUrl: 'https://facebook.com/bumudurbu'
+      instagramUrl: 'https://instagram.com/arzuozen',
+      facebookUrl: 'https://facebook.com/arzuozen'
     }
   },
 
   app: {
     head: {
-      title: 'Bumudurbu - Instagram Vitrini',
+      title: 'arzuozen - Instagram Vitrini',
       htmlAttrs: {
         lang: 'tr'
       },
       meta: [
-        { name: 'description', content: 'Bumudurbu - En yeni ürünler ve paylaşımlar' },
+        { name: 'description', content: 'arzuozen - En yeni ürünler ve paylaşımlar' },
         { name: 'robots', content: 'index, follow' },
         { property: 'og:locale', content: 'tr_TR' },
         { property: 'og:type', content: 'website' },
-        { property: 'og:site_name', content: 'Bumudurbu' },
+        { property: 'og:site_name', content: 'arzuozen' },
         { name: 'apple-mobile-web-app-title', content: 'Arzu Özen' }
       ],
       link: [

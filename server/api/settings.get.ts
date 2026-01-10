@@ -2,9 +2,9 @@
 // Read site settings - with Vercel serverless fallback
 
 const defaultSettings = {
-    siteName: "Bumudurbu",
+    siteName: "arzuozen",
     slogan: "Instagram Vitrini",
-    seoDescription: "Bumudurbu - En yeni ürünler ve paylaşımlar. Instagram üzerinden alışveriş.",
+    seoDescription: "arzuozen - En yeni ürünler ve paylaşımlar. Instagram üzerinden alışveriş.",
     contact: {
         phone: "+90 535 432 66 68",
         whatsapp: "905354326668",
@@ -14,7 +14,7 @@ const defaultSettings = {
         email: ""
     },
     social: {
-        instagram: "https://instagram.com/bumudurbu",
+        instagram: "https://instagram.com/arzuozen",
         facebook: "",
         youtube: "",
         tiktok: "",

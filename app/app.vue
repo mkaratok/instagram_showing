@@ -1,6 +1,6 @@
 <template>
   <Head>
-    <Title>{{ settings.siteName || profile?.name || profile?.username || 'Bumudurbu' }}</Title>
+    <Title>{{ settings.siteName || profile?.name || profile?.username || 'arzuozen' }}</Title>
     <Meta name="description" :content="settings.seoDescription || 'Instagram Vitrini'" />
     <Link rel="preconnect" href="https://fonts.googleapis.com" />
     <Link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
@@ -36,7 +36,7 @@ const dynamicStyles = computed(() => {
 // Generate Organization schema with all social links
 const organizationSchema = computed(() => {
   const config = useRuntimeConfig()
-  const siteUrl = config.public.siteUrl || 'https://bumudurbu.com'
+  const siteUrl = config.public.siteUrl || 'https://arzuozen.com'
   
   const schema = {
     '@context': 'https://schema.org',
