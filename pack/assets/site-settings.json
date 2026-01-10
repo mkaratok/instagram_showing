@@ -1,0 +1,79 @@
+{
+    "siteName": "Portfolio",
+    "slogan": "My Showcase",
+    "seoDescription": "Welcome to my portfolio.",
+    "contact": {
+        "phone": "+90 555 555 55 55",
+        "whatsapp": "905555555555",
+        "address": "Address Line 1",
+        "city": "City",
+        "googleMapsEmbed": "",
+        "email": "info@example.com"
+    },
+    "social": {
+        "instagram": "https://instagram.com/",
+        "facebook": "",
+        "youtube": "",
+        "tiktok": "",
+        "twitter": "",
+        "linkedin": "",
+        "pinterest": "",
+        "trendyol": "",
+        "hepsiburada": "",
+        "n11": "",
+        "pttavm": "",
+        "amazonTr": "",
+        "ciceksepeti": "",
+        "sahibinden": "",
+        "etsy": ""
+    },
+    "appearance": {
+        "darkBaseColor": "#1a222d",
+        "lightBaseColor": "#f6f3ef",
+        "logoUrl": "/logo.png",
+        "primaryColor": "#8134af"
+    },
+    "business": {
+        "type": "PRODUCT",
+        "profession": "Showcase"
+    },
+    "profile": {
+        "aboutTitle": "About Me",
+        "aboutText": "Lorem ipsum dolor sit amet...",
+        "certificatesTitle": "Certificates",
+        "certificates": [
+            {
+                "title": "Certificate 1",
+                "description": "Description..."
+            },
+            {
+                "title": "Certificate 2",
+                "description": "Description..."
+            },
+            {
+                "title": "Certificate 3",
+                "description": "Description..."
+            }
+        ],
+        "servicesTitle": "Services",
+        "services": [
+            {
+                "title": "Service 1",
+                "description": "Description",
+                "price": "Contact"
+            },
+            {
+                "title": "Service 2",
+                "description": "Description",
+                "price": "Contact"
+            },
+            {
+                "title": "Service 3",
+                "description": "Description",
+                "price": "Contact"
+            }
+        ],
+        "ctaDescription": "Get in touch for details",
+        "ctaText": "Contact via WhatsApp"
+    }
+}

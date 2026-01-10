@@ -23,3 +23,5 @@ logs
 
 # Archive folder (unused files)
 _archive/
+.env
+
