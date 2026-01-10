@@ -92,12 +92,12 @@
       
       <!-- Posts Grid (Original) -->
       <div v-if="activeTab === 'GÖNDERİLER'" class="animate-fade-in mt-6 py-4">
-        <FeedGrid :posts="sortedPosts" @open="openModal" />
+        <FeedGrid :posts="visiblePosts" @open="openModal" />
       </div>
 
       <!-- Reels Grid -->
       <div v-else-if="activeTab === 'REELS'" class="animate-fade-in mt-6 py-4">
-        <FeedGrid :posts="reelsPosts" @open="openModal" />
+        <FeedGrid :posts="visibleReels" @open="openModal" />
         <div v-if="reelsPosts.length === 0" class="py-20 text-center" :class="isDark ? 'text-earth-600' : 'text-gray-400'">
           Henüz Reels videosu bulunmuyor.
         </div>
@@ -386,6 +386,21 @@ const sortedPosts = computed(() => posts.value)
 const reelsPosts = computed(() => posts.value.filter(p => p.media_product_type === 'REELS'))
 const taggedPosts = computed(() => mentionsData.value?.data || [])
 
+// Progressive Loading Logic
+// Progressive Loading Logic
+// Initial load: 24 items (approx 8 rows on desktop) to cover "first 7 rows" request immediately
+const displayLimit = ref(24)
+const CHUNK_SIZE = 12
+
+const visiblePosts = computed(() => sortedPosts.value.slice(0, displayLimit.value))
+const visibleReels = computed(() => reelsPosts.value.slice(0, displayLimit.value))
+
+function loadMoreChunks() {
+  if (displayLimit.value < posts.value.length) {
+    displayLimit.value += CHUNK_SIZE
+  }
+}
+
 // Extract Google Maps embed URL from settings (handles both full iframe and just URL)
 const mapEmbedUrl = computed(() => {
   const stored = settings.value.contact?.googleMapsEmbed || ''
@@ -504,6 +519,17 @@ function openStory(index) {
 
 onMounted(() => {
   initTheme()
+  
+  // Progressive Loading Interval
+  const interval = setInterval(() => {
+    if (displayLimit.value >= posts.value.length) {
+      clearInterval(interval)
+    } else {
+      loadMoreChunks()
+    }
+  }, 200) // Load new chunk every 200ms (aggressive background loading)
+  
+  onUnmounted(() => clearInterval(interval))
 })
 </script>
 
