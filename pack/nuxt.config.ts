@@ -12,12 +12,13 @@ export default defineNuxtConfig({
     '@nuxtjs/robots'
   ],
 
-  // Server-side storage for Token Management (No-DB solution)
+  // Server-side storage for Token Management & Settings
+  // Uses Vercel KV in production (if configured), FS locally
   nitro: {
     storage: {
       data: {
-        driver: 'fs',
-        base: './.data/kv'
+        driver: process.env.KV_REST_API_URL ? 'vercelKV' : 'fs',
+        base: process.env.KV_REST_API_URL ? 'site-settings:' : './.data/kv'
       }
     }
   },
