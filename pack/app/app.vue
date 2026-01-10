@@ -1,6 +1,6 @@
 <template>
   <Head>
-    <Title>{{ settings.siteName || profile?.name || profile?.username || 'Portfolio' }}</Title>
+    <Title>{{ settings.siteName || 'Portfolio' }}</Title>
     <Meta name="description" :content="settings.seoDescription || 'My Portfolio'" />
     <Link rel="preconnect" href="https://fonts.googleapis.com" />
     <Link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
