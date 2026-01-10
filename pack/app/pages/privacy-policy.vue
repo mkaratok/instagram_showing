@@ -73,8 +73,8 @@
 <script setup>
 const config = useRuntimeConfig()
 
-const siteName = config.public.businessName || 'Bumudurbu'
-const contactEmail = 'info@bumudurbu.com'
+const siteName = config.public.businessName || 'Portfolio'
+const contactEmail = 'info@example.com'
 const lastUpdate = new Date().toLocaleDateString('tr-TR')
 
 // SEO - noindex for this page

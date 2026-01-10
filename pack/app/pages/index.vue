@@ -237,7 +237,7 @@
             <div class="space-y-6">
               <!-- Company Name -->
               <div>
-                <h3 class="text-xl font-bold mb-1">{{ settings.siteName || 'Bumudurbu' }}</h3>
+                <h3 class="text-xl font-bold mb-1">{{ settings.siteName || 'Portfolio' }}</h3>
                 <p class="text-sm" :class="isDark ? 'text-earth-400' : 'text-gray-500'">{{ settings.slogan || 'Instagram Vitrini' }}</p>
               </div>
               
@@ -284,7 +284,7 @@
       <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
         <!-- Instagram Button (same width as WhatsApp) -->
         <a 
-          :href="`https://www.instagram.com/${profile?.username || 'bumudurbu'}/`" 
+          :href="`https://www.instagram.com/${profile?.username || 'user'}/`" 
           target="_blank"
           class="flex items-center justify-center gap-2 w-32 py-2.5 bg-gradient-to-r from-yellow-400 via-pink-500 to-purple-600 text-white text-sm font-medium rounded-lg transition-all hover:opacity-90"
         >

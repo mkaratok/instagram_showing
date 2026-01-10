@@ -28,8 +28,8 @@ export function useGeoSchema() {
     const config = useRuntimeConfig()
     const publicConfig = config.public
 
-    const siteUrl = publicConfig.siteUrl || 'https://bumudurbu.com'
-    const businessName = publicConfig.businessName || 'Bumudurbu'
+    const siteUrl = publicConfig.siteUrl || 'https://example.com'
+    const businessName = publicConfig.businessName || 'Portfolio'
     const businessPhone = publicConfig.businessPhone || ''
     const businessAddress = publicConfig.businessAddress || ''
     const businessCity = publicConfig.businessCity || ''

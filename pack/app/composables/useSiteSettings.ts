@@ -149,18 +149,48 @@ export const useSiteSettings = () => {
 
             const data = await $fetch<SiteSettings>('/api/settings')
 
-            // 1. Base: Generic Hardcoded Defaults
-            // 2. Override with: Environment Variables (Vercel config)
-            // 3. Override with: Saved JSON Settings (if they exist)
+            // Smart Merge Logic:
+            // 1. Start with Data (Saved Settings) OR Default Settings
+            // 2. Override with Environment Variables ONLY IF they are explicitly set in runtimeConfig
 
-            settings.value = {
-                ...envDefaults,
-                ...(data || {}),
-                contact: { ...envDefaults.contact, ...((data?.contact) || {}) },
-                social: { ...envDefaults.social, ...((data?.social) || {}) },
-                appearance: { ...envDefaults.appearance, ...((data?.appearance) || {}) },
-                business: { ...envDefaults.business, ...((data?.business) || {}) }
+            const baseSettings = { ...defaultSettings, ...(data || {}) }
+
+            const finalSettings = {
+                ...baseSettings,
+                // Critical Identity Fields: Env var wins if present
+                siteName: config.businessName || baseSettings.siteName,
+                slogan: config.businessProfession || baseSettings.slogan,
+
+                contact: {
+                    ...baseSettings.contact,
+                    phone: config.businessPhone || baseSettings.contact.phone,
+                    address: config.businessAddress || baseSettings.contact.address,
+                    city: config.businessCity || baseSettings.contact.city,
+                },
+                social: {
+                    ...baseSettings.social,
+                    instagram: config.instagramUrl || baseSettings.social.instagram,
+                    facebook: config.facebookUrl || baseSettings.social.facebook
+                },
+                // Preserve appearance and profile from DB/JSON unless we want to control them via env too (usually not)
+                appearance: { ...baseSettings.appearance },
+                business: { ...baseSettings.business },
+                profile: { ...baseSettings.profile }
             }
+
+            // Ensure contact/social objects are fully merged (in case baseSettings had partial data)
+            if (data?.contact) Object.assign(finalSettings.contact, data.contact)
+            if (data?.social) Object.assign(finalSettings.social, data.social)
+
+            // Re-apply Env Vars one last time to be absolute winner for identity (Safety net)
+            if (config.businessName) finalSettings.siteName = config.businessName
+            if (config.businessProfession) finalSettings.slogan = config.businessProfession
+            if (config.businessPhone) finalSettings.contact.phone = config.businessPhone
+            if (config.businessAddress) finalSettings.contact.address = config.businessAddress
+            if (config.businessCity) finalSettings.contact.city = config.businessCity
+            if (config.instagramUrl) finalSettings.social.instagram = config.instagramUrl
+
+            settings.value = finalSettings
         } catch (e) {
             console.error('[useSiteSettings] Error fetching settings:', e)
             error.value = 'Ayarlar yüklenemedi'

@@ -101,7 +101,7 @@ const openModal = (post) => {
 
 // Dynamic SEO Meta
 useSeoMeta({
-  title: `${locationName} Yoga Stüdyosu | Bumudurbu`,
+  title: `${locationName} - Instagram Showcase`,
   description: locationDescription,
   ogTitle: `${locationName} Yoga Stüdyosu`,
   ogDescription: locationDescription,
@@ -116,7 +116,7 @@ useHead({
       innerHTML: JSON.stringify({
         '@context': 'https://schema.org',
         '@type': 'LocalBusiness',
-        name: `Bumudurbu - ${locationName}`,
+        name: `Portfolio - ${locationName}`,
         description: locationDescription,
         address: {
           '@type': 'PostalAddress',

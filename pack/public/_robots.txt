@@ -6,10 +6,10 @@ Disallow: /api/
 Disallow: /_nuxt/
 
 # Sitemap
-Sitemap: https://bumudurbu.com/sitemap.xml
+Sitemap: /sitemap.xml
 
 # LLMs.txt - AI Bot Communication Protocol
-# See: https://bumudurbu.com/llms.txt
+# See: /llms.txt
 
 # AI Crawlers - Explicitly Allow
 User-agent: GPTBot

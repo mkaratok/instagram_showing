@@ -100,7 +100,7 @@ export default defineNuxtConfig({
 
   app: {
     head: {
-      title: 'Bumudurbu - Instagram Vitrini',
+      title: 'Portfolio - Instagram Showcase',
       htmlAttrs: {
         lang: 'tr'
       },
