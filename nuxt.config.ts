@@ -12,6 +12,13 @@ export default defineNuxtConfig({
     '@nuxtjs/robots'
   ],
 
+  // Performance Optimization: SWR (Stale-While-Revalidate)
+  routeRules: {
+    // Cache Homepage and API for 15 minutes (900s) to fix cold start issues
+    '/': { swr: 900 },
+    '/api/instagram/**': { swr: 900 }
+  },
+
   // Server-side storage for Token Management (No-DB solution)
   nitro: {
     storage: {

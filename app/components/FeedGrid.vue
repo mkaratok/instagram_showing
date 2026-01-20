@@ -1,7 +1,7 @@
 <template>
   <div class="grid grid-cols-2 md:grid-cols-3 gap-4 px-4">
     <div 
-      v-for="post in posts" 
+      v-for="(post, index) in posts" 
       :key="post.id" 
       class="block relative aspect-square overflow-hidden rounded-xl cursor-pointer bg-earth-800 shadow-lg hover:shadow-xl transition-all duration-300 group"
       @click="$emit('open', post)"
@@ -15,7 +15,7 @@
         :alt="getAltText(post)"
         format="webp"
         quality="80"
-        loading="lazy"
+        :loading="index < 3 ? 'eager' : 'lazy'"
         class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-90 group-hover:opacity-100"
       />
 

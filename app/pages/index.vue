@@ -373,10 +373,10 @@ import { useSiteSettings } from '~/composables/useSiteSettings'
 const { settings } = useSiteSettings()
 
 // Data Fetching
-const { data: profile, pending: profileLoading } = await useFetch('/api/instagram/profile')
-const { data: instagramData, pending: postsLoading } = await useFetch('/api/instagram')
-const { data: storiesData } = await useFetch('/api/instagram/stories')
-const { data: mentionsData } = await useFetch('/api/instagram/mentions')
+const { data: profile, pending: profileLoading } = await useFetch('/api/instagram/profile', { lazy: true })
+const { data: instagramData, pending: postsLoading } = await useFetch('/api/instagram', { lazy: true })
+const { data: storiesData } = await useFetch('/api/instagram/stories', { lazy: true })
+const { data: mentionsData } = await useFetch('/api/instagram/mentions', { lazy: true })
 
 const posts = computed(() => instagramData.value?.data || [])
 const stories = computed(() => storiesData.value?.data || [])
