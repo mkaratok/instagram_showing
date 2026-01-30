@@ -1,0 +1,11 @@
+{
+    "instagram": {
+        "accessToken": "",
+        "businessId": ""
+    },
+    "features": {
+        "showReels": true,
+        "showStories": true,
+        "showMentions": true
+    }
+}

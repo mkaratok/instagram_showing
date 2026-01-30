@@ -1,0 +1,30 @@
+# Nuxt dev/build outputs
+.output
+.data
+.nuxt
+.nitro
+.cache
+dist
+
+# Node dependencies
+node_modules
+
+# Logs
+logs
+*.log
+
+# Misc
+.DS_Store
+.fleet
+.idea
+
+# Local env files
+!.env.example
+
+# Archive folder (unused files)
+_archive/
+.env
+
+SEO_GEO_AIO_TEST_RAPORU.md
+SERVER_KURULUM_TALİMATLARI.txt
+SISTEM_SAYFALARI_KULLANIM.md

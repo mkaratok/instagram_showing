@@ -1,0 +1,28 @@
+{
+    "siteName": "arzuozen",
+    "slogan": "Instagram Vitrini",
+    "seoDescription": "arzuozen - En yeni ürünler ve paylaşımlar. Instagram üzerinden alışveriş.",
+    "contact": {
+        "phone": "+90 535 432 66 68",
+        "whatsapp": "905354326668",
+        "address": "Şarkiye Mah. Kazım Karabekir Cad. NO: 33/401 Altınordu / Ordu",
+        "city": "Ordu",
+        "googleMapsEmbed": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3010.5!2d37.8783!3d40.9857!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zT3JkdQ!5e0!3m2!1str!2str"
+    },
+    "social": {
+        "instagram": "https://instagram.com/arzuozen",
+        "facebook": "https://facebook.com/arzuozen"
+    },
+    "appearance": {
+        "primaryColor": "#8134af",
+        "logoUrl": "/logo.png",
+        "darkMode": {
+            "headerBg": "#080707",
+            "bodyBg": "#1a222d"
+        }
+    },
+    "business": {
+        "type": "PRODUCT",
+        "profession": "Moda & Giyim"
+    }
+}

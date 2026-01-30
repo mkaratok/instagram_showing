@@ -1,0 +1,49 @@
+# AI-Friendly Robots.txt for Maximum GEO (Generative Engine Optimization)
+
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /_nuxt/
+
+# Sitemap
+Sitemap: /sitemap.xml
+
+# LLMs.txt - AI Bot Communication Protocol
+# See: /llms.txt
+
+# AI Crawlers - Explicitly Allow
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: FacebookBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Omgilibot
+Allow: /
+
+User-agent: Bytespider
+Allow: /
